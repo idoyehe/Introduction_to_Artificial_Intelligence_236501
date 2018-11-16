@@ -78,10 +78,15 @@ def map_problem():
     print(res)
 
     # Ex.10
-    # TODO: create an instance of `AStar` with the `NullHeuristic`,
     #       solve the same `map_prob` with it and print the results (as before).
     # Notice: AStar constructor receives the heuristic *type* (ex: `MyHeuristicClass`),
     #         and not an instance of the heuristic (eg: not `MyHeuristicClass()`).
+    map_prob = MapProblem(roads, 54, 549)
+    uc = AStar(NullHeuristic)
+    res = uc.solve_problem(map_prob)
+    print(res)
+
+
     exit()  # TODO: remove!
 
     # Ex.11

@@ -42,12 +42,11 @@ class AStar(BestFirstSearch):
         Should calculate and return the f-score of the given node.
         This score is used as a priority of this node in the open priority queue.
 
-        TODO: implement this method.
         Remember: In Weighted-A* the f-score is defined by ((1-w) * cost) + (w * h(state)).
         Notice: You may use `search_node.cost`, `self.heuristic_weight`, and `self.heuristic_function`.
         """
-
-        raise NotImplemented()  # TODO: remove!
+        w = self.heuristic_weight
+        return ((1-w) * search_node.cost) + (w * self.heuristic_function.estimate(search_node.state))
 
     def _open_successor_node(self, problem: GraphProblem, successor_node: SearchNode):
         """
@@ -57,7 +56,6 @@ class AStar(BestFirstSearch):
          node into the `self.open` priority queue, and may check the existence
          of another node representing the same state in `self.close`.
 
-        TODO: implement this method.
         Have a look at the implementation of `BestFirstSearch` to have better understanding.
         Use `self.open` (SearchNodesPriorityQueue) and `self.close` (SearchNodesCollection) data structures.
         These data structures are implemented in `graph_search/best_first_search.py`.
@@ -66,6 +64,21 @@ class AStar(BestFirstSearch):
         Remember: In A*, in contrast to uniform-cost, a successor state might have an already closed node,
                   but still could be improved.
         """
-
-        raise NotImplemented()  # TODO: remove!
+        if self.open.has_state(successor_node.state):
+            assert (not self.close.has_state(successor_node.state))
+            already_found_node_with_same_state = self.open.get_node_by_state(successor_node.state)
+            if already_found_node_with_same_state.expanding_priority > successor_node.expanding_priority:
+                self.open.extract_node(already_found_node_with_same_state)
+                assert (not self.open.has_state(successor_node.state))
+                self.open.push_node(successor_node)
+        else:
+            if self.close.has_state(successor_node.state):
+                already_found_node_with_same_state = self.close.get_node_by_state(successor_node.state)
+                if already_found_node_with_same_state.expanding_priority > successor_node.expanding_priority:
+                    self.close.extract_node(already_found_node_with_same_state)
+                    assert (not self.close.has_state(successor_node.state))
+                    self.open.push_node(successor_node)
+            else:
+                assert (not self.open.has_state(successor_node.state))
+                self.open.push_node(successor_node)
 
