@@ -1,7 +1,6 @@
 from framework.graph_search import *
 from .relaxed_deliveries_problem import RelaxedDeliveriesState, RelaxedDeliveriesProblem
 from .strict_deliveries_problem import StrictDeliveriesState, StrictDeliveriesProblem
-from .deliveries_problem_input import DeliveriesProblemInput
 from framework.ways import *
 
 import numpy as np
@@ -16,12 +15,17 @@ class MaxAirDistHeuristic(HeuristicFunction):
         """
         Calculates the maximum among air distances between the location
          represented by `state` and the locations of the waiting deliveries.
-        TODO: implement this method!
         """
         assert isinstance(self.problem, RelaxedDeliveriesProblem)
         assert isinstance(state, RelaxedDeliveriesState)
 
-        raise NotImplemented()  # TODO: remove!
+        max_dist = 0
+        for t_i in self.problem.drop_points.difference(state.dropped_so_far):
+            air_dist = state.current_location.calc_air_distance_from(t_i)
+            if air_dist > max_dist:
+                max_dist = air_dist
+
+        return max_dist
 
 
 class MSTAirDistHeuristic(HeuristicFunction):

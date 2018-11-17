@@ -121,9 +121,13 @@ def relaxed_deliveries_problem():
     big_deliveries_prob = RelaxedDeliveriesProblem(big_delivery)
 
     # Ex.16
-    # TODO: create an instance of `AStar` with the `MaxAirDistHeuristic`,
     #       solve the `big_deliveries_prob` with it and print the results (as before).
-    exit()  # TODO: remove!
+    astr16 = AStar(MaxAirDistHeuristic)
+    res16 = astr16.solve_problem(big_deliveries_prob)
+    print(res16)
+
+
+
 
     # Ex.17
     # TODO: create an instance of `AStar` with the `MSTAirDistHeuristic`,

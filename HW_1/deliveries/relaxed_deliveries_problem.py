@@ -2,7 +2,7 @@ from framework.graph_search import *
 from framework.ways import *
 from .deliveries_problem_input import DeliveriesProblemInput
 
-from typing import Set, FrozenSet, Iterator, Tuple, Union
+from typing import Set, FrozenSet, Iterator, Tuple, Union, Any
 
 
 class RelaxedDeliveriesState(GraphProblemState):
@@ -35,25 +35,24 @@ class RelaxedDeliveriesState(GraphProblemState):
     def __eq__(self, other):
         """
         This method is used to determine whether two given state objects represents the same state.
-
-        TODO: implement this method!
         Notice: Never compare floats using `==` operator! Use `fuel_as_int` instead of `fuel`.
         """
-        raise NotImplemented()  # TODO: remove!
+        if type(other) is type(self):
+            return self.fuel_as_int == other.fuel_as_int \
+                   and self.current_location == other.current_location \
+                   and self.dropped_so_far == other.dropped_so_far
+        return False
 
     def __hash__(self):
         """
         This method is used to create a hash of a state.
         It is critical that two objects representing the same state would have the same hash!
 
-        TODO: implement this method!
-        A common implementation might be something in the format of:
-        >>> return hash((self.some_field1, self.some_field2, self.some_field3))
         Notice: Do NOT give float fields to `hash(...)`.
                 Otherwise the upper requirement would not met.
                 In our case, use `fuel_as_int`.
         """
-        raise NotImplemented()  # TODO: remove!
+        return hash((self.current_location, self.dropped_so_far, self.fuel_as_int))
 
     def __str__(self):
         """
@@ -83,7 +82,6 @@ class RelaxedDeliveriesProblem(GraphProblem):
 
     def expand_state_with_costs(self, state_to_expand: GraphProblemState) -> Iterator[Tuple[GraphProblemState, float]]:
         """
-        TODO: implement this method!
         This method represents the `Succ: S -> P(S)` function of the relaxed deliveries problem.
         The `Succ` function is defined by the problem operators as shown in class.
         The relaxed problem operators are defined in the assignment instructions.
@@ -93,16 +91,46 @@ class RelaxedDeliveriesProblem(GraphProblem):
         """
         assert isinstance(state_to_expand, RelaxedDeliveriesState)
 
-        raise NotImplemented()  # TODO: remove!
+        # Get the junction (in the map) that is represented by the state to expand.
+        state_junction = state_to_expand.current_location
+
+        # Iterate over the orders that haven't been dropped.
+        for next_stop in self.possible_stop_points:
+            if next_stop == state_junction:
+                # Prevent expand current location
+                continue
+
+            # Use the method `calc_air_distance_from()` of class `Junction` to measure this distance.
+            operator_cost = state_junction.calc_air_distance_from(next_stop)
+
+            # Check fuel subject to air distance
+            if operator_cost > state_to_expand.fuel:
+                continue
+
+            if next_stop in self.drop_points:
+                # creating new successor dropped_so_far by union of state_to_expand.dropped_so_far and {next_stop}
+                succ_dropped_so_far = state_to_expand.dropped_so_far.union(frozenset([next_stop]))
+                # initialize new state of drop point with succ_dropped_so_far and state_to_expand.fuel - operator_cost
+                successor_state = RelaxedDeliveriesState(next_stop,
+                                                         succ_dropped_so_far,
+                                                         state_to_expand.fuel - operator_cost)
+
+            if next_stop in self.gas_stations:
+                # initialize new state of gas station with same dropped_so_far and gas_tank_capacity
+                successor_state = RelaxedDeliveriesState(next_stop,
+                                                         state_to_expand.dropped_so_far,
+                                                         self.gas_tank_capacity)
+
+            # Yield the successor state and the cost of the operator we used to get this successor.
+            yield successor_state, operator_cost
 
     def is_goal(self, state: GraphProblemState) -> bool:
         """
         This method receives a state and returns whether this state is a goal.
-        TODO: implement this method!
         """
         assert isinstance(state, RelaxedDeliveriesState)
 
-        raise NotImplemented()  # TODO: remove!
+        return state.current_location in self.drop_points and self.drop_points == state.dropped_so_far
 
     def solution_additional_str(self, result: 'SearchResult') -> str:
         """This method is used to enhance the printing method of a found solution."""
