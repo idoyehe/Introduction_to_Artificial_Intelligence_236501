@@ -92,8 +92,9 @@ class StrictDeliveriesProblem(RelaxedDeliveriesProblem):
                 assert next_stop in self.drop_points
                 if next_stop not in state_to_expand.dropped_so_far:
                     # creating new successor dropped_so_far by union of state_to_expand.dropped_so_far and {next_stop}
-                    succ_dropped_so_far = state_to_expand.dropped_so_far.union(frozenset([next_stop]))
-                    # initialize new state of drop point with succ_dropped_so_far and state_to_expand.fuel - operator_cost
+                    succ_dropped_so_far = state_to_expand.dropped_so_far.union(frozenset((next_stop,)))
+                    # initialize new state of drop point with succ_dropped_so_far and state_to_expand.fuel -
+                    # operator_cost
                     successor_state = StrictDeliveriesState(next_stop,
                                                             succ_dropped_so_far,
                                                             state_to_expand.fuel - operator_cost)
