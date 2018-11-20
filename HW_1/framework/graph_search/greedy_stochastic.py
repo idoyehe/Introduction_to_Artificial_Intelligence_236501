@@ -2,7 +2,7 @@ from .graph_problem_interface import *
 from .best_first_search import BestFirstSearch
 from typing import Optional
 import numpy as np
-
+import warnings
 
 class GreedyStochastic(BestFirstSearch):
     def __init__(self, heuristic_function_type: HeuristicFunctionType,
@@ -51,22 +51,20 @@ class GreedyStochastic(BestFirstSearch):
         node_window = []
         for i in range(window_size):
             curr_node = self.open.pop_next_node()
-            #  In case an node with value very close to 0 just return it
-            node_val = self._calc_node_expanding_priority(curr_node)
-            if curr_node.expanding_priority < 0.001:
+            if curr_node.expanding_priority < 0.00001:
                 return curr_node
             node_window.append(curr_node)
 
         pw = -float(1.0 / self.T)
         alpha_min = min([curr_node.expanding_priority for curr_node in node_window])
 
-        nodes_p = [float(curr_node.expanding_priority / alpha_min) ** pw for curr_node in node_window]
-        sum_T = sum(nodes_p)
-        nodes_p = [curr_node / sum_T for curr_node in nodes_p]
+        nodes_prb = [(float(node.expanding_priority / alpha_min) ** pw) for node in node_window]
+        sum_total = sum(nodes_prb)
+        nodes_prb = [float(p / sum_total) for p in nodes_prb]
 
-        chosen = np.random.choice(node_window, 1, nodes_p)[0]
+        chosen_node = np.random.choice(node_window, 1, nodes_prb)[0]
+        node_window.remove(chosen_node)
 
-        node_window.remove(chosen)
         assert len(node_window) == window_size - 1
         for curr_node in node_window:
             # reinsert not chosen to open
@@ -74,5 +72,5 @@ class GreedyStochastic(BestFirstSearch):
 
         # Update T
         self.T *= self.T_scale_factor
-        assert not self.open.has_state(chosen)
-        return chosen
+        assert not self.open.has_state(chosen_node)
+        return chosen_node
