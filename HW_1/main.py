@@ -121,18 +121,18 @@ def relaxed_deliveries_problem():
     big_deliveries_prob = RelaxedDeliveriesProblem(big_delivery)
 
     # Ex.16
-    #       solve the `big_deliveries_prob` with it and print the results (as before).
-    # astr16 = AStar(MaxAirDistHeuristic)
-    # res16 = astr16.solve_problem(big_deliveries_prob)
-    # print(res16)
+    # solve the `big_deliveries_prob` with it and print the results (as before).
+    astr16 = AStar(MaxAirDistHeuristic)
+    res16 = astr16.solve_problem(big_deliveries_prob)
+    print(res16)
 
     # Ex.17
-    # astr17 = AStar(MSTAirDistHeuristic)
-    # res17 = astr17.solve_problem(big_deliveries_prob)
-    # print(res17)
+    astr17 = AStar(MSTAirDistHeuristic)
+    res17 = astr17.solve_problem(big_deliveries_prob)
+    print(res17)
 
     # Ex.18
-    # run_astar_for_weights_in_range(MSTAirDistHeuristic, big_deliveries_prob)
+    run_astar_for_weights_in_range(MSTAirDistHeuristic, big_deliveries_prob)
 
     # Ex.24
     # 1. Run the stochastic greedy algorithm for 100 times.
