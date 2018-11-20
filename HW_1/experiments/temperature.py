@@ -7,12 +7,16 @@ T = np.linspace(0.01, 5, 100)
 
 P = np.zeros((len(T), len(X)))
 
+alpha_min = min(X)
+
+NORMAL_X = np.divide(X, alpha_min)
+
 SUM_T = np.zeros((len(T)))
 for t_index, t_value in enumerate(T):
     pw = -float(1 / t_value)
-    SUM_T[t_index] = np.sum(X ** pw)
+    SUM_T[t_index] = np.sum(NORMAL_X ** pw)
 
-for x_index, x_value in enumerate(X):
+for x_index, x_value in enumerate(NORMAL_X):
     numerator = np.zeros(len(T))
     for t_index, t_value in enumerate(T):
         pw = -float(1 / t_value)

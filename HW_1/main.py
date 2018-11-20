@@ -153,10 +153,10 @@ def relaxed_deliveries_problem():
     #    (x-axis). Of course that the costs of A*, and deterministic
     #    greedy are not dependent with the iteration number, so
     #    these two should be represented by horizontal lines.
-    K = 100
+    iter_num = 100
     costs_list = []
-    anytime_cost_list = np.zeros(K)
-    for i in range(K):
+    anytime_cost_list = np.zeros(iter_num)
+    for i in range(iter_num):
         # greedy stochastic iterations
         grd_stchstc = GreedyStochastic(MSTAirDistHeuristic)
         res24 = grd_stchstc.solve_problem(big_deliveries_prob)
@@ -166,15 +166,15 @@ def relaxed_deliveries_problem():
     # A* solution
     astr24 = AStar(MSTAirDistHeuristic, heuristic_weight=0.5)
     resAstar24 = astr24.solve_problem(big_deliveries_prob)
-    aStar_cost_list = np.ones(K) * resAstar24.final_search_node.cost
+    aStar_cost_list = np.ones(iter_num) * resAstar24.final_search_node.cost
     # greedy best 1 solution
     greedyBest1 = AStar(MSTAirDistHeuristic, heuristic_weight=1)
     resGreedyBest1 = greedyBest1.solve_problem(big_deliveries_prob)
-    greedyBest1_cost_list = np.ones(K) * resGreedyBest1.final_search_node.cost
+    greedyBest1_cost_list = np.ones(iter_num) * resGreedyBest1.final_search_node.cost
 
     fig, ax1 = plt.subplots()
 
-    iterations = np.linspace(1, K, K)
+    iterations = np.linspace(1, iter_num, iter_num)
     plt.plot(iterations, costs_list, label="Greedy stochastic")
     plt.plot(iterations, anytime_cost_list, label="Anytime algorithm")
     plt.plot(iterations, aStar_cost_list, label="Astar")
@@ -199,15 +199,16 @@ def strict_deliveries_problem():
         small_delivery, roads, inner_problem_solver=AStar(AirDistHeuristic))
 
     # Ex.26
+    # Call here the function `run_astar_for_weights_in_range()`
     # with `MSTAirDistHeuristic` and `small_deliveries_prob`.
-    # run_astar_for_weights_in_range(MSTAirDistHeuristic, small_deliveries_strict_problem)
+    run_astar_for_weights_in_range(MSTAirDistHeuristic, small_deliveries_strict_problem)
 
     # Ex.28
     # an instance of `AStar` with the `RelaxedDeliveriesHeuristic`,
     # solve the `small_deliveries_strict_problem` with it and print the results (as before).
-    astr28 = AStar(RelaxedDeliveriesHeuristic)
-    res28 = astr28.solve_problem(small_deliveries_strict_problem)
-    print(res28)
+    # astr28 = AStar(RelaxedDeliveriesHeuristic)
+    # res28 = astr28.solve_problem(small_deliveries_strict_problem)
+    # print(res28)
 
 def main():
     # map_problem()

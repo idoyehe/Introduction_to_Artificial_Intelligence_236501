@@ -58,9 +58,11 @@ class GreedyStochastic(BestFirstSearch):
             node_window.append(curr_node)
 
         pw = -float(1.0 / self.T)
-        nodes_p = [curr_node.expanding_priority ** pw for curr_node in node_window]
+        alpha_min = min([curr_node.expanding_priority for curr_node in node_window])
+
+        nodes_p = [float(curr_node.expanding_priority / alpha_min) ** pw for curr_node in node_window]
         sum_T = sum(nodes_p)
-        nodes_p = [curr_node/sum_T for curr_node in nodes_p]
+        nodes_p = [curr_node / sum_T for curr_node in nodes_p]
 
         chosen = np.random.choice(node_window, 1, nodes_p)[0]
 
