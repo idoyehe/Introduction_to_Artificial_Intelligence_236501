@@ -92,6 +92,6 @@ class RelaxedDeliveriesHeuristic(HeuristicFunction):
         a_star = AStar(MSTAirDistHeuristic)
         res = a_star.solve_problem(state_relaxed_problem)
 
-        if res.final_search_node is None:
+        if res is None:
             return np.inf  # in case no solution
         return res.final_search_node.cost
