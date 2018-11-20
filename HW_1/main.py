@@ -171,7 +171,6 @@ def relaxed_deliveries_problem():
     greedyBest1 = AStar(MSTAirDistHeuristic, heuristic_weight=1)
     resGreedyBest1 = greedyBest1.solve_problem(big_deliveries_prob)
     greedyBest1_cost_list = np.ones(iter_num) * resGreedyBest1.final_search_node.cost
-
     fig, ax1 = plt.subplots()
 
     iterations = np.linspace(1, iter_num, iter_num)
@@ -190,6 +189,7 @@ def relaxed_deliveries_problem():
     plt.show()
 
 
+
 def strict_deliveries_problem():
     print()
     print('Solve the strict deliveries problem.')
@@ -201,12 +201,12 @@ def strict_deliveries_problem():
     # Ex.26
     # Call here the function `run_astar_for_weights_in_range()`
     # with `MSTAirDistHeuristic` and `small_deliveries_prob`.
-    # run_astar_for_weights_in_range(MSTAirDistHeuristic, small_deliveries_strict_problem)
+    run_astar_for_weights_in_range(MSTAirDistHeuristic, small_deliveries_strict_problem)
 
     # Ex.28
     # an instance of `AStar` with the `RelaxedDeliveriesHeuristic`,
     # solve the `small_deliveries_strict_problem` with it and print the results (as before).
-    astr28 = AStar(MSTAirDistHeuristic)
+    astr28 = AStar(RelaxedDeliveriesHeuristic)
     res28 = astr28.solve_problem(small_deliveries_strict_problem)
     print(res28)
 

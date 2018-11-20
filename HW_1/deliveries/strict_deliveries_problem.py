@@ -67,7 +67,7 @@ class StrictDeliveriesProblem(RelaxedDeliveriesProblem):
         state_junction = state_to_expand.current_location
 
         # Iterate over the orders that haven't been dropped.
-        for next_stop in self.possible_stop_points:
+        for next_stop in self.possible_stop_points.difference(state_to_expand.dropped_so_far):
 
             # trying to get from cache the cost from current junction to the next junction
             cache_key = (state_junction.index, next_stop.index)
@@ -77,9 +77,10 @@ class StrictDeliveriesProblem(RelaxedDeliveriesProblem):
                 map_problem = MapProblem(self.roads, state_junction.index, next_stop.index)
                 map_problem_sol = self.inner_problem_solver.solve_problem(map_problem)
                 operator_cost = map_problem_sol.final_search_node.cost
+                # storing result in cache as tuple
                 self._insert_to_cache(cache_key, operator_cost)
 
-            # Check fuel subject to air distance
+            # Check fuel subject to distance
             if operator_cost > state_to_expand.fuel:
                 continue
 
@@ -89,17 +90,15 @@ class StrictDeliveriesProblem(RelaxedDeliveriesProblem):
                                                         state_to_expand.dropped_so_far,
                                                         self.gas_tank_capacity)
             else:
-                assert next_stop in self.drop_points
-                if next_stop not in state_to_expand.dropped_so_far:
-                    # creating new successor dropped_so_far by union of state_to_expand.dropped_so_far and {next_stop}
-                    succ_dropped_so_far = state_to_expand.dropped_so_far.union(frozenset((next_stop,)))
-                    # initialize new state of drop point with succ_dropped_so_far and state_to_expand.fuel -
-                    # operator_cost
-                    successor_state = StrictDeliveriesState(next_stop,
-                                                            succ_dropped_so_far,
-                                                            state_to_expand.fuel - operator_cost)
-                else:
-                    continue
+                assert next_stop in self.drop_points and next_stop not in state_to_expand.dropped_so_far
+                # creating new successor dropped_so_far by union of state_to_expand.dropped_so_far and {next_stop}
+                succ_dropped_so_far = state_to_expand.dropped_so_far.union(frozenset((next_stop,)))
+                # initialize new state of drop point with succ_dropped_so_far and state_to_expand.fuel -
+                # operator_cost
+                successor_state = StrictDeliveriesState(next_stop,
+                                                        succ_dropped_so_far,
+                                                        state_to_expand.fuel - operator_cost)
+
             # Yield the successor state and the cost of the operator we used to get this successor.
             yield successor_state, operator_cost
 

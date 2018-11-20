@@ -95,7 +95,7 @@ class RelaxedDeliveriesProblem(GraphProblem):
         state_junction = state_to_expand.current_location
 
         # Iterate over the orders that haven't been dropped.
-        for next_stop in self.possible_stop_points:
+        for next_stop in self.possible_stop_points.difference(state_to_expand.dropped_so_far):
 
             # Use the method `calc_air_distance_from()` of class `Junction` to measure this distance.
             operator_cost = state_junction.calc_air_distance_from(next_stop)
@@ -110,17 +110,15 @@ class RelaxedDeliveriesProblem(GraphProblem):
                                                          state_to_expand.dropped_so_far,
                                                          self.gas_tank_capacity)
             else:
-                assert next_stop in self.drop_points
-                if next_stop not in state_to_expand.dropped_so_far:
-                    # creating new successor dropped_so_far by union of state_to_expand.dropped_so_far and {next_stop}
-                    succ_dropped_so_far = state_to_expand.dropped_so_far.union(frozenset((next_stop,)))
-                    # initialize new state of drop point with succ_dropped_so_far and state_to_expand.fuel -
-                    # operator_cost
-                    successor_state = RelaxedDeliveriesState(next_stop,
-                                                             succ_dropped_so_far,
-                                                             state_to_expand.fuel - operator_cost)
-                else:
-                    continue
+                assert next_stop in self.drop_points and next_stop not in state_to_expand.dropped_so_far
+                # creating new successor dropped_so_far by union of state_to_expand.dropped_so_far and {next_stop}
+                succ_dropped_so_far = state_to_expand.dropped_so_far.union(frozenset((next_stop,)))
+                # initialize new state of drop point with succ_dropped_so_far and state_to_expand.fuel -
+                # operator_cost
+                successor_state = RelaxedDeliveriesState(next_stop,
+                                                         succ_dropped_so_far,
+                                                         state_to_expand.fuel - operator_cost)
+
             # Yield the successor state and the cost of the operator we used to get this successor.
             yield successor_state, operator_cost
 
