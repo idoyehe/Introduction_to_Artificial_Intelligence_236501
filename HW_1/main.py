@@ -122,20 +122,19 @@ def relaxed_deliveries_problem():
 
     # Ex.16
     #       solve the `big_deliveries_prob` with it and print the results (as before).
-    astr16 = AStar(MaxAirDistHeuristic)
-    res16 = astr16.solve_problem(big_deliveries_prob)
-    print(res16)
+    # astr16 = AStar(MaxAirDistHeuristic)
+    # res16 = astr16.solve_problem(big_deliveries_prob)
+    # print(res16)
 
     # Ex.17
-    astr17 = AStar(MSTAirDistHeuristic)
-    res17 = astr17.solve_problem(big_deliveries_prob)
-    print(res17)
+    # astr17 = AStar(MSTAirDistHeuristic)
+    # res17 = astr17.solve_problem(big_deliveries_prob)
+    # print(res17)
 
     # Ex.18
-    run_astar_for_weights_in_range(MSTAirDistHeuristic, big_deliveries_prob)
+    # run_astar_for_weights_in_range(MSTAirDistHeuristic, big_deliveries_prob)
 
     # Ex.24
-    # TODO:
     # 1. Run the stochastic greedy algorithm for 100 times.
     #    For each run, store the cost of the found solution.
     #    Store these costs in a list.
@@ -154,7 +153,41 @@ def relaxed_deliveries_problem():
     #    (x-axis). Of course that the costs of A*, and deterministic
     #    greedy are not dependent with the iteration number, so
     #    these two should be represented by horizontal lines.
-    exit()  # TODO: remove!
+    K = 100
+    costs_list = []
+    anytime_cost_list = np.zeros(K)
+    for i in range(K):
+        # greedy stochastic iterations
+        grd_stchstc = GreedyStochastic(MSTAirDistHeuristic)
+        res24 = grd_stchstc.solve_problem(big_deliveries_prob)
+        costs_list.append(res24.final_search_node.cost)
+        anytime_cost_list[i] = min(costs_list)
+
+    # A* solution
+    astr24 = AStar(MSTAirDistHeuristic, heuristic_weight=0.5)
+    resAstar24 = astr24.solve_problem(big_deliveries_prob)
+    aStar_cost_list = np.ones(K) * resAstar24.final_search_node.cost
+    # greedy best 1 solution
+    greedyBest1 = AStar(MSTAirDistHeuristic, heuristic_weight=1)
+    resGreedyBest1 = greedyBest1.solve_problem(big_deliveries_prob)
+    greedyBest1_cost_list = np.ones(K) * resGreedyBest1.final_search_node.cost
+
+    fig, ax1 = plt.subplots()
+
+    iterations = np.linspace(1, K, K)
+    plt.plot(iterations, costs_list, label="Greedy stochastic")
+    plt.plot(iterations, anytime_cost_list, label="Anytime algorithm")
+    plt.plot(iterations, aStar_cost_list, label="Astar")
+    plt.plot(iterations, greedyBest1_cost_list, label="Greedy Best First")
+
+    ax1.set_ylabel('Cost', color='b')
+    ax1.tick_params('y', colors='b')
+    ax1.set_xlabel('Iteration #')
+
+    plt.title("Costs Vs. Iteration #")
+    plt.legend()
+    plt.grid()
+    plt.show()
 
 
 def strict_deliveries_problem():

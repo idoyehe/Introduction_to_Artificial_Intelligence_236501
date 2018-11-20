@@ -21,26 +21,20 @@ class GreedyStochastic(BestFirstSearch):
         self.heuristic_function = self.heuristic_function_type(problem)
 
     def _open_successor_node(self, problem: GraphProblem, successor_node: SearchNode):
-        """
-        TODO: implement this method!
-        """
-
-        raise NotImplemented()  # TODO: remove!
+        if not self.open.has_state(successor_node.state) and not self.close.has_state(successor_node.state):
+            self.open.push_node(successor_node)
 
     def _calc_node_expanding_priority(self, search_node: SearchNode) -> float:
         """
-        TODO: implement this method!
         Remember: `GreedyStochastic` is greedy.
         """
-
-        raise NotImplemented()  # TODO: remove!
+        return self.heuristic_function.estimate(search_node.state)
 
     def _extract_next_search_node_to_expand(self) -> Optional[SearchNode]:
         """
         Extracts the next node to expand from the open queue,
          using the stochastic method to choose out of the N
          best items from open.
-        TODO: implement this method!
         Use `np.random.choice(...)` whenever you need to randomly choose
          an item from an array of items given a probabilities array `p`.
         You can read the documentation of `np.random.choice(...)` and
@@ -50,5 +44,33 @@ class GreedyStochastic(BestFirstSearch):
                 of these popped items. The other items have to be
                 pushed again into that queue.
         """
+        if self.open.is_empty():
+            return None
 
-        raise NotImplemented()  # TODO: remove!
+        window_size = min(self.N, len(self.open))
+        node_window = []
+        for i in range(window_size):
+            curr_node = self.open.pop_next_node()
+            #  In case an node with value very close to 0 just return it
+            node_val = self._calc_node_expanding_priority(curr_node)
+            if curr_node.expanding_priority < 0.001:
+                return curr_node
+            node_window.append(curr_node)
+
+        pw = -float(1.0 / self.T)
+        nodes_p = [curr_node.expanding_priority ** pw for curr_node in node_window]
+        sum_T = sum(nodes_p)
+        nodes_p = [curr_node/sum_T for curr_node in nodes_p]
+
+        chosen = np.random.choice(node_window, 1, nodes_p)[0]
+
+        node_window.remove(chosen)
+        assert len(node_window) == window_size - 1
+        for curr_node in node_window:
+            # reinsert not chosen to open
+            self.open.push_node(curr_node)
+
+        # Update T
+        self.T *= self.T_scale_factor
+        assert not self.open.has_state(chosen)
+        return chosen
