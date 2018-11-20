@@ -85,18 +85,18 @@ class StrictDeliveriesProblem(RelaxedDeliveriesProblem):
 
             if next_stop in self.gas_stations:
                 # initialize new state of gas station with same dropped_so_far and gas_tank_capacity
-                successor_state = RelaxedDeliveriesState(next_stop,
-                                                         state_to_expand.dropped_so_far,
-                                                         self.gas_tank_capacity)
+                successor_state = StrictDeliveriesState(next_stop,
+                                                        state_to_expand.dropped_so_far,
+                                                        self.gas_tank_capacity)
             else:
                 assert next_stop in self.drop_points
                 if next_stop not in state_to_expand.dropped_so_far:
                     # creating new successor dropped_so_far by union of state_to_expand.dropped_so_far and {next_stop}
                     succ_dropped_so_far = state_to_expand.dropped_so_far.union(frozenset([next_stop]))
                     # initialize new state of drop point with succ_dropped_so_far and state_to_expand.fuel - operator_cost
-                    successor_state = RelaxedDeliveriesState(next_stop,
-                                                             succ_dropped_so_far,
-                                                             state_to_expand.fuel - operator_cost)
+                    successor_state = StrictDeliveriesState(next_stop,
+                                                            succ_dropped_so_far,
+                                                            state_to_expand.fuel - operator_cost)
                 else:
                     continue
             # Yield the successor state and the cost of the operator we used to get this successor.

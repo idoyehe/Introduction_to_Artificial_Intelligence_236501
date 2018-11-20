@@ -199,19 +199,19 @@ def strict_deliveries_problem():
         small_delivery, roads, inner_problem_solver=AStar(AirDistHeuristic))
 
     # Ex.26
-    # TODO: Call here the function `run_astar_for_weights_in_range()`
-    #       with `MSTAirDistHeuristic` and `big_deliveries_prob`.
-    exit()  # TODO: remove!
+    # with `MSTAirDistHeuristic` and `small_deliveries_prob`.
+    # run_astar_for_weights_in_range(MSTAirDistHeuristic, small_deliveries_strict_problem)
 
     # Ex.28
-    # TODO: create an instance of `AStar` with the `RelaxedDeliveriesHeuristic`,
-    #       solve the `small_deliveries_strict_problem` with it and print the results (as before).
-    exit()  # TODO: remove!
-
+    # an instance of `AStar` with the `RelaxedDeliveriesHeuristic`,
+    # solve the `small_deliveries_strict_problem` with it and print the results (as before).
+    astr28 = AStar(RelaxedDeliveriesHeuristic)
+    res28 = astr28.solve_problem(small_deliveries_strict_problem)
+    print(res28)
 
 def main():
     # map_problem()
-    relaxed_deliveries_problem()
+    # relaxed_deliveries_problem()
     strict_deliveries_problem()
 
 

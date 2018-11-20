@@ -6,6 +6,7 @@ from framework.ways import *
 import numpy as np
 from scipy.sparse.csgraph import minimum_spanning_tree as mst
 from typing import Set, Dict, FrozenSet
+from .deliveries_problem_input import *
 
 
 class MaxAirDistHeuristic(HeuristicFunction):
@@ -73,11 +74,22 @@ class RelaxedDeliveriesHeuristic(HeuristicFunction):
         """
         Solve the appropriate relaxed problem in order to
          evaluate the distance to the goal.
-        TODO: implement this method!
         """
 
         assert isinstance(self.problem, StrictDeliveriesProblem)
         assert isinstance(state, StrictDeliveriesState)
 
-        raise NotImplemented()  # TODO: remove!
+        drop_points = self.problem.drop_points.difference(state.dropped_so_far)
+        # gas_stations = self.problem.gas_stations.difference(frozenset([state.current_location]))
+        assert state.current_location in state.dropped_so_far or state.current_location in self.problem.gas_stations
+        state_delivery = DeliveriesProblemInput("Given first state of: " + self.problem.name,
+                                                state.current_location,
+                                                drop_points,
+                                                self.problem.gas_stations,
+                                                self.problem.gas_tank_capacity,
+                                                state.fuel)
 
+        state_relaxed_problem = RelaxedDeliveriesProblem(state_delivery)
+        a_star = AStar(MSTAirDistHeuristic)
+        res = a_star.solve_problem(state_relaxed_problem)
+        return res.final_search_node.cost
