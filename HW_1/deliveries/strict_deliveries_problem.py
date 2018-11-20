@@ -13,10 +13,6 @@ class StrictDeliveriesState(RelaxedDeliveriesState):
      deliveries problem.
     This state is basically similar to the state of the relaxed
      problem. Hence, this class inherits from `RelaxedDeliveriesState`.
-
-    TODO:
-        If you believe you need to modify the state for the strict
-         problem in some sense, please go ahead and do so.
     """
     pass
 
@@ -58,7 +54,6 @@ class StrictDeliveriesProblem(RelaxedDeliveriesProblem):
 
     def expand_state_with_costs(self, state_to_expand: GraphProblemState) -> Iterator[Tuple[GraphProblemState, float]]:
         """
-        TODO: implement this method!
         This method represents the `Succ: S -> P(S)` function of the strict deliveries problem.
         The `Succ` function is defined by the problem operators as shown in class.
         The relaxed problem operators are defined in the assignment instructions.
@@ -68,13 +63,49 @@ class StrictDeliveriesProblem(RelaxedDeliveriesProblem):
         """
         assert isinstance(state_to_expand, StrictDeliveriesState)
 
-        raise NotImplemented()  # TODO: remove!
+        # Get the junction (in the map) that is represented by the state to expand.
+        state_junction = state_to_expand.current_location
+
+        # Iterate over the orders that haven't been dropped.
+        for next_stop in self.possible_stop_points:
+
+            # trying to get from cache the cost from current junction to the next junction
+            cache_key = (state_junction.index, next_stop.index)
+            operator_cost = self._get_from_cache(cache_key)
+
+            if operator_cost is None:
+                map_problem = MapProblem(self.roads, state_junction.index, next_stop.index)
+                map_problem_sol = self.inner_problem_solver.solve_problem(map_problem)
+                operator_cost = map_problem_sol.final_search_node.cost
+                self._insert_to_cache(cache_key, operator_cost)
+
+            # Check fuel subject to air distance
+            if operator_cost > state_to_expand.fuel:
+                continue
+
+            if next_stop in self.gas_stations:
+                # initialize new state of gas station with same dropped_so_far and gas_tank_capacity
+                successor_state = RelaxedDeliveriesState(next_stop,
+                                                         state_to_expand.dropped_so_far,
+                                                         self.gas_tank_capacity)
+            else:
+                assert next_stop in self.drop_points
+                if next_stop not in state_to_expand.dropped_so_far:
+                    # creating new successor dropped_so_far by union of state_to_expand.dropped_so_far and {next_stop}
+                    succ_dropped_so_far = state_to_expand.dropped_so_far.union(frozenset([next_stop]))
+                    # initialize new state of drop point with succ_dropped_so_far and state_to_expand.fuel - operator_cost
+                    successor_state = RelaxedDeliveriesState(next_stop,
+                                                             succ_dropped_so_far,
+                                                             state_to_expand.fuel - operator_cost)
+                else:
+                    continue
+            # Yield the successor state and the cost of the operator we used to get this successor.
+            yield successor_state, operator_cost
 
     def is_goal(self, state: GraphProblemState) -> bool:
         """
         This method receives a state and returns whether this state is a goal.
-        TODO: implement this method!
         """
         assert isinstance(state, StrictDeliveriesState)
 
-        raise NotImplemented()  # TODO: remove!
+        return state.current_location in self.drop_points and self.drop_points == state.dropped_so_far
