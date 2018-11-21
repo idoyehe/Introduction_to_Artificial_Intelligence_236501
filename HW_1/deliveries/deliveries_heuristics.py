@@ -86,12 +86,12 @@ class RelaxedDeliveriesHeuristic(HeuristicFunction):
                                                       remained_drop_points,
                                                       self.problem.gas_stations,
                                                       self.problem.gas_tank_capacity,
-                                                      self.problem.gas_tank_capacity)
+                                                      state.fuel)
 
         state_relaxed_problem = RelaxedDeliveriesProblem(state_delivery_input)
         a_star = AStar(MSTAirDistHeuristic)
         res = a_star.solve_problem(state_relaxed_problem)
 
-        if res is None:
+        if res.final_search_node is None:
             return np.inf  # in case no solution
         return res.final_search_node.cost
