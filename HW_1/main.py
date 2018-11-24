@@ -165,19 +165,19 @@ def relaxed_deliveries_problem():
 
     # A* solution
     astr24 = AStar(MSTAirDistHeuristic, heuristic_weight=0.5)
-    resAstar24 = astr24.solve_problem(big_deliveries_prob)
-    aStar_cost_list = np.ones(iter_num) * resAstar24.final_search_node.cost
+    res_astar24 = astr24.solve_problem(big_deliveries_prob)
+    astar_cost_list = np.ones(iter_num) * res_astar24.final_search_node.cost
     # greedy best 1 solution
-    greedyBest1 = AStar(MSTAirDistHeuristic, heuristic_weight=1)
-    resGreedyBest1 = greedyBest1.solve_problem(big_deliveries_prob)
-    greedyBest1_cost_list = np.ones(iter_num) * resGreedyBest1.final_search_node.cost
+    greedy_best1 = AStar(MSTAirDistHeuristic, heuristic_weight=1)
+    res_greedy_best1 = greedy_best1.solve_problem(big_deliveries_prob)
+    greedy_best1_cost_list = np.ones(iter_num) * res_greedy_best1.final_search_node.cost
     fig, ax1 = plt.subplots()
 
     iterations = np.linspace(1, iter_num, iter_num)
     plt.plot(iterations, costs_list, label="Greedy stochastic")
     plt.plot(iterations, anytime_cost_list, label="Anytime algorithm")
-    plt.plot(iterations, aStar_cost_list, label="Astar")
-    plt.plot(iterations, greedyBest1_cost_list, label="Greedy Best First")
+    plt.plot(iterations, astar_cost_list, label="Astar")
+    plt.plot(iterations, greedy_best1_cost_list, label="Greedy Best First")
 
     ax1.set_ylabel('Cost', color='b')
     ax1.tick_params('y', colors='b')
