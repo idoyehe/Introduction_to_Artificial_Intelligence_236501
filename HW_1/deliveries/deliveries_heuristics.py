@@ -79,6 +79,9 @@ class RelaxedDeliveriesHeuristic(HeuristicFunction):
         assert isinstance(self.problem, StrictDeliveriesProblem)
         assert isinstance(state, StrictDeliveriesState)
 
+        if self.problem.is_goal(state):
+            return 0
+
         remained_drop_points = self.problem.drop_points.difference(state.dropped_so_far)
 
         state_delivery_input = DeliveriesProblemInput("Heuristic Sub Problem",

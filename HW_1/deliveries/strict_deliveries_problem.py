@@ -108,4 +108,4 @@ class StrictDeliveriesProblem(RelaxedDeliveriesProblem):
         """
         assert isinstance(state, StrictDeliveriesState)
 
-        return self.drop_points == state.dropped_so_far
+        return state.current_location in self.drop_points and self.drop_points == state.dropped_so_far
