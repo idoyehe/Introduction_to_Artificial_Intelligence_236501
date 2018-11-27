@@ -2,7 +2,6 @@ from .graph_problem_interface import *
 from .best_first_search import BestFirstSearch
 from typing import Optional
 import numpy as np
-import warnings
 
 class GreedyStochastic(BestFirstSearch):
     def __init__(self, heuristic_function_type: HeuristicFunctionType,
