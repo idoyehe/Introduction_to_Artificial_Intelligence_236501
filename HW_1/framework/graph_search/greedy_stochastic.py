@@ -3,6 +3,7 @@ from .best_first_search import BestFirstSearch
 from typing import Optional
 import numpy as np
 
+
 class GreedyStochastic(BestFirstSearch):
     def __init__(self, heuristic_function_type: HeuristicFunctionType,
                  T_init: float = 1.0, N: int = 5, T_scale_factor: float = 0.95):
