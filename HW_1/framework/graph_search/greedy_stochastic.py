@@ -49,20 +49,20 @@ class GreedyStochastic(BestFirstSearch):
 
         window_size = min(self.N, len(self.open))
         node_window = []
+        alpha_min = np.inf
         for i in range(window_size):
             curr_node = self.open.pop_next_node()
-            if curr_node.expanding_priority < 0.00001:
+            if curr_node.expanding_priority == 0:
                 return curr_node
             node_window.append(curr_node)
 
         pw = -float(1.0 / self.T)
-        alpha_min = min([curr_node.expanding_priority for curr_node in node_window])
-
+        alpha_min = node_window[0].expanding_priority
         nodes_prb = [(float(node.expanding_priority / alpha_min) ** pw) for node in node_window]
         sum_total = sum(nodes_prb)
         nodes_prb = [float(p / sum_total) for p in nodes_prb]
 
-        chosen_node = np.random.choice(node_window, 1, nodes_prb)[0]
+        chosen_node = np.random.choice(node_window, 1, False, nodes_prb)[0]
         node_window.remove(chosen_node)
 
         assert len(node_window) == window_size - 1
