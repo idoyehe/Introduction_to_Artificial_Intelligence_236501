@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="finish part 3 minimax">
+    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="finish part 4 alpha beta">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/HW_2_Edit_Version.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/HW_2_Edit_Version.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/submission.py" beforeDir="false" afterPath="$PROJECT_DIR$/submission.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/submission.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="215" column="22" selection-start-line="215" selection-start-column="22" selection-end-line="215" selection-end-column="22" />
+            <state relative-caret-position="-3566">
+              <caret line="108" column="66" selection-start-line="108" selection-start-column="66" selection-end-line="108" selection-end-column="66" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -215,7 +214,7 @@
       <updated>1541943767197</updated>
       <workItem from="1544552518033" duration="176000" />
       <workItem from="1544599229661" duration="8833000" />
-      <workItem from="1544616506592" duration="7445000" />
+      <workItem from="1544616506592" duration="8005000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1544552567008</created>
@@ -252,30 +251,36 @@
       <option name="project" value="LOCAL" />
       <updated>1544623844583</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="finish part 4 alpha beta">
+      <created>1544627673510</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1544627673510</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16454000" />
+    <option name="totallyTimeSpent" value="17014000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27050054" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27050054" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32970297" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24950495" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.24950495" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.36930692" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.33465347" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.2009901" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" />
       <window_info anchor="bottom" id="Python Console" order="12" />
@@ -294,7 +299,8 @@
     <MESSAGE value="finish part  1 + 2" />
     <MESSAGE value="optimize implementation" />
     <MESSAGE value="finish part 3 minimax" />
-    <option name="LAST_COMMIT_MESSAGE" value="finish part 3 minimax" />
+    <MESSAGE value="finish part 4 alpha beta" />
+    <option name="LAST_COMMIT_MESSAGE" value="finish part 4 alpha beta" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
@@ -403,8 +409,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/submission.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="215" column="22" selection-start-line="215" selection-start-column="22" selection-end-line="215" selection-end-column="22" />
+        <state relative-caret-position="-3566">
+          <caret line="108" column="66" selection-start-line="108" selection-start-column="66" selection-end-line="108" selection-end-column="66" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
