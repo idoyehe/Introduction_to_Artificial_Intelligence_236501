@@ -7,7 +7,7 @@ class ReflexAgent(Agent):
     """
     A reflex agent chooses an action at each choice point by examining
     its alternatives via a state evaluation function.
-  """
+    """
 
     def __init__(self):
         self.lastPositions = []
@@ -15,11 +15,11 @@ class ReflexAgent(Agent):
 
     def getAction(self, gameState):
         """
-    getAction chooses among the best options according to the evaluation function.
+      getAction chooses among the best options according to the evaluation function.
 
-    getAction takes a GameState and returns some Directions.X for some X in the set {North, South, West, East, Stop}
-    ------------------------------------------------------------------------------
-    """
+      getAction takes a GameState and returns some Directions.X for some X in the set {North, South, West, East, Stop}
+      ------------------------------------------------------------------------------
+      """
         # Collect legal moves and successor states
         legalMoves = gameState.getLegalActions()
 
@@ -33,12 +33,11 @@ class ReflexAgent(Agent):
 
     def evaluationFunction(self, currentGameState, action):
         """
-    The evaluation function takes in the current GameState (pacman.py) and the proposed action
-    and returns a number, where higher numbers are better.
-    """
+      The evaluation function takes in the current GameState (pacman.py) and the proposed action
+      and returns a number, where higher numbers are better.
+      """
         successorGameState = currentGameState.generatePacmanSuccessor(action)
-        return scoreEvaluationFunction(successorGameState)
-
+        return betterEvaluationFunction(successorGameState)
 
 #     ********* Evaluation functions *********
 
@@ -68,6 +67,25 @@ def betterEvaluationFunction(gameState):
   gameState.getScore():
   The GameState class is defined in pacman.py and you might want to look into that for other helper methods.
   """
+    better_valuated_score = gameState.getScore()
+
+    pacman_pos = gameState.getPacmanPosition()
+    list_ghost_pos = [ghost.configuration.pos for ghost in gameState.getGhostStates()]
+    worst_manhattan_dist_to_ghost = min([util.manhattanDistance(pacman_pos, ghost_pos) for ghost_pos in list_ghost_pos])
+    better_valuated_score += worst_manhattan_dist_to_ghost
+
+    current_food = gameState.getFood()
+    best_manhattan_dist_to_food = 0
+    for x in range(current_food.width):
+        for y in range(current_food.height):
+            if current_food[x][y]:
+                calc_manhattan = util.manhattanDistance(pacman_pos, (x, y))
+                if best_manhattan_dist_to_food == 0 or calc_manhattan < best_manhattan_dist_to_food:
+                    best_manhattan_dist_to_food = calc_manhattan
+    better_valuated_score -= best_manhattan_dist_to_food
+
+    return better_valuated_score
+
 
 
 #     ********* MultiAgent Search Agents- sections c,d,e,f*********
