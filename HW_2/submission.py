@@ -1,4 +1,5 @@
 import random, util
+import numpy as np
 from game import Agent
 
 
@@ -38,6 +39,7 @@ class ReflexAgent(Agent):
       """
         successorGameState = currentGameState.generatePacmanSuccessor(action)
         return betterEvaluationFunction(successorGameState)
+
 
 #     ********* Evaluation functions *********
 
@@ -84,7 +86,6 @@ def betterEvaluationFunction(gameState):
     better_valuated_score -= min_food_dist
 
     return better_valuated_score
-
 
 
 #     ********* MultiAgent Search Agents- sections c,d,e,f*********
@@ -152,10 +153,35 @@ class MinimaxAgent(MultiAgentSearchAgent):
         The depth to which search should continue
 
     """
+        return self._rb_minimax(gameState, 0, self.depth)
 
-        # BEGIN_YOUR_CODE
-        raise Exception("Not implemented yet")
-        # END_YOUR_CODE
+    def _rb_minimax(self, game_state, agent_index, depth):
+        if game_state.isLose() or game_state.isWin() or depth == 0:
+            return self.evaluationFunction(game_state)
+        if agent_index == game_state.getNumAgents() - 1:
+            depth -= 1
+        if agent_index == self.index:  # pacman agent
+            current_max = float("-inf")
+            chosen_action = None
+            for action in game_state.getLegalActions(agent_index):
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent = self._rb_minimax(successor_state, (agent_index + 1) % game_state.getNumAgents(), depth)
+                if current_max < next_agent:
+                    current_max = next_agent
+                    chosen_action = action
+
+            if depth == self.depth:  # to return the action to the caller
+                return chosen_action
+            else:
+                return current_max  # return the max value to the recursive calls
+
+        else:  # not pacman turn -> other agents means ghosts
+            current_min = float("inf")
+            for action in game_state.getLegalActions(agent_index):
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent = self._rb_minimax(successor_state, (agent_index + 1) % game_state.getNumAgents(), depth)
+                current_min = min(current_min, next_agent)
+            return current_min
 
 
 ######################################################################################
