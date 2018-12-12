@@ -74,15 +74,14 @@ def betterEvaluationFunction(gameState):
     worst_manhattan_dist_to_ghost = min([util.manhattanDistance(pacman_pos, ghost_pos) for ghost_pos in list_ghost_pos])
     better_valuated_score += worst_manhattan_dist_to_ghost
 
-    current_food = gameState.getFood()
-    best_manhattan_dist_to_food = 0
-    for x in range(current_food.width):
-        for y in range(current_food.height):
-            if current_food[x][y]:
-                calc_manhattan = util.manhattanDistance(pacman_pos, (x, y))
-                if best_manhattan_dist_to_food == 0 or calc_manhattan < best_manhattan_dist_to_food:
-                    best_manhattan_dist_to_food = calc_manhattan
-    better_valuated_score -= best_manhattan_dist_to_food
+    all_food = gameState.getFood().asList()
+    min_food_dist = 0
+    for current_food in all_food:
+        calc_manhattan = util.manhattanDistance(pacman_pos, current_food)
+        if min_food_dist == 0 or calc_manhattan < min_food_dist:
+            min_food_dist = calc_manhattan
+
+    better_valuated_score -= min_food_dist
 
     return better_valuated_score
 
