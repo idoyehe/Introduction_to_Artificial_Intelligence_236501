@@ -39,6 +39,7 @@ class ReflexAgent(Agent):
       """
         successorGameState = currentGameState.generatePacmanSuccessor(action)
         return betterEvaluationFunction(successorGameState)
+        # return scoreEvaluationFunction(successorGameState) # old evaluation function call
 
 
 #     ********* Evaluation functions *********
@@ -69,12 +70,12 @@ def betterEvaluationFunction(gameState):
   gameState.getScore():
   The GameState class is defined in pacman.py and you might want to look into that for other helper methods.
   """
-    better_valuated_score = gameState.getScore()
+    better_evaluated_score = gameState.getScore()
 
     pacman_pos = gameState.getPacmanPosition()
     list_ghost_pos = [ghost.configuration.pos for ghost in gameState.getGhostStates()]
     worst_manhattan_dist_to_ghost = min([util.manhattanDistance(pacman_pos, ghost_pos) for ghost_pos in list_ghost_pos])
-    better_valuated_score += worst_manhattan_dist_to_ghost
+    better_evaluated_score += worst_manhattan_dist_to_ghost
 
     all_food = gameState.getFood().asList()
     min_food_dist = 0
@@ -83,9 +84,9 @@ def betterEvaluationFunction(gameState):
         if min_food_dist == 0 or calc_manhattan < min_food_dist:
             min_food_dist = calc_manhattan
 
-    better_valuated_score -= min_food_dist
+    better_evaluated_score -= min_food_dist
 
-    return better_valuated_score
+    return better_evaluated_score
 
 
 #     ********* MultiAgent Search Agents- sections c,d,e,f*********
