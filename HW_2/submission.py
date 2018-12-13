@@ -1,5 +1,6 @@
 import random
 import util
+from game import Actions
 from game import Agent
 
 
@@ -191,7 +192,7 @@ class MultiAgentSearchAgent(Agent):
                     return float("-inf")
             return current_min
 
-    def _rb_expectimax(self, game_state, agent_index, layers_number):
+    def _rb_random_expectimax_(self, game_state, agent_index, layers_number):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
@@ -200,7 +201,7 @@ class MultiAgentSearchAgent(Agent):
             chosen_action = None
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_minimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
+                next_agent = self._rb_random_expectimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
                 if current_max < next_agent:
                     current_max = next_agent
                     chosen_action = action
@@ -215,10 +216,73 @@ class MultiAgentSearchAgent(Agent):
             count_get_legal_actions = 0
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_minimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
+                next_agent = self._rb_random_expectimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
                 sum_of_next_values += next_agent
                 count_get_legal_actions += 1
             return sum_of_next_values / float(count_get_legal_actions)  # normalized
+
+    def _rb_directional_expectimax_(self, game_state, agent_index, layers_number):
+        if game_state.isLose() or game_state.isWin() or layers_number == 0:
+            return self.evaluationFunction(game_state)
+
+        if agent_index == self.index:  # pacman agent
+            current_max = float("-inf")
+            chosen_action = None
+            for action in game_state.getLegalActions(agent_index):
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent = self._rb_directional_expectimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
+                if current_max < next_agent:
+                    current_max = next_agent
+                    chosen_action = action
+
+            if layers_number == self.layers_2_dev:  # to return the action to the caller
+                self.next_action = chosen_action
+
+            return current_max  # return the max value to the recursive calls
+
+        else:  # not pacman turn -> other agents means ghosts
+            expectimax_value = 0
+            dist = MultiAgentSearchAgent._get_directional_ghost_dist_(game_state, agent_index, 0.8, 0.8)
+            for action in game_state.getLegalActions(agent_index):
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent = self._rb_directional_expectimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
+                expectimax_value += dist[action] * float(next_agent)
+            return expectimax_value
+
+    @staticmethod
+    def _get_directional_ghost_dist_(game_state, ghost_index, prob_scaredFlee, prob_attack):
+        ghostState = game_state.getGhostState(ghost_index)
+        legalActions = game_state.getLegalActions(ghost_index)
+        pos = game_state.getGhostPosition(ghost_index)
+        isScared = ghostState.scaredTimer > 0
+
+        speed = 1
+        if isScared:
+            speed = 0.5
+
+        actionVectors = [Actions.directionToVector(a, speed) for a in legalActions]
+        newPositions = [(pos[0] + a[0], pos[1] + a[1]) for a in actionVectors]
+        pacmanPosition = game_state.getPacmanPosition()
+
+        # Select best actions given the state
+        distancesToPacman = [util.manhattanDistance(pos, pacmanPosition) for pos in newPositions]
+        if isScared:
+            bestScore = max(distancesToPacman)
+            bestProb = prob_scaredFlee
+        else:
+            bestScore = min(distancesToPacman)
+            bestProb = prob_attack
+
+        bestActions = [action for action, distance in zip(legalActions, distancesToPacman) if distance == bestScore]
+
+        # Construct distribution
+        dist = util.Counter()
+        for a in bestActions:
+            dist[a] = bestProb / len(bestActions)
+        for a in legalActions:
+            dist[a] += (1 - bestProb) / len(legalActions)
+        dist.normalize()
+        return dist
 
 
 ######################################################################################
@@ -302,7 +366,7 @@ class RandomExpectimaxAgent(MultiAgentSearchAgent):
     """
         self.number_of_agents = gameState.getNumAgents()
         self.layers_2_dev = self.depth * self.number_of_agents
-        self._rb_expectimax(gameState, 0, self.layers_2_dev)
+        self._rb_random_expectimax_(gameState, 0, self.layers_2_dev)
         return self.next_action
 
 
@@ -319,6 +383,10 @@ class DirectionalExpectimaxAgent(MultiAgentSearchAgent):
       Returns the expectimax action using self.depth and self.evaluationFunction
       All ghosts should be modeled as using the DirectionalGhost distribution to choose from their legal moves.
     """
+        self.number_of_agents = gameState.getNumAgents()
+        self.layers_2_dev = self.depth * self.number_of_agents
+        self._rb_directional_expectimax_(gameState, 0, self.layers_2_dev)
+        return self.next_action
 
 
 ######################################################################################
