@@ -72,6 +72,8 @@ def betterEvaluationFunction(gameState):  # TODO: implement better
   The GameState class is defined in pacman.py and you might want to look into that for other helper methods.
   """
     better_evaluated_score = gameState.getScore()
+    if gameState.isLose() or gameState.isWin():
+        return gameState.getScore()
 
     pacman_pos = gameState.getPacmanPosition()
     list_ghost_pos = [ghost.configuration.pos for ghost in gameState.getGhostStates()]
