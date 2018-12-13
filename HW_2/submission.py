@@ -128,7 +128,7 @@ class MultiAgentSearchAgent(Agent):
         if agent_index == self.index:  # Pacman agent
             current_max = float("-inf")  # initialized with -inf
             chosen_action = None
-            for action in game_state.getLegalActions(agent_index):
+            for action in game_state.getLegalPacmanActions():
                 successor_state = game_state.generateSuccessor(agent_index, action)
                 next_agent = self._rb_minimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
                 if current_max < next_agent:
@@ -163,7 +163,7 @@ class MultiAgentSearchAgent(Agent):
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
             chosen_action = None
-            for action in game_state.getLegalActions(agent_index):
+            for action in game_state.getLegalPacmanActions():
                 successor_state = game_state.generateSuccessor(agent_index, action)
                 next_agent = self._rb_alpha_beta_(successor_state, (agent_index + 1) % self.number_of_agents,
                                                   layers_number - 1, alpha=alpha, beta=beta)
@@ -199,7 +199,7 @@ class MultiAgentSearchAgent(Agent):
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
             chosen_action = None
-            for action in game_state.getLegalActions(agent_index):
+            for action in game_state.getLegalPacmanActions():
                 successor_state = game_state.generateSuccessor(agent_index, action)
                 next_agent = self._rb_random_expectimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
                 if current_max < next_agent:
@@ -228,7 +228,7 @@ class MultiAgentSearchAgent(Agent):
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
             chosen_action = None
-            for action in game_state.getLegalActions(agent_index):
+            for action in game_state.getLegalPacmanActions():
                 successor_state = game_state.generateSuccessor(agent_index, action)
                 next_agent = self._rb_directional_expectimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
                 if current_max < next_agent:
