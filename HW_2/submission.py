@@ -125,14 +125,16 @@ class MultiAgentSearchAgent(Agent):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
+        next_agent_index = (agent_index + 1) % self.number_of_agents
+
         if agent_index == self.index:  # Pacman agent
             current_max = float("-inf")  # initialized with -inf
             chosen_action = None
             for action in game_state.getLegalPacmanActions():
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_minimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
-                if current_max < next_agent:
-                    current_max = next_agent
+                next_agent_value = self._rb_minimax_(successor_state, next_agent_index, layers_number - 1)
+                if current_max < next_agent_value:
+                    current_max = next_agent_value
                     chosen_action = action
 
             if layers_number == self.layers_2_dev:  # to return the action to the caller
@@ -144,8 +146,8 @@ class MultiAgentSearchAgent(Agent):
             current_min = float("inf")  # initialized with inf
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_minimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
-                current_min = min(current_min, next_agent)
+                next_agent_value = self._rb_minimax_(successor_state, next_agent_index, layers_number - 1)
+                current_min = min(current_min, next_agent_value)
             return current_min
 
     def _rb_alpha_beta_(self, game_state, agent_index, layers_number, alpha, beta):
@@ -160,16 +162,18 @@ class MultiAgentSearchAgent(Agent):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
+        next_agent_index = (agent_index + 1) % self.number_of_agents
+
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
             chosen_action = None
             for action in game_state.getLegalPacmanActions():
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_alpha_beta_(successor_state, (agent_index + 1) % self.number_of_agents,
-                                                  layers_number - 1, alpha=alpha, beta=beta)
+                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
+                                                        alpha=alpha, beta=beta)
 
-                if current_max < next_agent:
-                    current_max = next_agent
+                if current_max < next_agent_value:
+                    current_max = next_agent_value
                     chosen_action = action
                 alpha = max(current_max, alpha)
                 if current_max >= beta:
@@ -184,9 +188,9 @@ class MultiAgentSearchAgent(Agent):
             current_min = float("inf")
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_alpha_beta_(successor_state, (agent_index + 1) % self.number_of_agents,
-                                                  layers_number - 1, alpha=alpha, beta=beta)
-                current_min = min(current_min, next_agent)
+                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
+                                                        alpha=alpha, beta=beta)
+                current_min = min(current_min, next_agent_value)
                 beta = min(current_min, beta)
                 if current_min <= alpha:
                     return float("-inf")
@@ -196,14 +200,16 @@ class MultiAgentSearchAgent(Agent):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
+        next_agent_index = (agent_index + 1) % self.number_of_agents
+
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
             chosen_action = None
             for action in game_state.getLegalPacmanActions():
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_random_expectimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
-                if current_max < next_agent:
-                    current_max = next_agent
+                next_agent_value = self._rb_random_expectimax_(successor_state, next_agent_index, layers_number - 1)
+                if current_max < next_agent_value:
+                    current_max = next_agent_value
                     chosen_action = action
 
             if layers_number == self.layers_2_dev:  # to return the action to the caller
@@ -216,8 +222,8 @@ class MultiAgentSearchAgent(Agent):
             count_get_legal_actions = 0
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_random_expectimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
-                sum_of_next_values += next_agent
+                next_agent_value = self._rb_random_expectimax_(successor_state, next_agent_index, layers_number - 1)
+                sum_of_next_values += next_agent_value
                 count_get_legal_actions += 1
             return sum_of_next_values / float(count_get_legal_actions)  # normalized
 
@@ -225,14 +231,16 @@ class MultiAgentSearchAgent(Agent):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
+        next_agent_index = (agent_index + 1) % self.number_of_agents
+
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
             chosen_action = None
             for action in game_state.getLegalPacmanActions():
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_directional_expectimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
-                if current_max < next_agent:
-                    current_max = next_agent
+                next_agent_value = self._rb_directional_expectimax_(successor_state, next_agent_index, layers_number - 1)
+                if current_max < next_agent_value:
+                    current_max = next_agent_value
                     chosen_action = action
 
             if layers_number == self.layers_2_dev:  # to return the action to the caller
@@ -245,8 +253,8 @@ class MultiAgentSearchAgent(Agent):
             dist = MultiAgentSearchAgent._get_directional_ghost_dist_(game_state, agent_index, 0.8, 0.8)
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_directional_expectimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
-                expectimax_value += dist[action] * float(next_agent)
+                next_agent_value = self._rb_directional_expectimax_(successor_state, next_agent_index, layers_number - 1)
+                expectimax_value += dist[action] * float(next_agent_value)
             return expectimax_value
 
     @staticmethod
