@@ -1,5 +1,5 @@
-import random, util
-import numpy as np
+import random
+import util
 from game import Agent
 
 
@@ -11,6 +11,7 @@ class ReflexAgent(Agent):
     """
 
     def __init__(self):
+        super().__init__(index=0)
         self.lastPositions = []
         self.dc = None
 
@@ -38,8 +39,8 @@ class ReflexAgent(Agent):
       and returns a number, where higher numbers are better.
       """
         successorGameState = currentGameState.generatePacmanSuccessor(action)
-        return betterEvaluationFunction(successorGameState)
         # return scoreEvaluationFunction(successorGameState) # old evaluation function call
+        return betterEvaluationFunction(successorGameState)
 
 
 #     ********* Evaluation functions *********
@@ -54,9 +55,8 @@ def scoreEvaluationFunction(gameState):
 
 ######################################################################################
 # b: implementing a better heuristic function
-def betterEvaluationFunction(gameState):
+def betterEvaluationFunction(gameState):  # TODO: implement better
     """
-
   The betterEvaluationFunction takes in a GameState (pacman.py) and should return a number, where higher numbers are better.
 
   A GameState specifies the full game state, including the food, capsules, agent configurations and more.
@@ -107,15 +107,15 @@ class MultiAgentSearchAgent(Agent):
   """
 
     def __init__(self, evalFn='betterEvaluationFunction', depth='2'):
-        self.index = 0  # Pacman is always agent index 0
+        super().__init__(index=0)  # Pacman is always agent index 0
         self.evaluationFunction = util.lookup(evalFn, globals())
         self.depth = int(depth)
         self.layers_2_dev = None
+        self.number_of_agents = None
         self.next_action = None
 
-    def _rb_minimax(self, game_state, agent_index, layers_number):
+    def _rb_minimax_(self, game_state, agent_index, layers_number):
         """
-
         :param game_state: the current game state
         :param agent_index: the agent that play now
         :param layers_number: layers of number to develop
@@ -124,12 +124,12 @@ class MultiAgentSearchAgent(Agent):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
-        if agent_index == self.index:  # pacman agent
-            current_max = float("-inf")
+        if agent_index == self.index:  # Pacman agent
+            current_max = float("-inf")  # initialized with -inf
             chosen_action = None
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_minimax(successor_state, (agent_index + 1) % game_state.getNumAgents(), layers_number - 1)
+                next_agent = self._rb_minimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
                 if current_max < next_agent:
                     current_max = next_agent
                     chosen_action = action
@@ -139,15 +139,15 @@ class MultiAgentSearchAgent(Agent):
 
             return current_max  # return the max value to the recursive calls
 
-        else:  # not pacman turn -> other agents means ghosts
-            current_min = float("inf")
+        else:  # not Pacman turn -> other agents means ghosts
+            current_min = float("inf")  # initialized with inf
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_minimax(successor_state, (agent_index + 1) % game_state.getNumAgents(), layers_number - 1)
+                next_agent = self._rb_minimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
                 current_min = min(current_min, next_agent)
             return current_min
 
-    def _rb_alpha_beta(self, game_state, agent_index, layers_number, alpha, beta):
+    def _rb_alpha_beta_(self, game_state, agent_index, layers_number, alpha, beta):
         """
         :param game_state: the current game state
         :param agent_index: the agent that play now
@@ -164,8 +164,8 @@ class MultiAgentSearchAgent(Agent):
             chosen_action = None
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_alpha_beta(successor_state, (agent_index + 1) % game_state.getNumAgents(),
-                                                 layers_number - 1, alpha=alpha, beta=beta)
+                next_agent = self._rb_alpha_beta_(successor_state, (agent_index + 1) % self.number_of_agents,
+                                                  layers_number - 1, alpha=alpha, beta=beta)
 
                 if current_max < next_agent:
                     current_max = next_agent
@@ -183,8 +183,8 @@ class MultiAgentSearchAgent(Agent):
             current_min = float("inf")
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_alpha_beta(successor_state, (agent_index + 1) % game_state.getNumAgents(),
-                                                 layers_number - 1, alpha=alpha, beta=beta)
+                next_agent = self._rb_alpha_beta_(successor_state, (agent_index + 1) % self.number_of_agents,
+                                                  layers_number - 1, alpha=alpha, beta=beta)
                 current_min = min(current_min, next_agent)
                 beta = min(current_min, beta)
                 if current_min <= alpha:
@@ -200,7 +200,7 @@ class MultiAgentSearchAgent(Agent):
             chosen_action = None
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_minimax(successor_state, (agent_index + 1) % game_state.getNumAgents(), layers_number - 1)
+                next_agent = self._rb_minimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
                 if current_max < next_agent:
                     current_max = next_agent
                     chosen_action = action
@@ -211,17 +211,19 @@ class MultiAgentSearchAgent(Agent):
             return current_max  # return the max value to the recursive calls
 
         else:  # not pacman turn -> other agents means ghosts
-            sum_of_mins = 0
+            sum_of_next_values = 0
+            count_get_legal_actions = 0
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent = self._rb_minimax(successor_state, (agent_index + 1) % game_state.getNumAgents(), layers_number - 1)
-                sum_of_mins += next_agent
-            return sum_of_mins / float(len(game_state.getLegalActions(agent_index)))
+                next_agent = self._rb_minimax_(successor_state, (agent_index + 1) % self.number_of_agents, layers_number - 1)
+                sum_of_next_values += next_agent
+                count_get_legal_actions += 1
+            return sum_of_next_values / float(count_get_legal_actions)  # normalized
 
 
 ######################################################################################
-# c: implementing minimax
 
+# c: implementing minimax
 class MinimaxAgent(MultiAgentSearchAgent):
     """
     Your minimax agent
@@ -259,16 +261,16 @@ class MinimaxAgent(MultiAgentSearchAgent):
 
       self.depth:
         The depth to which search should continue
-
     """
-        self.layers_2_dev = self.depth * gameState.getNumAgents()
-        self._rb_minimax(gameState, 0, self.layers_2_dev)
+        self.number_of_agents = gameState.getNumAgents()
+        self.layers_2_dev = self.depth * self.number_of_agents
+        self._rb_minimax_(gameState, 0, self.layers_2_dev)
         return self.next_action
 
 
 ######################################################################################
-# d: implementing alpha-beta
 
+# d: implementing alpha-beta
 class AlphaBetaAgent(MultiAgentSearchAgent):
     """
     Your minimax agent with alpha-beta pruning
@@ -278,15 +280,16 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         """
       Returns the minimax action using self.depth and self.evaluationFunction
     """
-        self.layers_2_dev = self.depth * gameState.getNumAgents()
-        self._rb_alpha_beta(gameState, 0, self.layers_2_dev,
-                            alpha=float('-inf'), beta=float('inf'))
+        self.number_of_agents = gameState.getNumAgents()
+        self.layers_2_dev = self.depth * self.number_of_agents
+        self._rb_alpha_beta_(gameState, 0, self.layers_2_dev,
+                             alpha=float('-inf'), beta=float('inf'))
         return self.next_action
 
 
 ######################################################################################
-# e: implementing random expectimax
 
+# e: implementing random expectimax
 class RandomExpectimaxAgent(MultiAgentSearchAgent):
     """
     Your expectimax agent
@@ -297,15 +300,15 @@ class RandomExpectimaxAgent(MultiAgentSearchAgent):
       Returns the expectimax action using self.depth and self.evaluationFunction
       All ghosts should be modeled as choosing uniformly at random from their legal moves.
     """
-
-        self.layers_2_dev = self.depth * gameState.getNumAgents()
+        self.number_of_agents = gameState.getNumAgents()
+        self.layers_2_dev = self.depth * self.number_of_agents
         self._rb_expectimax(gameState, 0, self.layers_2_dev)
         return self.next_action
 
 
 ######################################################################################
-# f: implementing directional expectimax
 
+# f: implementing directional expectimax
 class DirectionalExpectimaxAgent(MultiAgentSearchAgent):
     """
     Your expectimax agent
