@@ -3,7 +3,6 @@ import util
 from game import Actions
 from game import Agent
 
-
 #     ********* Reflex agent- sections a and b *********
 class ReflexAgent(Agent):
     """
@@ -31,7 +30,6 @@ class ReflexAgent(Agent):
         bestScore = max(scores)
         bestIndices = [index for index in range(len(scores)) if scores[index] == bestScore]
         chosenIndex = random.choice(bestIndices)  # Pick randomly among the best
-
         return legalMoves[chosenIndex]
 
     def evaluationFunction(self, currentGameState, action):
@@ -59,35 +57,52 @@ def scoreEvaluationFunction(gameState):
 def betterEvaluationFunction(gameState):  # TODO: implement better
     """
   The betterEvaluationFunction takes in a GameState (pacman.py) and should return a number, where higher numbers are better.
-
-  A GameState specifies the full game state, including the food, capsules, agent configurations and more.
-  Following are a few of the helper methods that you can use to query a GameState object to gather information about
-  the present state of Pac-Man, the ghosts and the maze:
-
-  gameState.getLegalActions():
-  gameState.getPacmanState():
-  gameState.getGhostStates():
-  gameState.getNumAgents():
-  gameState.getScore():
-  The GameState class is defined in pacman.py and you might want to look into that for other helper methods.
   """
     better_evaluated_score = gameState.getScore()
-    if gameState.isLose() or gameState.isWin():
-        return gameState.getScore()
+
+    successors_total_scores = 0
+    legal_actions = 0
+    for action in gameState.getLegalPacmanActions():
+        legal_actions += 1
+        pacman_state = gameState.generatePacmanSuccessor(action)
+        successors_total_scores += pacman_state.getScore()
+
+    if legal_actions > 0:
+        better_evaluated_score = successors_total_scores / legal_actions
 
     pacman_pos = gameState.getPacmanPosition()
-    list_ghost_pos = [ghost.configuration.pos for ghost in gameState.getGhostStates()]
-    worst_manhattan_dist_to_ghost = min([util.manhattanDistance(pacman_pos, ghost_pos) for ghost_pos in list_ghost_pos])
-    better_evaluated_score += worst_manhattan_dist_to_ghost
 
-    all_food = gameState.getFood().asList()
-    min_food_dist = 0
-    for current_food in all_food:
-        calc_manhattan = util.manhattanDistance(pacman_pos, current_food)
-        if min_food_dist == 0 or calc_manhattan < min_food_dist:
-            min_food_dist = calc_manhattan
+    ghosts_score = 0
+    for ghost in gameState.getGhostStates():
+        calc_manhattan = util.manhattanDistance(pacman_pos, ghost.configuration.pos)
+        if calc_manhattan < 4:
+            if ghost.scaredTimer > 2:  # Ghost Scared
+                ghosts_score += calc_manhattan
+            else:
+                ghosts_score -= calc_manhattan
 
-    better_evaluated_score -= min_food_dist
+    better_evaluated_score += ghosts_score
+
+    food = gameState.getFood().asList()
+
+    current_food = pacman_pos
+    while len(food) > 0:
+        # return the nearest_food using the below line.
+        nearest_food = min(food, key=lambda y: util.manhattanDistance(y, current_food))
+        better_evaluated_score -= util.manhattanDistance(nearest_food, current_food)
+        food.remove(nearest_food)
+        current_food = nearest_food
+
+    capsules = gameState.getCapsules()
+
+    if 0 < len(capsules):
+        nearest_capsules = min(capsules, key=lambda y: util.manhattanDistance(y, pacman_pos))
+        better_evaluated_score -= util.manhattanDistance(nearest_capsules, pacman_pos)
+
+    better_evaluated_score -= 2 * (
+            gameState.hasWall(pacman_pos[0] + 1, pacman_pos[1]) and gameState.hasWall(pacman_pos[0] - 1, pacman_pos[1]))
+    better_evaluated_score -= 2 * (
+            gameState.hasWall(pacman_pos[0], pacman_pos[1] + 1) and gameState.hasWall(pacman_pos[0], pacman_pos[1] - 1))
 
     return better_evaluated_score
 
@@ -116,183 +131,6 @@ class MultiAgentSearchAgent(Agent):
         self.layers_2_dev = None
         self.number_of_agents = None
         self.next_action = None
-
-    def _rb_minimax_(self, game_state, agent_index, layers_number):
-        """
-        :param game_state: the current game state
-        :param agent_index: the agent that play now
-        :param layers_number: layers of number to develop
-        :return: the action to preform
-        """
-        if game_state.isLose() or game_state.isWin() or layers_number == 0:
-            return self.evaluationFunction(game_state)
-
-        next_agent_index = (agent_index + 1) % self.number_of_agents
-
-        if agent_index == self.index:  # Pacman agent
-            current_max = float("-inf")  # initialized with -inf
-            chosen_action = None
-            for action in game_state.getLegalPacmanActions():
-                successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent_value = self._rb_minimax_(successor_state, next_agent_index, layers_number - 1)
-                if current_max < next_agent_value:
-                    current_max = next_agent_value
-                    chosen_action = action
-
-            if layers_number == self.layers_2_dev:  # to return the action to the caller
-                self.next_action = chosen_action
-
-            return current_max  # return the max value to the recursive calls
-
-        else:  # not Pacman turn -> other agents means ghosts
-            current_min = float("inf")  # initialized with inf
-            for action in game_state.getLegalActions(agent_index):
-                successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent_value = self._rb_minimax_(successor_state, next_agent_index, layers_number - 1)
-                current_min = min(current_min, next_agent_value)
-            return current_min
-
-    def _rb_alpha_beta_(self, game_state, agent_index, layers_number, alpha, beta):
-        """
-        :param game_state: the current game state
-        :param agent_index: the agent that play now
-        :param layers_number: layers of number to develop
-        :param alpha: current alpha value
-        :param beta: current beta value
-        :return: the action to preform
-        """
-        if game_state.isLose() or game_state.isWin() or layers_number == 0:
-            return self.evaluationFunction(game_state)
-
-        next_agent_index = (agent_index + 1) % self.number_of_agents
-
-        if agent_index == self.index:  # pacman agent
-            current_max = float("-inf")
-            chosen_action = None
-            for action in game_state.getLegalPacmanActions():
-                successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
-                                                        alpha=alpha, beta=beta)
-
-                if current_max < next_agent_value:
-                    current_max = next_agent_value
-                    chosen_action = action
-                alpha = max(current_max, alpha)
-                if current_max >= beta:
-                    return float("inf")
-
-            if layers_number == self.layers_2_dev:  # to return the action to the caller
-                self.next_action = chosen_action
-
-            return current_max  # return the max value to the recursive calls
-
-        else:  # not pacman turn -> other agents means ghosts
-            current_min = float("inf")
-            for action in game_state.getLegalActions(agent_index):
-                successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
-                                                        alpha=alpha, beta=beta)
-                current_min = min(current_min, next_agent_value)
-                beta = min(current_min, beta)
-                if current_min <= alpha:
-                    return float("-inf")
-            return current_min
-
-    def _rb_random_expectimax_(self, game_state, agent_index, layers_number):
-        if game_state.isLose() or game_state.isWin() or layers_number == 0:
-            return self.evaluationFunction(game_state)
-
-        next_agent_index = (agent_index + 1) % self.number_of_agents
-
-        if agent_index == self.index:  # pacman agent
-            current_max = float("-inf")
-            chosen_action = None
-            for action in game_state.getLegalPacmanActions():
-                successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent_value = self._rb_random_expectimax_(successor_state, next_agent_index, layers_number - 1)
-                if current_max < next_agent_value:
-                    current_max = next_agent_value
-                    chosen_action = action
-
-            if layers_number == self.layers_2_dev:  # to return the action to the caller
-                self.next_action = chosen_action
-
-            return current_max  # return the max value to the recursive calls
-
-        else:  # not pacman turn -> other agents means ghosts
-            sum_of_next_values = 0
-            count_get_legal_actions = 0
-            for action in game_state.getLegalActions(agent_index):
-                successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent_value = self._rb_random_expectimax_(successor_state, next_agent_index, layers_number - 1)
-                sum_of_next_values += next_agent_value
-                count_get_legal_actions += 1
-            return sum_of_next_values / float(count_get_legal_actions)  # normalized
-
-    def _rb_directional_expectimax_(self, game_state, agent_index, layers_number):
-        if game_state.isLose() or game_state.isWin() or layers_number == 0:
-            return self.evaluationFunction(game_state)
-
-        next_agent_index = (agent_index + 1) % self.number_of_agents
-
-        if agent_index == self.index:  # pacman agent
-            current_max = float("-inf")
-            chosen_action = None
-            for action in game_state.getLegalPacmanActions():
-                successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent_value = self._rb_directional_expectimax_(successor_state, next_agent_index, layers_number - 1)
-                if current_max < next_agent_value:
-                    current_max = next_agent_value
-                    chosen_action = action
-
-            if layers_number == self.layers_2_dev:  # to return the action to the caller
-                self.next_action = chosen_action
-
-            return current_max  # return the max value to the recursive calls
-
-        else:  # not pacman turn -> other agents means ghosts
-            expectimax_value = 0
-            dist = MultiAgentSearchAgent._get_directional_ghost_dist_(game_state, agent_index, 0.8, 0.8)
-            for action in game_state.getLegalActions(agent_index):
-                successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent_value = self._rb_directional_expectimax_(successor_state, next_agent_index, layers_number - 1)
-                expectimax_value += dist[action] * float(next_agent_value)
-            return expectimax_value
-
-    @staticmethod
-    def _get_directional_ghost_dist_(game_state, ghost_index, prob_scaredFlee, prob_attack):
-        ghostState = game_state.getGhostState(ghost_index)
-        legalActions = game_state.getLegalActions(ghost_index)
-        pos = game_state.getGhostPosition(ghost_index)
-        isScared = ghostState.scaredTimer > 0
-
-        speed = 1
-        if isScared:
-            speed = 0.5
-
-        actionVectors = [Actions.directionToVector(a, speed) for a in legalActions]
-        newPositions = [(pos[0] + a[0], pos[1] + a[1]) for a in actionVectors]
-        pacmanPosition = game_state.getPacmanPosition()
-
-        # Select best actions given the state
-        distancesToPacman = [util.manhattanDistance(pos, pacmanPosition) for pos in newPositions]
-        if isScared:
-            bestScore = max(distancesToPacman)
-            bestProb = prob_scaredFlee
-        else:
-            bestScore = min(distancesToPacman)
-            bestProb = prob_attack
-
-        bestActions = [action for action, distance in zip(legalActions, distancesToPacman) if distance == bestScore]
-
-        # Construct distribution
-        dist = util.Counter()
-        for a in bestActions:
-            dist[a] = bestProb / len(bestActions)
-        for a in legalActions:
-            dist[a] += (1 - bestProb) / len(legalActions)
-        dist.normalize()
-        return dist
 
 
 ######################################################################################
@@ -341,6 +179,41 @@ class MinimaxAgent(MultiAgentSearchAgent):
         self._rb_minimax_(gameState, 0, self.layers_2_dev)
         return self.next_action
 
+    def _rb_minimax_(self, game_state, agent_index, layers_number):
+        """
+        :param game_state: the current game state
+        :param agent_index: the agent that play now
+        :param layers_number: layers of number to develop
+        :return: the action to preform
+        """
+        if game_state.isLose() or game_state.isWin() or layers_number == 0:
+            return self.evaluationFunction(game_state)
+
+        next_agent_index = (agent_index + 1) % self.number_of_agents
+
+        if agent_index == self.index:  # Pacman agent
+            current_max = float("-inf")  # initialized with -inf
+            chosen_action = None
+            for action in game_state.getLegalPacmanActions():
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent_value = self._rb_minimax_(successor_state, next_agent_index, layers_number - 1)
+                if current_max < next_agent_value:
+                    current_max = next_agent_value
+                    chosen_action = action
+
+            if layers_number == self.layers_2_dev:  # to return the action to the caller
+                self.next_action = chosen_action
+
+            return current_max  # return the max value to the recursive calls
+
+        else:  # not Pacman turn -> other agents means ghosts
+            current_min = float("inf")  # initialized with inf
+            for action in game_state.getLegalActions(agent_index):
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent_value = self._rb_minimax_(successor_state, next_agent_index, layers_number - 1)
+                current_min = min(current_min, next_agent_value)
+            return current_min
+
 
 ######################################################################################
 
@@ -358,7 +231,54 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         self.layers_2_dev = self.depth * self.number_of_agents
         self._rb_alpha_beta_(gameState, 0, self.layers_2_dev,
                              alpha=float('-inf'), beta=float('inf'))
+
         return self.next_action
+
+    def _rb_alpha_beta_(self, game_state, agent_index, layers_number, alpha, beta):
+        """
+        :param game_state: the current game state
+        :param agent_index: the agent that play now
+        :param layers_number: layers of number to develop
+        :param alpha: current alpha value
+        :param beta: current beta value
+        :return: the action to preform
+        """
+        if game_state.isLose() or game_state.isWin() or layers_number == 0:
+            return self.evaluationFunction(game_state)
+
+        next_agent_index = (agent_index + 1) % self.number_of_agents
+
+        if agent_index == self.index:  # pacman agent
+            current_max = float("-inf")
+            chosen_action = None
+            for action in game_state.getLegalPacmanActions():
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
+                                                        alpha=alpha, beta=beta)
+
+                if current_max < next_agent_value:
+                    current_max = next_agent_value
+                    chosen_action = action
+                alpha = max(current_max, alpha)
+                if current_max >= beta:
+                    return float("inf")
+
+            if layers_number == self.layers_2_dev:  # to return the action to the caller
+                self.next_action = chosen_action
+
+            return current_max  # return the max value to the recursive calls
+
+        else:  # not pacman turn -> other agents means ghosts
+            current_min = float("inf")
+            for action in game_state.getLegalActions(agent_index):
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
+                                                        alpha=alpha, beta=beta)
+                current_min = min(current_min, next_agent_value)
+                beta = min(current_min, beta)
+                if current_min <= alpha:
+                    return float("-inf")
+            return current_min
 
 
 ######################################################################################
@@ -377,7 +297,39 @@ class RandomExpectimaxAgent(MultiAgentSearchAgent):
         self.number_of_agents = gameState.getNumAgents()
         self.layers_2_dev = self.depth * self.number_of_agents
         self._rb_random_expectimax_(gameState, 0, self.layers_2_dev)
+
         return self.next_action
+
+    def _rb_random_expectimax_(self, game_state, agent_index, layers_number):
+        if game_state.isLose() or game_state.isWin() or layers_number == 0:
+            return self.evaluationFunction(game_state)
+
+        next_agent_index = (agent_index + 1) % self.number_of_agents
+
+        if agent_index == self.index:  # pacman agent
+            current_max = float("-inf")
+            chosen_action = None
+            for action in game_state.getLegalPacmanActions():
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent_value = self._rb_random_expectimax_(successor_state, next_agent_index, layers_number - 1)
+                if current_max < next_agent_value:
+                    current_max = next_agent_value
+                    chosen_action = action
+
+            if layers_number == self.layers_2_dev:  # to return the action to the caller
+                self.next_action = chosen_action
+
+            return current_max  # return the max value to the recursive calls
+
+        else:  # not pacman turn -> other agents means ghosts
+            sum_of_next_values = 0
+            count_get_legal_actions = 0
+            for action in game_state.getLegalActions(agent_index):
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent_value = self._rb_random_expectimax_(successor_state, next_agent_index, layers_number - 1)
+                sum_of_next_values += next_agent_value
+                count_get_legal_actions += 1
+            return sum_of_next_values / float(count_get_legal_actions)  # normalized
 
 
 ######################################################################################
@@ -397,6 +349,71 @@ class DirectionalExpectimaxAgent(MultiAgentSearchAgent):
         self.layers_2_dev = self.depth * self.number_of_agents
         self._rb_directional_expectimax_(gameState, 0, self.layers_2_dev)
         return self.next_action
+
+    def _rb_directional_expectimax_(self, game_state, agent_index, layers_number):
+        if game_state.isLose() or game_state.isWin() or layers_number == 0:
+            return self.evaluationFunction(game_state)
+
+        next_agent_index = (agent_index + 1) % self.number_of_agents
+
+        if agent_index == self.index:  # pacman agent
+            current_max = float("-inf")
+            chosen_action = None
+            for action in game_state.getLegalPacmanActions():
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent_value = self._rb_directional_expectimax_(successor_state, next_agent_index, layers_number - 1)
+                if current_max < next_agent_value:
+                    current_max = next_agent_value
+                    chosen_action = action
+
+            if layers_number == self.layers_2_dev:  # to return the action to the caller
+                self.next_action = chosen_action
+
+            return current_max  # return the max value to the recursive calls
+
+        else:  # not pacman turn -> other agents means ghosts
+            expectimax_value = 0
+            dist = DirectionalExpectimaxAgent._get_directional_ghost_dist_(game_state, agent_index, 0.8, 0.8)
+            for action in game_state.getLegalActions(agent_index):
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent_value = self._rb_directional_expectimax_(successor_state, next_agent_index, layers_number - 1)
+                expectimax_value += dist[action] * float(next_agent_value)
+            return expectimax_value
+
+    @staticmethod
+    def _get_directional_ghost_dist_(game_state, ghost_index, prob_scaredFlee, prob_attack):
+        ghostState = game_state.getGhostState(ghost_index)
+        legalActions = game_state.getLegalActions(ghost_index)
+        pos = game_state.getGhostPosition(ghost_index)
+        isScared = ghostState.scaredTimer > 0
+
+        speed = 1
+        if isScared:
+            speed = 0.5
+
+        actionVectors = [Actions.directionToVector(a, speed) for a in legalActions]
+        newPositions = [(pos[0] + a[0], pos[1] + a[1]) for a in actionVectors]
+        pacmanPosition = game_state.getPacmanPosition()
+
+        # Select best actions given the state
+        distancesToPacman = [util.manhattanDistance(pos, pacmanPosition) for pos in newPositions]
+        if isScared:
+            bestScore = max(distancesToPacman)
+            bestProb = prob_scaredFlee
+        else:
+            bestScore = min(distancesToPacman)
+            bestProb = prob_attack
+
+        bestActions = [action for action, distance in zip(legalActions, distancesToPacman) if distance == bestScore]
+
+        # Construct distribution
+        dist = util.Counter()
+        for a in bestActions:
+            dist[a] = bestProb / len(bestActions)
+        for a in legalActions:
+            dist[a] += (1 - bestProb) / len(legalActions)
+        dist.normalize()
+        return dist
 
 
 ######################################################################################
