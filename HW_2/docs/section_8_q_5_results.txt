@@ -1,0 +1,27 @@
+Pacman died! Score: 761
+Pacman died! Score: 1893
+Pacman died! Score: 1457
+Pacman died! Score: 1030
+Pacman died! Score: 1178
+RandomExpectimaxAgent,4,trickyClassic,1263.8,4.758955869029395,DirectionalGhost
+
+Pacman emerges victorious! Score: 2214
+Pacman emerges victorious! Score: 1911
+Pacman emerges victorious! Score: 3033
+Pacman emerges victorious! Score: 2155
+Pacman emerges victorious! Score: 2373
+RandomExpectimaxAgent,4,trickyClassic,2337.2,2.967829678084824,RandomGhost
+
+Pacman emerges victorious! Score: 2049
+Pacman died! Score: 1313
+Pacman died! Score: 1208
+Pacman died! Score: 95
+Pacman died! Score: 909
+DirectionalExpectimaxAgent,4,trickyClassic,1114.8,3.0317748616531626,DirectionalGhost
+
+Pacman emerges victorious! Score: 2653
+Pacman emerges victorious! Score: 3099
+Pacman emerges victorious! Score: 1734
+Pacman died! Score: 1050
+Pacman emerges victorious! Score: 2061
+DirectionalExpectimaxAgent,4,trickyClassic,2119.4,2.814917135177298,RandomGhost
