@@ -3,6 +3,7 @@ import util
 from game import Actions
 from game import Agent
 
+
 #     ********* Reflex agent- sections a and b *********
 class ReflexAgent(Agent):
     """
@@ -128,12 +129,12 @@ class MultiAgentSearchAgent(Agent):
         super().__init__(index=0)  # Pacman is always agent index 0
         self.evaluationFunction = util.lookup(evalFn, globals())
         self.depth = int(depth)
-        self.layers_2_dev = None
-        self.number_of_agents = None
-        self.next_action = None
+        self.layers_developed = None  # number of layers to developed when calculating next action
+        self.total_game_agents = None  # number of played agents
+        self.next_action = None  # save the next action to preform
 
 
-######################################################################################
+##############################################################################################################################
 
 # c: implementing minimax
 class MinimaxAgent(MultiAgentSearchAgent):
@@ -146,37 +147,10 @@ class MinimaxAgent(MultiAgentSearchAgent):
       Returns the minimax action from the current gameState using self.depth
       and self.evaluationFunction. Terminal states can be found by one of the following:
       pacman won, pacman lost or there are no legal moves.
-
-      Here are some method calls that might be useful when implementing minimax.
-
-      gameState.getLegalActions(agentIndex):
-        Returns a list of legal actions for an agent
-        agentIndex=0 means Pacman, ghosts are >= 1
-
-      Directions.STOP:
-        The stop direction
-
-      gameState.generateSuccessor(agentIndex, action):
-        Returns the successor game state after an agent takes an action
-
-      gameState.getNumAgents():
-        Returns the total number of agents in the game
-
-      gameState.getScore():
-        Returns the score corresponding to the current state of the game
-
-      gameState.isWin():
-        Returns True if it's a winning state
-
-      gameState.isLose():
-        Returns True if it's a losing state
-
-      self.depth:
-        The depth to which search should continue
     """
-        self.number_of_agents = gameState.getNumAgents()
-        self.layers_2_dev = self.depth * self.number_of_agents
-        self._rb_minimax_(gameState, 0, self.layers_2_dev)
+        self.total_game_agents = gameState.getNumAgents()
+        self.layers_developed = self.depth * self.total_game_agents
+        self._rb_minimax_(gameState, 0, self.layers_developed)
         return self.next_action
 
     def _rb_minimax_(self, game_state, agent_index, layers_number):
@@ -189,7 +163,7 @@ class MinimaxAgent(MultiAgentSearchAgent):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
-        next_agent_index = (agent_index + 1) % self.number_of_agents
+        next_agent_index = (agent_index + 1) % self.total_game_agents
 
         if agent_index == self.index:  # Pacman agent
             current_max = float("-inf")  # initialized with -inf
@@ -201,7 +175,7 @@ class MinimaxAgent(MultiAgentSearchAgent):
                     current_max = next_agent_value
                     chosen_action = action
 
-            if layers_number == self.layers_2_dev:  # to return the action to the caller
+            if layers_number == self.layers_developed:  # to return the action to the caller
                 self.next_action = chosen_action
 
             return current_max  # return the max value to the recursive calls
@@ -215,7 +189,7 @@ class MinimaxAgent(MultiAgentSearchAgent):
             return current_min
 
 
-######################################################################################
+##############################################################################################################################
 
 # d: implementing alpha-beta
 class AlphaBetaAgent(MultiAgentSearchAgent):
@@ -227,11 +201,9 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         """
       Returns the minimax action using self.depth and self.evaluationFunction
     """
-        self.number_of_agents = gameState.getNumAgents()
-        self.layers_2_dev = self.depth * self.number_of_agents
-        self._rb_alpha_beta_(gameState, 0, self.layers_2_dev,
-                             alpha=float('-inf'), beta=float('inf'))
-
+        self.total_game_agents = gameState.getNumAgents()
+        self.layers_developed = self.depth * self.total_game_agents
+        self._rb_alpha_beta_(gameState, 0, self.layers_developed, alpha=float('-inf'), beta=float('inf'))
         return self.next_action
 
     def _rb_alpha_beta_(self, game_state, agent_index, layers_number, alpha, beta):
@@ -246,7 +218,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
-        next_agent_index = (agent_index + 1) % self.number_of_agents
+        next_agent_index = (agent_index + 1) % self.total_game_agents
 
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
@@ -263,7 +235,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
                 if current_max >= beta:
                     return float("inf")
 
-            if layers_number == self.layers_2_dev:  # to return the action to the caller
+            if layers_number == self.layers_developed:  # to return the action to the caller
                 self.next_action = chosen_action
 
             return current_max  # return the max value to the recursive calls
@@ -281,7 +253,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
             return current_min
 
 
-######################################################################################
+##############################################################################################################################
 
 # e: implementing random expectimax
 class RandomExpectimaxAgent(MultiAgentSearchAgent):
@@ -294,17 +266,16 @@ class RandomExpectimaxAgent(MultiAgentSearchAgent):
       Returns the expectimax action using self.depth and self.evaluationFunction
       All ghosts should be modeled as choosing uniformly at random from their legal moves.
     """
-        self.number_of_agents = gameState.getNumAgents()
-        self.layers_2_dev = self.depth * self.number_of_agents
-        self._rb_random_expectimax_(gameState, 0, self.layers_2_dev)
-
+        self.total_game_agents = gameState.getNumAgents()
+        self.layers_developed = self.depth * self.total_game_agents
+        self._rb_random_expectimax_(gameState, 0, self.layers_developed)
         return self.next_action
 
     def _rb_random_expectimax_(self, game_state, agent_index, layers_number):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
-        next_agent_index = (agent_index + 1) % self.number_of_agents
+        next_agent_index = (agent_index + 1) % self.total_game_agents
 
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
@@ -316,7 +287,7 @@ class RandomExpectimaxAgent(MultiAgentSearchAgent):
                     current_max = next_agent_value
                     chosen_action = action
 
-            if layers_number == self.layers_2_dev:  # to return the action to the caller
+            if layers_number == self.layers_developed:  # to return the action to the caller
                 self.next_action = chosen_action
 
             return current_max  # return the max value to the recursive calls
@@ -332,7 +303,7 @@ class RandomExpectimaxAgent(MultiAgentSearchAgent):
             return sum_of_next_values / float(count_get_legal_actions)  # normalized
 
 
-######################################################################################
+##############################################################################################################################
 
 # f: implementing directional expectimax
 class DirectionalExpectimaxAgent(MultiAgentSearchAgent):
@@ -345,16 +316,16 @@ class DirectionalExpectimaxAgent(MultiAgentSearchAgent):
       Returns the expectimax action using self.depth and self.evaluationFunction
       All ghosts should be modeled as using the DirectionalGhost distribution to choose from their legal moves.
     """
-        self.number_of_agents = gameState.getNumAgents()
-        self.layers_2_dev = self.depth * self.number_of_agents
-        self._rb_directional_expectimax_(gameState, 0, self.layers_2_dev)
+        self.total_game_agents = gameState.getNumAgents()
+        self.layers_developed = self.depth * self.total_game_agents
+        self._rb_directional_expectimax_(gameState, 0, self.layers_developed)
         return self.next_action
 
     def _rb_directional_expectimax_(self, game_state, agent_index, layers_number):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
-        next_agent_index = (agent_index + 1) % self.number_of_agents
+        next_agent_index = (agent_index + 1) % self.total_game_agents
 
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
@@ -366,7 +337,7 @@ class DirectionalExpectimaxAgent(MultiAgentSearchAgent):
                     current_max = next_agent_value
                     chosen_action = action
 
-            if layers_number == self.layers_2_dev:  # to return the action to the caller
+            if layers_number == self.layers_developed:  # to return the action to the caller
                 self.next_action = chosen_action
 
             return current_max  # return the max value to the recursive calls
@@ -416,8 +387,8 @@ class DirectionalExpectimaxAgent(MultiAgentSearchAgent):
         return dist
 
 
-######################################################################################
-# I: implementing competition agent
+##############################################################################################################################
+# implementing competition agent
 
 class CompetitionAgent(MultiAgentSearchAgent):
     """
