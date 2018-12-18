@@ -55,7 +55,7 @@ def scoreEvaluationFunction(gameState):
 
 ######################################################################################
 # b: implementing a better heuristic function
-def betterEvaluationFunction(gameState):  # TODO: implement better
+def betterEvaluationFunction(gameState):
     """
   The betterEvaluationFunction takes in a GameState (pacman.py) and should return a number, where higher numbers are better.
   """
@@ -300,7 +300,8 @@ class RandomExpectimaxAgent(MultiAgentSearchAgent):
                 next_agent_value = self._rb_random_expectimax_(successor_state, next_agent_index, layers_number - 1)
                 sum_of_next_values += next_agent_value
                 count_get_legal_actions += 1
-            return sum_of_next_values / float(count_get_legal_actions)  # normalized
+            expectimax_value = sum_of_next_values / float(count_get_legal_actions)  # Expected value calculation
+            return expectimax_value
 
 
 ##############################################################################################################################
@@ -390,7 +391,7 @@ class DirectionalExpectimaxAgent(MultiAgentSearchAgent):
 ##############################################################################################################################
 # implementing competition agent
 
-class CompetitionAgent(MultiAgentSearchAgent):
+class CompetitionAgent(MultiAgentSearchAgent): # TODO: implement
     """
     Your competition agent
   """
