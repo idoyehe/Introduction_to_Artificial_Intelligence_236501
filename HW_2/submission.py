@@ -150,7 +150,7 @@ class MinimaxAgent(MultiAgentSearchAgent):
     """
         self.total_game_agents = gameState.getNumAgents()
         self.layers_developed = self.depth * self.total_game_agents
-        self._rb_minimax_(gameState, 0, self.layers_developed)
+        self._rb_minimax_(gameState, self.index, self.layers_developed)
         return self.next_action
 
     def _rb_minimax_(self, game_state, agent_index, layers_number):
@@ -203,7 +203,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
     """
         self.total_game_agents = gameState.getNumAgents()
         self.layers_developed = self.depth * self.total_game_agents
-        self._rb_alpha_beta_(gameState, 0, self.layers_developed, alpha=float('-inf'), beta=float('inf'))
+        self._rb_alpha_beta_(gameState, self.index, self.layers_developed, alpha=float('-inf'), beta=float('inf'))
         return self.next_action
 
     def _rb_alpha_beta_(self, game_state, agent_index, layers_number, alpha, beta):
@@ -268,7 +268,7 @@ class RandomExpectimaxAgent(MultiAgentSearchAgent):
     """
         self.total_game_agents = gameState.getNumAgents()
         self.layers_developed = self.depth * self.total_game_agents
-        self._rb_random_expectimax_(gameState, 0, self.layers_developed)
+        self._rb_random_expectimax_(gameState, self.index, self.layers_developed)
         return self.next_action
 
     def _rb_random_expectimax_(self, game_state, agent_index, layers_number):
@@ -319,7 +319,7 @@ class DirectionalExpectimaxAgent(MultiAgentSearchAgent):
     """
         self.total_game_agents = gameState.getNumAgents()
         self.layers_developed = self.depth * self.total_game_agents
-        self._rb_directional_expectimax_(gameState, 0, self.layers_developed)
+        self._rb_directional_expectimax_(gameState, self.index, self.layers_developed)
         return self.next_action
 
     def _rb_directional_expectimax_(self, game_state, agent_index, layers_number):
