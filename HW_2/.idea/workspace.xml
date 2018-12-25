@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="starting implement CompetitionAgent">
+    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="layout recognition support">
+      <change afterPath="$PROJECT_DIR$/docs/BFS_layouts_results.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/submission.py" beforeDir="false" afterPath="$PROJECT_DIR$/submission.py" afterDir="false" />
     </list>
@@ -12,7 +13,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/HW_2$pacman.coverage" NAME="pacman Coverage Results" MODIFIED="1545748999415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HW_2$pacman.coverage" NAME="pacman Coverage Results" MODIFIED="1545750175582" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HW_2$agent_evaluation.coverage" NAME="agent_evaluation Coverage Results" MODIFIED="1544910973980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
@@ -20,61 +21,16 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/submission.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="405" selection-start-line="405" selection-end-line="405" />
+            <state relative-caret-position="425">
+              <caret line="530" column="47" lean-forward="true" selection-start-line="530" selection-start-column="47" selection-end-line="530" selection-end-column="47" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#29275#104433#0" />
+                <element signature="e#104643#240563#0" />
+                <element signature="e#240884#444513#0" />
+                <element signature="e#444779#453510#0" />
+                <element signature="e#453764#657772#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/layouts/mediumClassic.lay">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="10" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/layouts/trickyClassic.lay">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="12" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/layouts/trappedClassic.lay">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="4" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/layouts/testClassic.lay">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="9" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/layouts/smallClassic.lay">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/layouts/originalClassic.lay">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="3" selection-start-column="3" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -82,8 +38,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/layouts/openClassic.lay">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="8" selection-end-column="25" />
+            <state relative-caret-position="225">
+              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/BFS_layouts_results.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="268">
+              <caret line="9" column="3355" selection-start-line="9" selection-start-column="3355" selection-end-line="9" selection-end-column="3355" />
             </state>
           </provider>
         </entry>
@@ -99,10 +64,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>time</find>
-      <find>action</find>
-      <find>scoreEvaluationFunction</find>
-      <find>getDistribution</find>
       <find>look</find>
       <find>getPossibleActions</find>
       <find>man</find>
@@ -129,6 +90,10 @@
       <find>food</find>
       <find>capsules</find>
       <find>repetitions</find>
+      <find>capsuleClassic</find>
+      <find>]]</find>
+      <find>con</find>
+      <find>ly</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -145,6 +110,7 @@
         <option value="$PROJECT_DIR$/agent_evaluation.py" />
         <option value="$PROJECT_DIR$/layouts/trickyClassic.lay" />
         <option value="$PROJECT_DIR$/layouts/trappedClassic.lay" />
+        <option value="$PROJECT_DIR$/docs/BFS_layouts_results.txt" />
         <option value="$PROJECT_DIR$/submission.py" />
       </list>
     </option>
@@ -194,6 +160,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docs" />
       <recent name="C:\Users\IdoYe\PycharmProjects\Introduction_to_Artificial_Intelligence_236501\HW_2\docs" />
     </key>
   </component>
@@ -268,7 +235,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pacman.py" />
-      <option name="PARAMETERS" value="-p CompetitionAgent -k 2 -n 20 -l trappedClassic -q" />
+      <option name="PARAMETERS" value="-p CompetitionAgent -k 2 -n 20 -l capsuleClassic" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -309,7 +276,7 @@
       <workItem from="1545209969732" duration="2577000" />
       <workItem from="1545490686720" duration="1264000" />
       <workItem from="1545672084327" duration="533000" />
-      <workItem from="1545723492005" duration="17528000" />
+      <workItem from="1545723492005" duration="19882000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1544552567008</created>
@@ -472,23 +439,30 @@
       <option name="project" value="LOCAL" />
       <updated>1545742155802</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="layout recognition support">
+      <created>1545749161397</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1545749161397</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="101190000" />
+    <option name="totallyTimeSpent" value="103544000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23104435" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23104435" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32891566" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3253012" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39518073" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.16626506" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3566265" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -530,22 +504,11 @@
     <MESSAGE value="adding section 8 q 9 final" />
     <MESSAGE value="update word file" />
     <MESSAGE value="starting implement CompetitionAgent" />
-    <option name="LAST_COMMIT_MESSAGE" value="starting implement CompetitionAgent" />
+    <MESSAGE value="layout recognition support" />
+    <option name="LAST_COMMIT_MESSAGE" value="layout recognition support" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/submission.py</url>
-          <line>539</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/submission.py</url>
-          <line>537</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -554,14 +517,19 @@
         </breakpoint>
       </default-breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="PythonConfigurationType">
-        <watch expression="self.game_layout" language="Python" />
-      </configuration>
-    </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
+      <expression>
+        <expression-string>self.distanceCalculationFunction((1,1), (5,1))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>self.distanceCalculationFunction()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>self.game_layout</expression-string>
         <language-id>Python</language-id>
@@ -599,16 +567,6 @@
       </expression>
       <expression>
         <expression-string>gameState.getWalls().asList()</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>gameState.getWalls().aslist()</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>gameState.getWalls()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -708,13 +666,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/a.txt" />
     <entry file="file://C:/Program Files/Python36/Lib/random.py" />
-    <entry file="file://$PROJECT_DIR$/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="90" selection-start-line="90" selection-end-line="90" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ghostAgents.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -776,38 +727,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/layouts/capsuleClassic.lay">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="4" column="19" lean-forward="true" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pacman.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2076">
           <caret line="138" column="6" selection-start-line="138" selection-start-column="6" selection-end-line="138" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/layouts/contestClassic.lay">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="8" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/layouts/minimaxClassic.lay">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="4" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/layouts/openClassic.lay">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="8" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -842,19 +765,66 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="88" column="21" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/layouts/capsuleClassic.lay">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="1" column="2" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/layouts/contestClassic.lay">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/layouts/mediumClassic.lay">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret selection-end-line="10" selection-end-column="20" />
+          <caret selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/layouts/minimaxClassic.lay">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/BFS_layouts_results.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="9" column="3355" selection-start-line="9" selection-start-column="3355" selection-end-line="9" selection-end-column="3355" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/layouts/openClassic.lay">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/submission.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="405" selection-start-line="405" selection-end-line="405" />
+        <state relative-caret-position="425">
+          <caret line="530" column="47" lean-forward="true" selection-start-line="530" selection-start-column="47" selection-end-line="530" selection-end-column="47" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#29275#104433#0" />
+            <element signature="e#104643#240563#0" />
+            <element signature="e#240884#444513#0" />
+            <element signature="e#444779#453510#0" />
+            <element signature="e#453764#657772#0" />
           </folding>
         </state>
       </provider>
