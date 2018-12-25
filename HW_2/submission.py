@@ -132,6 +132,45 @@ class MultiAgentSearchAgent(Agent):
         self.layers_developed = None  # number of layers to developed when calculating next action
         self.total_game_agents = None  # number of played agents
         self.next_action = None  # save the next action to preform
+        self.pacman_current_direction = None  # use only by competition agent
+
+    def nextTurnFunction(self, agent_index):
+        return (agent_index + 1) % self.total_game_agents
+
+    @staticmethod
+    def _get_directional_ghost_dist_(game_state, ghost_index, prob_scaredFlee, prob_attack):
+        ghostState = game_state.getGhostState(ghost_index)
+        legalActions = game_state.getLegalActions(ghost_index)
+        pos = game_state.getGhostPosition(ghost_index)
+        isScared = ghostState.scaredTimer > 0
+
+        speed = 1
+        if isScared:
+            speed = 0.5
+
+        actionVectors = [Actions.directionToVector(a, speed) for a in legalActions]
+        newPositions = [(pos[0] + a[0], pos[1] + a[1]) for a in actionVectors]
+        pacmanPosition = game_state.getPacmanPosition()
+
+        # Select best actions given the state
+        distancesToPacman = [util.manhattanDistance(pos, pacmanPosition) for pos in newPositions]
+        if isScared:
+            bestScore = max(distancesToPacman)
+            bestProb = prob_scaredFlee
+        else:
+            bestScore = min(distancesToPacman)
+            bestProb = prob_attack
+
+        bestActions = [action for action, distance in zip(legalActions, distancesToPacman) if distance == bestScore]
+
+        # Construct distribution
+        dist = util.Counter()
+        for a in bestActions:
+            dist[a] = bestProb / len(bestActions)
+        for a in legalActions:
+            dist[a] += (1 - bestProb) / len(legalActions)
+        dist.normalize()
+        return dist
 
 
 ##############################################################################################################################
@@ -163,7 +202,7 @@ class MinimaxAgent(MultiAgentSearchAgent):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
-        next_agent_index = (agent_index + 1) % self.total_game_agents
+        next_agent_index = self.nextTurnFunction(agent_index)
 
         if agent_index == self.index:  # Pacman agent
             current_max = float("-inf")  # initialized with -inf
@@ -218,7 +257,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
-        next_agent_index = (agent_index + 1) % self.total_game_agents
+        next_agent_index = self.nextTurnFunction(agent_index)
 
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
@@ -255,7 +294,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
 
 ##############################################################################################################################
 
-# e: implementing random expectimaxw
+# e: implementing random expectimax
 class RandomExpectimaxAgent(MultiAgentSearchAgent):
     """
     Your expectimax agent
@@ -275,7 +314,7 @@ class RandomExpectimaxAgent(MultiAgentSearchAgent):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
-        next_agent_index = (agent_index + 1) % self.total_game_agents
+        next_agent_index = self.nextTurnFunction(agent_index)
 
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
@@ -326,7 +365,7 @@ class DirectionalExpectimaxAgent(MultiAgentSearchAgent):
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
             return self.evaluationFunction(game_state)
 
-        next_agent_index = (agent_index + 1) % self.total_game_agents
+        next_agent_index = self.nextTurnFunction(agent_index)
 
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
@@ -352,59 +391,260 @@ class DirectionalExpectimaxAgent(MultiAgentSearchAgent):
                 expectimax_value += dist[action] * float(next_agent_value)
             return expectimax_value
 
-    @staticmethod
-    def _get_directional_ghost_dist_(game_state, ghost_index, prob_scaredFlee, prob_attack):
-        ghostState = game_state.getGhostState(ghost_index)
-        legalActions = game_state.getLegalActions(ghost_index)
-        pos = game_state.getGhostPosition(ghost_index)
-        isScared = ghostState.scaredTimer > 0
-
-        speed = 1
-        if isScared:
-            speed = 0.5
-
-        actionVectors = [Actions.directionToVector(a, speed) for a in legalActions]
-        newPositions = [(pos[0] + a[0], pos[1] + a[1]) for a in actionVectors]
-        pacmanPosition = game_state.getPacmanPosition()
-
-        # Select best actions given the state
-        distancesToPacman = [util.manhattanDistance(pos, pacmanPosition) for pos in newPositions]
-        if isScared:
-            bestScore = max(distancesToPacman)
-            bestProb = prob_scaredFlee
-        else:
-            bestScore = min(distancesToPacman)
-            bestProb = prob_attack
-
-        bestActions = [action for action, distance in zip(legalActions, distancesToPacman) if distance == bestScore]
-
-        # Construct distribution
-        dist = util.Counter()
-        for a in bestActions:
-            dist[a] = bestProb / len(bestActions)
-        for a in legalActions:
-            dist[a] += (1 - bestProb) / len(legalActions)
-        dist.normalize()
-        return dist
-
 
 ##############################################################################################################################
 # implementing competition agent
 
-class CompetitionAgent(MultiAgentSearchAgent): # TODO: implement
+
+class CompetitionAgent(MultiAgentSearchAgent):
     """
-    Your competition agent
-  """
+        Our competition agent use different heuristic than all other agent
+    """
+
+    def __init__(self, evalFn='competitionAgentHeuristic', depth='4'):
+        super().__init__(evalFn=evalFn, depth=depth)
+        self.distanceCalculationFunction = util.manhattanDistance
+        self.game_layout = "Generic"
+        self.preprocessing = True
+
+    def layoutRecognizer(self, layout_map):
+        layout_dict = {
+            "capsuleClassic": ["%%%%%%%%%%%%%%%%%%%",
+                               "%G.       G   ....%",
+                               "%.% % %%%%%% %.%%.%",
+                               "%.%o% %   o% %.o%.%",
+                               "%.%%%.%  %%% %..%.%",
+                               "%.....  P    %..%G%",
+                               "%%%%%%%%%%%%%%%%%%%%"],
+
+            "contestClassic": ["%%%%%%%%%%%%%%%%%%%%",
+                               "%o...%........%...o%",
+                               "%.%%.%.%%..%%.%.%%.%",
+                               "%...... G GG%......%",
+                               "%.%.%%.%% %%%.%%.%.%",
+                               "%.%....% ooo%.%..%.%",
+                               "%.%.%%.% %% %.%.%%.%",
+                               "%o%......P....%....%",
+                               "%%%%%%%%%%%%%%%%%%%%"],
+
+            "mediumClassic": ["%%%%%%%%%%%%%%%%%%%%",
+                              "%o...%........%....%",
+                              "%.%%.%.%%%%%%.%.%%.%",
+                              "%.%..............%.%",
+                              "%.%.%%.%%  %%.%%.%.%",
+                              "%......%G  G%......%",
+                              "%.%.%%.%%%%%%.%%.%.%",
+                              "%.%..............%.%",
+                              "%.%%.%.%%%%%%.%.%%.%",
+                              "%....%...P....%...o%",
+                              "%%%%%%%%%%%%%%%%%%%%"],
+
+            "minimaxClassic": ["%%%%%%%%%",
+                               "%.P    G%",
+                               "% %.%G%%%",
+                               "%G    %%%",
+                               "%%%%%%%%%"],
+
+            "openClassic": ["%%%%%%%%%%%%%%%%%%%%%%%%%",
+                            "%.. P  ....      ....   %",
+                            "%..  ...  ...  ...  ... %",
+                            "%..  ...  ...  ...  ... %",
+                            "%..    ....      .... G %",
+                            "%..  ...  ...  ...  ... %",
+                            "%..  ...  ...  ...  ... %",
+                            "%..    ....      ....  o%",
+                            "%%%%%%%%%%%%%%%%%%%%%%%%%"],
+
+            "originalClassic": ["%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+                                "%............%%............%",
+                                "%.%%%%.%%%%%.%%.%%%%%.%%%%.%",
+                                "%o%%%%.%%%%%.%%.%%%%%.%%%%o%",
+                                "%.%%%%.%%%%%.%%.%%%%%.%%%%.%",
+                                "%..........................%",
+                                "%.%%%%.%%.%%%%%%%%.%%.%%%%.%",
+                                "%.%%%%.%%.%%%%%%%%.%%.%%%%.%",
+                                "%......%%....%%....%%......%",
+                                "%%%%%%.%%%%% %% %%%%%.%%%%%%",
+                                "%%%%%%.%%%%% %% %%%%%.%%%%%%",
+                                "%%%%%%.%            %.%%%%%%",
+                                "%%%%%%.% %%%%  %%%% %.%%%%%%",
+                                "%     .  %G  GG  G%  .     %",
+                                "%%%%%%.% %%%%%%%%%% %.%%%%%%",
+                                "%%%%%%.%            %.%%%%%%",
+                                "%%%%%%.% %%%%%%%%%% %.%%%%%%",
+                                "%............%%............%",
+                                "%.%%%%.%%%%%.%%.%%%%%.%%%%.%",
+                                "%.%%%%.%%%%%.%%.%%%%%.%%%%.%",
+                                "%o..%%.......  .......%%..o%",
+                                "%%%.%%.%%.%%%%%%%%.%%.%%.%%%",
+                                "%%%.%%.%%.%%%%%%%%.%%.%%.%%%",
+                                "%......%%....%%....%%......%",
+                                "%.%%%%%%%%%%.%%.%%%%%%%%%%.%",
+                                "%.............P............%",
+                                "%%%%%%%%%%%%%%%%%%%%%%%%%%%%"],
+
+            "smallClassic": ["%%%%%%%%%%%%%%%%%%%%",
+                             "%......%G  G%......%",
+                             "%.%%...%%  %%...%%.%",
+                             "%.%o.%........%.o%.%",
+                             "%.%%.%.%%%%%%.%.%%.%",
+                             "%........P.........%",
+                             "%%%%%%%%%%%%%%%%%%%%"],
+
+            "testClassic": ["%%%%%",
+                            "% . %",
+                            "%.G.%",
+                            "% . %",
+                            "%. .%",
+                            "%   %",
+                            "%  .%",
+                            "%   %",
+                            "%P .%",
+                            "%%%%%"],
+
+            "trappedClassic": ["%%%%%%%%",
+                               "%   P G%",
+                               "%G%%%%%%",
+                               "%....  %",
+                               "%%%%%%%%"],
+
+            "trickyClassic": ["%%%%%%%%%%%%%%%%%%%%",
+                              "%o...%........%...o%",
+                              "%.%%.%.%%..%%.%.%%.%",
+                              "%.%.....%..%.....%.%",
+                              "%.%.%%.%%  %%.%%.%.%",
+                              "%...... GGGG%.%....%",
+                              "%.%....%%%%%%.%..%.%",
+                              "%.%....%  oo%.%..%.%",
+                              "%.%....% %%%%.%..%.%",
+                              "%.%...........%..%.%",
+                              "%.%%.%.%%%%%%.%.%%.%",
+                              "%o...%...P....%...o%",
+                              "%%%%%%%%%%%%%%%%%%%%"]
+        }
+
+        for iter_name, iter_map in layout_dict.items():
+            if iter_map == layout_map:
+                self.game_layout = iter_name
+                # configure dist func;
 
     def getAction(self, gameState):
         """
-      Returns the action using self.depth and self.evaluationFunction
+        Returns the action using self.depth and self.evaluationFunction
+        """
 
+        if self.preprocessing:  # initialize in first action ONLY
+            self.layoutRecognizer(gameState.data.layout.layoutText)
+            self.preprocessing = False
+
+        self.total_game_agents = gameState.getNumAgents()
+        self.layers_developed = self.depth * self.total_game_agents
+        self.pacman_current_direction = gameState.getPacmanState().configuration.direction
+
+        strategy_value = self._rb_alpha_beta_(gameState, self.index, self.layers_developed, alpha=float('-inf'),
+                                              beta=float('inf'))
+        if strategy_value <= gameState.getScore() - 500:
+            plan_b = [action for action in gameState.getLegalPacmanActions() if action != self.next_action]
+            if len(plan_b) > 0:  # there is plan B
+                return random.choice(plan_b)
+
+        return self.next_action
+
+    def _rb_alpha_beta_(self, game_state, agent_index, layers_number, alpha, beta):
+        """
+        :param game_state: the current game state
+        :param agent_index: the agent that play now
+        :param layers_number: layers of number to develop
+        :param alpha: current alpha value
+        :param beta: current beta value
+        :return: the action to preform
+        """
+        if game_state.isLose() or game_state.isWin() or layers_number == 0:
+            return self.evaluationFunction(game_state, self.pacman_current_direction, self.distanceCalculationFunction)
+
+        next_agent_index = self.nextTurnFunction(agent_index)
+
+        if agent_index == self.index:  # pacman agent
+            current_max = float("-inf")
+            chosen_action = None
+            for action in game_state.getLegalPacmanActions():
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
+                                                        alpha=alpha, beta=beta)
+
+                if current_max < next_agent_value:
+                    current_max = next_agent_value
+                    chosen_action = action
+                alpha = max(current_max, alpha)
+                if current_max >= beta:
+                    return float("inf")
+
+            if layers_number == self.layers_developed:  # to return the action to the caller
+                self.next_action = chosen_action
+
+            return current_max  # return the max value to the recursive calls
+
+        else:  # not pacman turn -> other agents means ghosts
+            current_min = float("inf")
+            for action in game_state.getLegalActions(agent_index):
+                successor_state = game_state.generateSuccessor(agent_index, action)
+                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
+                                                        alpha=alpha, beta=beta)
+                current_min = min(current_min, next_agent_value)
+                beta = min(current_min, beta)
+                if current_min <= alpha:
+                    return float("-inf")
+            return current_min
+
+
+def competitionAgentHeuristic(gameState, pacman_current_direction, distCalculationFunction):
     """
+    The competitionAgentHeuristic takes in a GameState (pacman.py) and pacman current direction should return a number to evalute the given game state,
+    where higher numbers are better.
+    """
+    current_state_score = 100 * gameState.getScore()  # give more weight to score than other parameters
 
-        # BEGIN_YOUR_CODE
-        raise Exception("Not implemented yet")
-        # END_YOUR_CODE
+    pacman_pos = gameState.getPacmanPosition()
+
+    # First Parameter Ghost:
+    ghosts_evaluation = 0
+    for ghost in gameState.getGhostStates():
+        pacman_ghost_dist = distCalculationFunction(pacman_pos, ghost.configuration.pos)
+        if 0 < pacman_ghost_dist < 10:
+            if ghost.scaredTimer >= pacman_ghost_dist:  # Ghost Scared
+                ghosts_evaluation += 1.0 / float(pacman_ghost_dist)
+            else:
+                ghosts_evaluation -= 1.0 / float(pacman_ghost_dist)  # ghost not scared OR far from pacman to be eaten
+
+    # Second Parameter Food:
+    food_list = gameState.getFood().asList()
+    food_collection_trace = 0
+    food_evalution = 0
+    for food_pos in food_list:
+        food_collection_trace += distCalculationFunction(food_pos, pacman_pos)
+
+    if food_collection_trace > 0 and gameState.getNumFood() > 0:
+        food_evalution -= food_collection_trace + gameState.getNumFood()
+
+    # Third Parameter Capsules:
+    capsules = gameState.getCapsules()
+    capsules_evaluation = 0
+    if len(capsules):
+        nearest_capsules = min(capsules, key=lambda y: util.manhattanDistance(y, pacman_pos))
+        capsules_evaluation -= 100 * (distCalculationFunction(nearest_capsules, pacman_pos) + len(capsules))
+
+    # Fourth Parameter Walls:
+    walls_evaluation = 0
+    walls_evaluation -= 2 * (
+            gameState.hasWall(pacman_pos[0] + 1, pacman_pos[1]) and gameState.hasWall(pacman_pos[0] - 1, pacman_pos[1]))
+    walls_evaluation -= 2 * (
+            gameState.hasWall(pacman_pos[0], pacman_pos[1] + 1) and gameState.hasWall(pacman_pos[0], pacman_pos[1] - 1))
+
+    # Fifth Parameter Direction:
+    direction_evaluation = 2 * int(pacman_current_direction == gameState.getPacmanState().configuration.direction)
+
+    return current_state_score + ghosts_evaluation + food_evalution + capsules_evaluation + walls_evaluation \
+           + direction_evaluation + random.random()
 
 
 # # Dictionary for getting the layer name from layer sizes
