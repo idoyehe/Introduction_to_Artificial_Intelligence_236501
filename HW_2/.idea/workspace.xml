@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="temp">
+      <change beforePath="$PROJECT_DIR$/.idea/pacman.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pacman.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/HW_2_Edit_Version.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/HW_2_Edit_Version.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/submission.py" beforeDir="false" afterPath="$PROJECT_DIR$/submission.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,8 +22,21 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/submission.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="496">
-              <caret line="608" column="56" lean-forward="true" selection-start-line="608" selection-start-column="56" selection-end-line="608" selection-end-column="56" />
+            <state relative-caret-position="-13893">
+              <caret line="233" column="14" lean-forward="true" selection-start-line="233" selection-start-column="14" selection-end-line="233" selection-end-column="14" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#30928#58105#0" />
+                <element signature="e#58383#120625#0" />
+                <element signature="e#120937#218636#0" />
+                <element signature="e#218912#220745#0" />
+                <element signature="e#221019#441089#0" />
+                <element signature="e#441362#1254234#0" />
+                <element signature="e#1254512#1288308#0" />
+                <element signature="e#1288579#1292980#0" />
+                <element signature="e#1293251#1294615#0" />
+                <element signature="e#1294891#1446645#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -37,8 +52,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>man</find>
-      <find>agentStates</find>
       <find>getPacmanState</find>
       <find>food+</find>
       <find>state</find>
@@ -67,6 +80,8 @@
       <find>ly</find>
       <find>orig</find>
       <find>default=-1</find>
+      <find>choice</find>
+      <find>random</find>
     </findStrings>
     <replaceStrings>
       <replace>-1</replace>
@@ -87,15 +102,14 @@
         <option value="$PROJECT_DIR$/layouts/trickyClassic.lay" />
         <option value="$PROJECT_DIR$/layouts/trappedClassic.lay" />
         <option value="$PROJECT_DIR$/docs/BFS_layouts_results.txt" />
+        <option value="$APPLICATION_CONFIG_DIR$/pycharm64.exe.vmoptions" />
         <option value="$PROJECT_DIR$/submission.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="-14" />
-    <option name="y" value="43" />
-    <option name="width" value="1440" />
-    <option name="height" value="805" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -103,7 +117,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -125,6 +138,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -132,7 +146,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.general" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -153,28 +167,6 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.pacman">
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <module name="pacman" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="agent_evaluation" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pacman" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -256,6 +248,9 @@
       <workItem from="1545755289129" duration="1932000" />
       <workItem from="1545757351833" duration="2632000" />
       <workItem from="1545760218488" duration="1938000" />
+      <workItem from="1545767155741" duration="64000" />
+      <workItem from="1545767236562" duration="607000" />
+      <workItem from="1545768418988" duration="110000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1544552567008</created>
@@ -457,13 +452,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="111924000" />
+    <option name="totallyTimeSpent" value="112705000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23962805" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24733475" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -695,13 +690,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.3/python_stubs/-1199943127/builtins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="5219" column="6" selection-start-line="5219" selection-start-column="6" selection-end-line="5219" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.3/python_stubs/-1199943127/builtins.py" />
     <entry file="file://$PROJECT_DIR$/game.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="155">
@@ -729,13 +718,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/random.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="259" selection-start-line="259" selection-end-line="259" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/random.py" />
     <entry file="file://$PROJECT_DIR$/pacman.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2076">
@@ -827,12 +810,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/submission.py">
+    <entry file="file://$APPLICATION_CONFIG_DIR$/pycharm64.exe.vmoptions">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="608" column="56" lean-forward="true" selection-start-line="608" selection-start-column="56" selection-end-line="608" selection-end-column="56" />
+        <state relative-caret-position="30">
+          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/submission.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-13893">
+          <caret line="233" column="14" lean-forward="true" selection-start-line="233" selection-start-column="14" selection-end-line="233" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#30928#58105#0" />
+            <element signature="e#58383#120625#0" />
+            <element signature="e#120937#218636#0" />
+            <element signature="e#218912#220745#0" />
+            <element signature="e#221019#441089#0" />
+            <element signature="e#441362#1254234#0" />
+            <element signature="e#1254512#1288308#0" />
+            <element signature="e#1288579#1292980#0" />
+            <element signature="e#1293251#1294615#0" />
+            <element signature="e#1294891#1446645#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
