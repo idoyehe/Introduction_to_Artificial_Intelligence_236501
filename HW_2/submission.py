@@ -555,19 +555,9 @@ class CompetitionAgent(MultiAgentSearchAgent):
         self.pacman_current_direction = gameState.getPacmanState().configuration.direction
 
         strategy_value = self._rb_alpha_beta_(gameState, self.index, self.layers_developed, self.pacman_current_direction,
-                                              alpha=float('-inf'),
-                                              beta=float('inf'))
+                                              alpha=float('-inf'), beta=float('inf'))
 
-        # print("current_state_score: ", strategy_value[1])
-        # print("ghosts_evaluation: ", strategy_value[2])
-        # print("food_evalution: ", strategy_value[3])
-        # print("capsules_evaluation: ", strategy_value[4])
-        # print("walls_evaluation: ", strategy_value[5])
-        # print("Total: ", strategy_value[0])
-        # print("Action: ", self.next_action)
-        # input()
-
-        if strategy_value[0] <= gameState.getScore() - 500:
+        if strategy_value <= gameState.getScore() - 500:
             plan_b = [action for action in gameState.getLegalPacmanActions() if action != self.next_action]
             if len(plan_b) > 0:  # there is plan B
                 return choice(plan_b)
@@ -591,50 +581,36 @@ class CompetitionAgent(MultiAgentSearchAgent):
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
             chosen_action = None
-            current_max_list = [float("-inf"), ]
             for action in game_state.getLegalPacmanActions():
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                # next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
-                #                                         alpha=alpha, beta=beta)
-                next_agent_list = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
+                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
                                                        action, alpha=alpha, beta=beta)
-                next_agent_list[0] += (action == pacman_dir)
+                next_agent_value += (action == pacman_dir)
 
-                next_agent_value = next_agent_list[0]
                 if current_max < next_agent_value:
                     current_max = next_agent_value
-                    current_max_list = next_agent_list
                     chosen_action = action
                 alpha = max(current_max, alpha)
                 if current_max >= beta:
-                    return [float("inf"), ]
+                    return float("inf")
 
             if layers_number == self.layers_developed:  # to return the action to the caller
                 self.next_action = chosen_action
 
-            return current_max_list  # return the max value to the recursive calls
+            return current_max  # return the max value to the recursive calls
 
         else:  # not pacman turn -> other agents means ghosts
             current_min = float("inf")
-            current_min_list = [float("inf"), ]
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                # next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
-                #                                         alpha=alpha, beta=beta)
+                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1, pacman_dir,
+                                                        alpha=alpha, beta=beta)
 
-                next_agent_list = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
-                                                       pacman_dir, alpha=alpha, beta=beta)
-                next_agent_value = next_agent_list[0]
-
-                # current_min = min(current_min, next_agent_value)
-
-                if current_min > next_agent_value:
-                    current_min = next_agent_value
-                    current_min_list = next_agent_list
+                current_min = min(current_min, next_agent_value)
                 beta = min(current_min, beta)
                 if current_min <= alpha:
-                    return [float("-inf"), ]
-            return current_min_list
+                    return float("-inf")
+            return current_min
 
 
 def competitionAgentHeuristic(gameState, distCalculationFunction):
@@ -648,22 +624,13 @@ def competitionAgentHeuristic(gameState, distCalculationFunction):
 
     # First Parameter Ghost:
     ghosts_evaluation = 0
-    walls_evaluation = 0
     for ghost in gameState.getGhostStates():
         pacman_ghost_dist = distCalculationFunction(pacman_pos, ghost.configuration.pos)
         if 0 < pacman_ghost_dist < 10:
             if ghost.scaredTimer >= pacman_ghost_dist:  # Ghost Scared
                 ghosts_evaluation -= 50 * pacman_ghost_dist
-            else:
+            else:   # ghost not scared OR far from pacman to be eaten
                 ghosts_evaluation += 50 * pacman_ghost_dist
-
-                # Fourth Parameter Walls:
-                # if pacman_ghost_dist < 5:
-                #     walls_evaluation -= 2 * (
-                #             gameState.hasWall(pacman_pos[0] + 1, pacman_pos[1]) and gameState.hasWall(pacman_pos[0] - 1, pacman_pos[1]))
-                #     walls_evaluation -= 2 * (
-                #             gameState.hasWall(pacman_pos[0], pacman_pos[1] + 1) and gameState.hasWall(pacman_pos[0], pacman_pos[1] - 1))
-                # ghost not scared OR far from pacman to be eaten
 
     # Second Parameter Food:
     food_list = gameState.getFood().asList()
@@ -677,13 +644,13 @@ def competitionAgentHeuristic(gameState, distCalculationFunction):
 
     # Third Parameter Capsules:
     capsules = gameState.getCapsules()
-    capsules_evaluation = 0
+    capsules_evaluation = 100
     if len(capsules):
-        nearest_capsules = min(capsules, key=lambda y: util.manhattanDistance(y, pacman_pos))
-        capsules_evaluation -= distCalculationFunction(nearest_capsules, pacman_pos) + len(capsules)
+        capsules_evaluation = 0
+        nearest_capsules = min(capsules, key=lambda y: distCalculationFunction(y, pacman_pos))
+        capsules_evaluation -= (distCalculationFunction(nearest_capsules, pacman_pos) + gameState.getNumFood() * len(capsules))
 
-    return [current_state_score + ghosts_evaluation + food_evalution + capsules_evaluation + walls_evaluation, current_state_score,
-            ghosts_evaluation, food_evalution, capsules_evaluation, walls_evaluation]
+    return current_state_score + ghosts_evaluation + food_evalution + capsules_evaluation
 
 
 capsuleClassicBFS = {(8, 8): 0, (8, 9): 1, (8, 10): 2, (8, 11): 3, (8, 12): 4, (8, 15): 1, (8, 19): 5, (8, 22): 2, (8, 24): 8, (8, 25): 7,

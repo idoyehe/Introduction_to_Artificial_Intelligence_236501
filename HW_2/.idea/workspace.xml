@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="temp">
-      <change beforePath="$PROJECT_DIR$/.idea/pacman.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pacman.iml" afterDir="false" />
+    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="remove">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/HW_2_Edit_Version.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/HW_2_Edit_Version.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/submission.py" beforeDir="false" afterPath="$PROJECT_DIR$/submission.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,7 +12,8 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/HW_2$pacman.coverage" NAME="pacman Coverage Results" MODIFIED="1545762095714" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HW_2$pacman.coverage" NAME="pacman Coverage Results" MODIFIED="1545781185378" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HW_2$BFS_pre_work.coverage" NAME="BFS_pre_work Coverage Results" MODIFIED="1545779220670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HW_2$agent_evaluation.coverage" NAME="agent_evaluation Coverage Results" MODIFIED="1544910973980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
@@ -22,20 +21,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/submission.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-13893">
-              <caret line="233" column="14" lean-forward="true" selection-start-line="233" selection-start-column="14" selection-end-line="233" selection-end-column="14" />
+            <state relative-caret-position="445">
+              <caret line="648" selection-start-line="648" selection-end-line="648" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#30928#58105#0" />
-                <element signature="e#58383#120625#0" />
-                <element signature="e#120937#218636#0" />
-                <element signature="e#218912#220745#0" />
-                <element signature="e#221019#441089#0" />
-                <element signature="e#441362#1254234#0" />
-                <element signature="e#1254512#1288308#0" />
-                <element signature="e#1288579#1292980#0" />
-                <element signature="e#1293251#1294615#0" />
-                <element signature="e#1294891#1446645#0" />
+                <element signature="e#31071#58222#0" />
+                <element signature="e#58508#120433#0" />
+                <element signature="e#120718#218030#0" />
+                <element signature="e#218315#220079#0" />
+                <element signature="e#220362#439838#0" />
+                <element signature="e#440119#1253603#0" />
+                <element signature="e#1253890#1287434#0" />
+                <element signature="e#1287713#1292207#0" />
+                <element signature="e#1292488#1293824#0" />
+                <element signature="e#1294109#1444459#0" />
               </folding>
             </state>
           </provider>
@@ -52,13 +51,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getPacmanState</find>
-      <find>food+</find>
-      <find>state</find>
-      <find>_agentMoved</find>
-      <find>scoreChange</find>
-      <find>_capsuleEaten</find>
-      <find>scaredTimer</find>
       <find>ghostState</find>
       <find>pacmanAgent</find>
       <find>_rb_alpha_beta</find>
@@ -82,9 +74,19 @@
       <find>default=-1</find>
       <find>choice</find>
       <find>random</find>
+      <find>get_layout_name</find>
+      <find>HW_2</find>
+      <find>layout_to_graph</find>
+      <find>71, 102</find>
+      <find>generate_distance_matrix_by_layout</find>
+      <find>width</find>
+      <find>res =</find>
     </findStrings>
     <replaceStrings>
       <replace>-1</replace>
+      <replace>.</replace>
+      <replace>height</replace>
+      <replace>return</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -103,13 +105,16 @@
         <option value="$PROJECT_DIR$/layouts/trappedClassic.lay" />
         <option value="$PROJECT_DIR$/docs/BFS_layouts_results.txt" />
         <option value="$APPLICATION_CONFIG_DIR$/pycharm64.exe.vmoptions" />
+        <option value="$PROJECT_DIR$/BFS_pre_work.py" />
         <option value="$PROJECT_DIR$/submission.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-167" />
+    <option name="y" value="475" />
     <option name="width" value="1920" />
-    <option name="height" value="1080" />
+    <option name="height" value="1100" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -166,29 +171,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.pacman">
-    <configuration name="agent_evaluation" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="pacman" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/agent_evaluation.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager">
     <configuration name="pacman" type="PythonConfigurationType" factoryName="Python">
       <module name="pacman" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -203,7 +186,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pacman.py" />
-      <option name="PARAMETERS" value="-p CompetitionAgent -k 2 -n 20 -l mediumClassic" />
+      <option name="PARAMETERS" value="-p CompetitionAgent -k 2 -n 1 -l trickyClassic" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -211,15 +194,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="Python.pacman" />
-      <item itemvalue="Python.agent_evaluation" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.agent_evaluation" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -250,7 +224,7 @@
       <workItem from="1545760218488" duration="1938000" />
       <workItem from="1545767155741" duration="64000" />
       <workItem from="1545767236562" duration="607000" />
-      <workItem from="1545768418988" duration="110000" />
+      <workItem from="1545768418988" duration="9868000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1544552567008</created>
@@ -448,23 +422,36 @@
       <option name="project" value="LOCAL" />
       <updated>1545757374673</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="temp">
+      <created>1545769972059</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1545769972059</updated>
+    </task>
+    <task id="LOCAL-00030" summary="fix BFS results evaluation bugs">
+      <created>1545779468550</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1545779468550</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="112705000" />
+    <option name="totallyTimeSpent" value="122463000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24733475" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32891566" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.08313253" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.06746988" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32827735" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.14084508" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.43770313" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -473,7 +460,7 @@
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.44637054" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.42686892" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.14951245" />
       <window_info anchor="bottom" id="Messages" order="13" />
       <window_info anchor="bottom" id="Concurrent Activities Diagram" order="14" weight="0.32891566" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -509,10 +496,23 @@
     <MESSAGE value="layout recognition support" />
     <MESSAGE value="starting to implement layouts real dist func" />
     <MESSAGE value="temp" />
-    <option name="LAST_COMMIT_MESSAGE" value="temp" />
+    <MESSAGE value="fix BFS results evaluation bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix BFS results evaluation bugs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/BFS_pre_work.py</url>
+          <line>88</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/submission.py</url>
+          <line>648</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -584,6 +584,36 @@
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
+        <expression-string>gameState.hasWall(11,3)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>int(xy2[1]) + 10 * height</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>int(xy2[1]) + int(xy2[0]) * height</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>int(xy2[0])</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>layout.width</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>gameState.data.layout.layoutText[1][13]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>gameState.data.layout.layoutText</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
@@ -595,36 +625,6 @@
       </expression>
       <expression>
         <expression-string>distCalculationFunction(nearest_capsules, pacman_pos)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>int(gameState.getPacmanState().configuration.direction == 'North')</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>gameState.getPacmanState().configuration.direction == 'North'</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>gameState.getPacmanState().configuration.direction</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>int(pacman_current_direction == gameState.getPacmanState().configuration.direction)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>gameState.getPacmanState()</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>currentAgent.sum_turn_time</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -719,13 +719,6 @@
       </provider>
     </entry>
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/random.py" />
-    <entry file="file://$PROJECT_DIR$/pacman.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2076">
-          <caret line="138" column="6" selection-start-line="138" selection-start-column="6" selection-end-line="138" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -761,24 +754,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/layouts/originalClassic.lay">
+    <entry file="file://$APPLICATION_CONFIG_DIR$/pycharm64.exe.vmoptions">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="28" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/layouts/openClassic.lay">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="25" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/layouts/minimaxClassic.lay">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-column="9" />
+        <state relative-caret-position="30">
+          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -789,6 +768,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/layouts/minimaxClassic.lay">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/layouts/openClassic.lay">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="25" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/layouts/originalClassic.lay">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-383">
+          <caret column="28" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/layouts/contestClassic.lay">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -796,43 +796,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/docs/BFS_layouts_results.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/layouts/capsuleClassic.lay">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-column="19" />
+        <state relative-caret-position="210">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/BFS_layouts_results.txt">
+    <entry file="file://$PROJECT_DIR$/BFS_pre_work.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="1" column="889" selection-start-line="1" selection-start-column="889" selection-end-line="1" selection-end-column="889" />
+        <state relative-caret-position="-510">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/pycharm64.exe.vmoptions">
+    <entry file="file://$PROJECT_DIR$/pacman.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+        <state relative-caret-position="425">
+          <caret line="566" column="9" selection-start-line="566" selection-start-column="9" selection-end-line="566" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/submission.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-13893">
-          <caret line="233" column="14" lean-forward="true" selection-start-line="233" selection-start-column="14" selection-end-line="233" selection-end-column="14" />
+        <state relative-caret-position="445">
+          <caret line="648" selection-start-line="648" selection-end-line="648" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#30928#58105#0" />
-            <element signature="e#58383#120625#0" />
-            <element signature="e#120937#218636#0" />
-            <element signature="e#218912#220745#0" />
-            <element signature="e#221019#441089#0" />
-            <element signature="e#441362#1254234#0" />
-            <element signature="e#1254512#1288308#0" />
-            <element signature="e#1288579#1292980#0" />
-            <element signature="e#1293251#1294615#0" />
-            <element signature="e#1294891#1446645#0" />
+            <element signature="e#31071#58222#0" />
+            <element signature="e#58508#120433#0" />
+            <element signature="e#120718#218030#0" />
+            <element signature="e#218315#220079#0" />
+            <element signature="e#220362#439838#0" />
+            <element signature="e#440119#1253603#0" />
+            <element signature="e#1253890#1287434#0" />
+            <element signature="e#1287713#1292207#0" />
+            <element signature="e#1292488#1293824#0" />
+            <element signature="e#1294109#1444459#0" />
           </folding>
         </state>
       </provider>
