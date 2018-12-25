@@ -413,14 +413,12 @@ class CompetitionAgent(MultiAgentSearchAgent):
         self.layers_developed = self.depth * self.total_game_agents
         self.pacman_current_direction = gameState.getPacmanState().configuration.direction
 
-        strategy_value = self._rb_alpha_beta_(gameState, self.index, self.layers_developed, alpha=float('-inf'), beta=float('inf'))
-        plan_b = list()
+        strategy_value = self._rb_alpha_beta_(gameState, self.index, self.layers_developed, alpha=float('-inf'),
+                                              beta=float('inf'))
         if strategy_value <= gameState.getScore() - 500:
-            for action in gameState.getLegalPacmanActions():
-                if action != self.next_action:
-                    plan_b.append(action)
-
-            return random.choice(plan_b)
+            plan_b = [action for action in gameState.getLegalPacmanActions() if action != self.next_action]
+            if len(plan_b) > 0:  # there is plan B
+                return random.choice(plan_b)
 
         return self.next_action
 
@@ -483,12 +481,12 @@ def competitionAgentHeuristic(gameState, pacman_current_direction, distCalculati
     # First Parameter Ghost:
     ghosts_evaluation = 0
     for ghost in gameState.getGhostStates():
-        calc_manhattan = distCalculationFunction(pacman_pos, ghost.configuration.pos)
-        if 0 < calc_manhattan <= 4:
-            if ghost.scaredTimer >= 4:  # Ghost Scared
-                ghosts_evaluation += 1.0 / float(calc_manhattan)
+        pacman_ghost_dist = distCalculationFunction(pacman_pos, ghost.configuration.pos)
+        if 0 < pacman_ghost_dist < 10:
+            if ghost.scaredTimer >= pacman_ghost_dist:  # Ghost Scared
+                ghosts_evaluation += 1.0 / float(pacman_ghost_dist)
             else:
-                ghosts_evaluation -= 1.0 / float(calc_manhattan)  # ghost not scared OR far from pacman to be eaten
+                ghosts_evaluation -= 1.0 / float(pacman_ghost_dist)  # ghost not scared OR far from pacman to be eaten
 
     # Second Parameter Food:
     food_list = gameState.getFood().asList()
@@ -498,15 +496,14 @@ def competitionAgentHeuristic(gameState, pacman_current_direction, distCalculati
         food_collection_trace += distCalculationFunction(food_pos, pacman_pos)
 
     if food_collection_trace > 0 and gameState.getNumFood() > 0:
-        food_evalution = 1.0 / float(food_collection_trace) + 1.0 / float(gameState.getNumFood())
+        food_evalution -= food_collection_trace + gameState.getNumFood()
 
     # Third Parameter Capsules:
     capsules = gameState.getCapsules()
+    capsules_evaluation = 0
     if len(capsules):
         nearest_capsules = min(capsules, key=lambda y: util.manhattanDistance(y, pacman_pos))
-        capsules_evaluation = 10.0 / float(distCalculationFunction(nearest_capsules, pacman_pos))
-    else:
-        capsules_evaluation = 10
+        capsules_evaluation = - distCalculationFunction(nearest_capsules, pacman_pos)
 
     # Fourth Parameter Walls:
     walls_evaluation = 0
@@ -516,7 +513,7 @@ def competitionAgentHeuristic(gameState, pacman_current_direction, distCalculati
             gameState.hasWall(pacman_pos[0], pacman_pos[1] + 1) and gameState.hasWall(pacman_pos[0], pacman_pos[1] - 1))
 
     # Fifth Parameter Direction:
-    direction_evaluation = 10 * int(pacman_current_direction == gameState.getPacmanState().configuration.direction)
+    direction_evaluation = 5 * int(pacman_current_direction == gameState.getPacmanState().configuration.direction)
 
     return current_state_score + ghosts_evaluation + food_evalution + capsules_evaluation + walls_evaluation \
            + direction_evaluation + random.random()
