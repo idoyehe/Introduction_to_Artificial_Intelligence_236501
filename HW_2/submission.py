@@ -529,8 +529,11 @@ class CompetitionAgent(MultiAgentSearchAgent):
             "mediumClassic": mediumClassicRealDist,
             "minimaxClassic": minimaxClassicRealDist,
             "openClassic": openClassicRealDist,
-            originalClassicRealDist
-
+            "originalClassic": originalClassicRealDist,
+            "smallClassic": smallClassicRealDist,
+            "testClassic": testClassicRealDist,
+            "trappedClassic": trappedClassicRealDist,
+            "trickyClassic": trickyClassicRealDist
         }
 
         for iter_name, iter_map in layout_map_dict.items():
@@ -657,15 +660,111 @@ def competitionAgentHeuristic(gameState, pacman_current_direction, distCalculati
            + direction_evaluation + random.random()
 
 
+capsuleClassicBFS = {}
+
+
+def capsuleClassicRealDist(xy1, xy2):
+    width = 19
+    index1 = int(xy1[0] + (xy1[1] * width))
+    index2 = int(xy2[0] + (xy2[1] * width))
+    key = (index1, index2) if (index1 < index2) else (index2, index1)
+    return capsuleClassicBFS.get(key, default=-1)
+
+
+contestClassicBFS = {}
+
+
+def contestClassicRealDist(xy1, xy2):
+    width = 20
+    index1 = int(xy1[0] + (xy1[1] * width))
+    index2 = int(xy2[0] + (xy2[1] * width))
+    key = (index1, index2) if (index1 < index2) else (index2, index1)
+    return contestClassicBFS.get(key, default=-1)
+
+
+mediumClassicBFS = {}
+
+
+def mediumClassicRealDist(xy1, xy2):
+    width = 20
+    index1 = int(xy1[0] + (xy1[1] * width))
+    index2 = int(xy2[0] + (xy2[1] * width))
+    key = (index1, index2) if (index1 < index2) else (index2, index1)
+    return mediumClassicBFS.get(key, default=-1)
+
+
+minimaxClassicBFS = {}
+
+
+def minimaxClassicRealDist(xy1, xy2):
+    width = 9
+    index1 = int(xy1[0] + (xy1[1] * width))
+    index2 = int(xy2[0] + (xy2[1] * width))
+    key = (index1, index2) if (index1 < index2) else (index2, index1)
+    return minimaxClassicBFS.get(key, default=-1)
+
+
+openClassicBFS = {}
+
 
 def openClassicRealDist(xy1, xy2):
     width = 25
     index1 = int(xy1[0] + (xy1[1] * width))
     index2 = int(xy2[0] + (xy2[1] * width))
-    return openClassicBFS[index1][index2]
+    key = (index1, index2) if (index1 < index2) else (index2, index1)
+    return openClassicBFS.get(key, default=-1)
+
+
+originalClassicBFS = {}
+
 
 def originalClassicRealDist(xy1, xy2):
-    width = 25
+    width = 28
     index1 = int(xy1[0] + (xy1[1] * width))
     index2 = int(xy2[0] + (xy2[1] * width))
-    return originalClassicBFS[index1][index2]
+    key = (index1, index2) if (index1 < index2) else (index2, index1)
+    return originalClassicBFS.get(key, default=-1)
+
+
+smallClassicBFS = {}
+
+
+def smallClassicRealDist(xy1, xy2):
+    width = 20
+    index1 = int(xy1[0] + (xy1[1] * width))
+    index2 = int(xy2[0] + (xy2[1] * width))
+    key = (index1, index2) if (index1 < index2) else (index2, index1)
+    return smallClassicBFS.get(key, default=-1)
+
+
+testClassicBFS = {}
+
+
+def testClassicRealDist(xy1, xy2):
+    width = 5
+    index1 = int(xy1[0] + (xy1[1] * width))
+    index2 = int(xy2[0] + (xy2[1] * width))
+    key = (index1, index2) if (index1 < index2) else (index2, index1)
+    return testClassicBFS.get(key, default=-1)
+
+
+trappedClassicBFS = {}
+
+
+def trappedClassicRealDist(xy1, xy2):
+    width = 8
+    index1 = int(xy1[0] + (xy1[1] * width))
+    index2 = int(xy2[0] + (xy2[1] * width))
+    key = (index1, index2) if (index1 < index2) else (index2, index1)
+    return trappedClassicBFS.get(key, default=-1)
+
+
+trickyClassicBFS = {}
+
+
+def trickyClassicRealDist(xy1, xy2):
+    width = 20
+    index1 = int(xy1[0] + (xy1[1] * width))
+    index2 = int(xy2[0] + (xy2[1] * width))
+    key = (index1, index2) if (index1 < index2) else (index2, index1)
+    return trickyClassicBFS.get(key, default=-1)
