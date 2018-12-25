@@ -27,9 +27,9 @@ def generate_distance_matrix_by_layout(layout):
     graph = layout_to_graph(layout)
     for x in range(layout.width):
         for y in range(layout.height):
-            index = y*layout.width + x
+            index = x * layout.height + y
             # if (x,y) is a wall
-            if layout.layoutText[y][x] == '%':
+            if layout.walls[x][y] == True:
                 dist_mat[index] = [-1]*n_positions
             else:                    # else calc distance to all other positions
                 dist_mat[index] = calc_distance(graph, layout.width, layout.height, x, y)
@@ -38,17 +38,16 @@ def generate_distance_matrix_by_layout(layout):
 # BFS function - calc distance from starting point (x,y) to all other positions
 def calc_distance(graph, width, height, x, y):
     distance = [-1] * width * height
-    distance[y*width + x] = 0
-    queue = [y*width + x]
-    visited = []
+    distance[x*height + y] = 0
+    queue = [x*height + y]
+    visited = [x*height + y]
     while len(queue) != 0:
         next = queue.pop(0)
-        visited.append(next)
         for neighbor in graph[next]:
-            if distance[neighbor] == -1 or distance[neighbor] > distance[next]+1:
-                distance[neighbor] = distance[next]+1
-                if neighbor not in visited:
-                    queue.append(neighbor)
+            if distance[neighbor] == -1:
+                distance[neighbor] = distance[next] + 1
+                visited.append(neighbor)
+                queue.append(neighbor)
     return distance
 
 
@@ -57,21 +56,21 @@ def layout_to_graph(layout):
     for x in range(layout.width):
         for y in range(layout.height):
             connected = []
-            index = y*layout.width + x
-            if layout.layoutText[y][x] != '%':
-                if layout.layoutText[y][x+1] != '%':
-                    connected.append(y * layout.width + x+1)
-                if layout.layoutText[y][x-1] != '%':
-                    connected.append(y * layout.width + x-1)
-                if layout.layoutText[y+1][x] != '%':
-                    connected.append((y+1) * layout.width + x)
-                if layout.layoutText[y-1][x] != '%':
-                    connected.append((y-1) * layout.width + x)
+            index = x * layout.height + y
+            if layout.walls[x][y] == False:
+                if layout.walls[ x + 1][y] == False:
+                    connected.append((x + 1) * layout.height + y)
+                if layout.walls[ x - 1][y] == False:
+                    connected.append((x - 1) * layout.height + y)
+                if layout.walls[x][y + 1 ] == False:
+                    connected.append( x * layout.height + y + 1)
+                if layout.walls[x][y - 1 ] == False:
+                    connected.append( x * layout.height + y - 1)
             graph[index] = connected
     return graph
 
 
-all_layouts_path = ['HW_2\\layouts\\capsuleClassic.lay', 'HW_2\\layouts\\contestClassic.lay', 'HW_2\\layouts\\mediumClassic.lay', 'HW_2\\layouts\\minimaxClassic.lay', 'HW_2\\layouts\\openClassic.lay', 'HW_2\\layouts\\originalClassic.lay', 'HW_2\\layouts\\smallClassic.lay', 'HW_2\\layouts\\testClassic.lay', 'HW_2\\layouts\\trappedClassic.lay', 'HW_2\\layouts\\trickyClassic.lay']
+all_layouts_path = ['.\\layouts\\capsuleClassic.lay', '.\\layouts\\contestClassic.lay', '.\\layouts\\mediumClassic.lay', '.\\layouts\\minimaxClassic.lay', '.\\layouts\\openClassic.lay', '.\\layouts\\originalClassic.lay', '.\\layouts\\smallClassic.lay', '.\\layouts\\testClassic.lay', '.\\layouts\\trappedClassic.lay', '.\\layouts\\trickyClassic.lay']
 
 all_layouts = []
 for lay in all_layouts_path:
@@ -83,7 +82,7 @@ for i, lay in enumerate(all_layouts):
     print(i, get_layout_name(lay))
     print(generate_distance_matrix_by_layout(lay))
 
-f = open("HW_2\\docs\\BFS_layouts_results.txt", 'a')
+f = open(".\\docs\\BFS_layouts_results.txt", 'a')
 
 for i, lay in enumerate(all_layouts):
     f.write(get_layout_name(lay)+'\n')
