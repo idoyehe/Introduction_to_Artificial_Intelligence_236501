@@ -404,11 +404,139 @@ class CompetitionAgent(MultiAgentSearchAgent):
     def __init__(self, evalFn='competitionAgentHeuristic', depth='4'):
         super().__init__(evalFn=evalFn, depth=depth)
         self.distanceCalculationFunction = util.manhattanDistance
+        self.game_layout = "Generic"
+        self.preprocessing = True
+
+    def layoutRecognizer(self, layout_map):
+        layout_dict = {
+            "capsuleClassic": ["%%%%%%%%%%%%%%%%%%%",
+                               "%G.       G   ....%",
+                               "%.% % %%%%%% %.%%.%",
+                               "%.%o% %   o% %.o%.%",
+                               "%.%%%.%  %%% %..%.%",
+                               "%.....  P    %..%G%",
+                               "%%%%%%%%%%%%%%%%%%%%"],
+
+            "contestClassic": ["%%%%%%%%%%%%%%%%%%%%",
+                               "%o...%........%...o%",
+                               "%.%%.%.%%..%%.%.%%.%",
+                               "%...... G GG%......%",
+                               "%.%.%%.%% %%%.%%.%.%",
+                               "%.%....% ooo%.%..%.%",
+                               "%.%.%%.% %% %.%.%%.%",
+                               "%o%......P....%....%",
+                               "%%%%%%%%%%%%%%%%%%%%"],
+
+            "mediumClassic": ["%%%%%%%%%%%%%%%%%%%%",
+                              "%o...%........%....%",
+                              "%.%%.%.%%%%%%.%.%%.%",
+                              "%.%..............%.%",
+                              "%.%.%%.%%  %%.%%.%.%",
+                              "%......%G  G%......%",
+                              "%.%.%%.%%%%%%.%%.%.%",
+                              "%.%..............%.%",
+                              "%.%%.%.%%%%%%.%.%%.%",
+                              "%....%...P....%...o%",
+                              "%%%%%%%%%%%%%%%%%%%%"],
+
+            "minimaxClassic": ["%%%%%%%%%",
+                               "%.P    G%",
+                               "% %.%G%%%",
+                               "%G    %%%",
+                               "%%%%%%%%%"],
+
+            "openClassic": ["%%%%%%%%%%%%%%%%%%%%%%%%%",
+                            "%.. P  ....      ....   %",
+                            "%..  ...  ...  ...  ... %",
+                            "%..  ...  ...  ...  ... %",
+                            "%..    ....      .... G %",
+                            "%..  ...  ...  ...  ... %",
+                            "%..  ...  ...  ...  ... %",
+                            "%..    ....      ....  o%",
+                            "%%%%%%%%%%%%%%%%%%%%%%%%%"],
+
+            "originalClassic": ["%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+                                "%............%%............%",
+                                "%.%%%%.%%%%%.%%.%%%%%.%%%%.%",
+                                "%o%%%%.%%%%%.%%.%%%%%.%%%%o%",
+                                "%.%%%%.%%%%%.%%.%%%%%.%%%%.%",
+                                "%..........................%",
+                                "%.%%%%.%%.%%%%%%%%.%%.%%%%.%",
+                                "%.%%%%.%%.%%%%%%%%.%%.%%%%.%",
+                                "%......%%....%%....%%......%",
+                                "%%%%%%.%%%%% %% %%%%%.%%%%%%",
+                                "%%%%%%.%%%%% %% %%%%%.%%%%%%",
+                                "%%%%%%.%            %.%%%%%%",
+                                "%%%%%%.% %%%%  %%%% %.%%%%%%",
+                                "%     .  %G  GG  G%  .     %",
+                                "%%%%%%.% %%%%%%%%%% %.%%%%%%",
+                                "%%%%%%.%            %.%%%%%%",
+                                "%%%%%%.% %%%%%%%%%% %.%%%%%%",
+                                "%............%%............%",
+                                "%.%%%%.%%%%%.%%.%%%%%.%%%%.%",
+                                "%.%%%%.%%%%%.%%.%%%%%.%%%%.%",
+                                "%o..%%.......  .......%%..o%",
+                                "%%%.%%.%%.%%%%%%%%.%%.%%.%%%",
+                                "%%%.%%.%%.%%%%%%%%.%%.%%.%%%",
+                                "%......%%....%%....%%......%",
+                                "%.%%%%%%%%%%.%%.%%%%%%%%%%.%",
+                                "%.............P............%",
+                                "%%%%%%%%%%%%%%%%%%%%%%%%%%%%"],
+
+            "smallClassic": ["%%%%%%%%%%%%%%%%%%%%",
+                             "%......%G  G%......%",
+                             "%.%%...%%  %%...%%.%",
+                             "%.%o.%........%.o%.%",
+                             "%.%%.%.%%%%%%.%.%%.%",
+                             "%........P.........%",
+                             "%%%%%%%%%%%%%%%%%%%%"],
+
+            "testClassic": ["%%%%%",
+                            "% . %",
+                            "%.G.%",
+                            "% . %",
+                            "%. .%",
+                            "%   %",
+                            "%  .%",
+                            "%   %",
+                            "%P .%",
+                            "%%%%%"],
+
+            "trappedClassic": ["%%%%%%%%",
+                               "%   P G%",
+                               "%G%%%%%%",
+                               "%....  %",
+                               "%%%%%%%%"],
+
+            "trickyClassic": ["%%%%%%%%%%%%%%%%%%%%",
+                              "%o...%........%...o%",
+                              "%.%%.%.%%..%%.%.%%.%",
+                              "%.%.....%..%.....%.%",
+                              "%.%.%%.%%  %%.%%.%.%",
+                              "%...... GGGG%.%....%",
+                              "%.%....%%%%%%.%..%.%",
+                              "%.%....%  oo%.%..%.%",
+                              "%.%....% %%%%.%..%.%",
+                              "%.%...........%..%.%",
+                              "%.%%.%.%%%%%%.%.%%.%",
+                              "%o...%...P....%...o%",
+                              "%%%%%%%%%%%%%%%%%%%%"]
+        }
+
+        for iter_name, iter_map in layout_dict.items():
+            if iter_map == layout_map:
+                self.game_layout = iter_name
+                # configure dist func;
 
     def getAction(self, gameState):
         """
         Returns the action using self.depth and self.evaluationFunction
         """
+
+        if self.preprocessing:  # initialize in first action ONLY
+            self.layoutRecognizer(gameState.data.layout.layoutText)
+            self.preprocessing = False
+
         self.total_game_agents = gameState.getNumAgents()
         self.layers_developed = self.depth * self.total_game_agents
         self.pacman_current_direction = gameState.getPacmanState().configuration.direction
@@ -503,7 +631,7 @@ def competitionAgentHeuristic(gameState, pacman_current_direction, distCalculati
     capsules_evaluation = 0
     if len(capsules):
         nearest_capsules = min(capsules, key=lambda y: util.manhattanDistance(y, pacman_pos))
-        capsules_evaluation = - distCalculationFunction(nearest_capsules, pacman_pos)
+        capsules_evaluation -= 100 * (distCalculationFunction(nearest_capsules, pacman_pos) + len(capsules))
 
     # Fourth Parameter Walls:
     walls_evaluation = 0
@@ -513,7 +641,7 @@ def competitionAgentHeuristic(gameState, pacman_current_direction, distCalculati
             gameState.hasWall(pacman_pos[0], pacman_pos[1] + 1) and gameState.hasWall(pacman_pos[0], pacman_pos[1] - 1))
 
     # Fifth Parameter Direction:
-    direction_evaluation = 5 * int(pacman_current_direction == gameState.getPacmanState().configuration.direction)
+    direction_evaluation = 2 * int(pacman_current_direction == gameState.getPacmanState().configuration.direction)
 
     return current_state_score + ghosts_evaluation + food_evalution + capsules_evaluation + walls_evaluation \
            + direction_evaluation + random.random()
