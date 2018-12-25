@@ -79,6 +79,20 @@ for lay in all_layouts_path:
     all_layouts.append(tryToLoad(lay))
 
 
-for i,lay in enumerate(all_layouts):
+for i, lay in enumerate(all_layouts):
     print(i, get_layout_name(lay))
     print(generate_distance_matrix_by_layout(lay))
+
+f = open("HW_2\\docs\\BFS_layouts_results.txt", 'a')
+
+for i, lay in enumerate(all_layouts):
+    f.write(get_layout_name(lay)+'\n')
+    m = generate_distance_matrix_by_layout(lay)
+    d = {}
+    for u in range(len(m)):
+        for v in range(len(m)):
+            if m[u][v] != -1 and u <= v:
+                d[(u,v)] = m[u][v]
+    f.write(str(d)+'\n')
+
+f.close()
