@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="finish heuristic and CompetitionAgent">
+    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="agent evaluation refactor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agent_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/agent_evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/HW_2_Edit_Version.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/HW_2_Edit_Version.docx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,14 +14,14 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/HW_2$pacman.coverage" NAME="pacman Coverage Results" MODIFIED="1545821581021" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HW_2$BFS_pre_work.coverage" NAME="BFS_pre_work Coverage Results" MODIFIED="1545779220670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/HW_2$agent_evaluation.coverage" NAME="agent_evaluation Coverage Results" MODIFIED="1545822014204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HW_2$agent_evaluation.coverage" NAME="agent_evaluation Coverage Results" MODIFIED="1545822301901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/submission.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
+            <state relative-caret-position="-8482">
               <caret line="397" column="22" selection-start-line="397" selection-start-column="6" selection-end-line="397" selection-end-column="22" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -31,11 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/agent_evaluation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
+            <state relative-caret-position="-13">
+              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -263,7 +263,7 @@
       <workItem from="1545767236562" duration="607000" />
       <workItem from="1545768418988" duration="9896000" />
       <workItem from="1545781420042" duration="96000" />
-      <workItem from="1545811172753" duration="9836000" />
+      <workItem from="1545811172753" duration="11909000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1544552567008</created>
@@ -489,11 +489,39 @@
       <option name="project" value="LOCAL" />
       <updated>1545821478910</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="agent evaluation refactor">
+      <created>1545821886849</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1545821886849</updated>
+    </task>
+    <task id="LOCAL-00034" summary="agent evaluation refactor">
+      <created>1545822024854</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1545822024854</updated>
+    </task>
+    <task id="LOCAL-00035" summary="agent evaluation refactor">
+      <created>1545822051650</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1545822051650</updated>
+    </task>
+    <task id="LOCAL-00036" summary="agent evaluation refactor">
+      <created>1545822299672</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1545822299672</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="132423000" />
+    <option name="totallyTimeSpent" value="134496000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -503,8 +531,8 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32827735" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.5200433" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.156013" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2881907" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.41061756" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -552,7 +580,8 @@
     <MESSAGE value="fix BFS results evaluation bugs" />
     <MESSAGE value="remove list in heuristic" />
     <MESSAGE value="finish heuristic and CompetitionAgent" />
-    <option name="LAST_COMMIT_MESSAGE" value="finish heuristic and CompetitionAgent" />
+    <MESSAGE value="agent evaluation refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="agent evaluation refactor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -639,6 +668,26 @@
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
+        <expression-string>float(end - start) / float(n)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>end - time</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>float(end - time)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>float(end - time) / float(n)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>gameState.getLegalPacmanActions().remove('West')</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
@@ -660,26 +709,6 @@
       </expression>
       <expression>
         <expression-string>__py_debug_temp_var_523193041.configuration.direction</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>gameState.getPacmanState()</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>gameState.hasWall(11,3)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>int(xy2[1]) + 10 * height</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>int(xy2[1]) + int(xy2[0]) * height</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -866,17 +895,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/submission.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="397" column="22" selection-start-line="397" selection-start-column="6" selection-end-line="397" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#29845#56996#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Program Files/Python36/Lib/optparse.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="197">
@@ -886,10 +904,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/agent_evaluation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
+        <state relative-caret-position="-13">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/submission.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8482">
+          <caret line="397" column="22" selection-start-line="397" selection-start-column="6" selection-end-line="397" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#29845#56996#0" />
           </folding>
         </state>
       </provider>
