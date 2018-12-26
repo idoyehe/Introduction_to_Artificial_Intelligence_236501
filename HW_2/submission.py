@@ -407,7 +407,7 @@ class CompetitionAgent(MultiAgentSearchAgent):
         super().__init__(evalFn=evalFn, depth=depth)
         self.distanceCalculationFunction = layoutRealDist
         self.capsules_total = -1
-        self.ghost_factor = 5 # default value
+        self.ghost_factor = 5  # default value
         self.game_layout = "Unknown -> Generic"
         self.preprocessing = True
 
@@ -724,4 +724,4 @@ def layoutRealDist(xy1, xy2):
     index1 = int(xy1[1]) + int(xy1[0]) * layout_height
     index2 = int(xy2[1]) + int(xy2[0]) * layout_height
     key = (index1, index2) if (index1 < index2) else (index2, index1)
-    return realDistDict.get(key, -1)    # shouldn't return -1 just for edge case
+    return realDistDict.get(key, -1)  # shouldn't return -1 just for edge case
