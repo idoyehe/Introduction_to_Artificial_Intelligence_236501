@@ -538,16 +538,16 @@ class CompetitionAgent(MultiAgentSearchAgent):
         }
 
         layout_tunning = {
-            "capsuleClassic": {"capsules": 3, "ghostFactor": 7},
-            "contestClassic": {"capsules": 6, "ghostFactor": 7},
-            "mediumClassic": {"capsules": 2, "ghostFactor": 5},
-            "minimaxClassic": {"capsules": 0, "ghostFactor": 2},
-            "openClassic": {"capsules": 1, "ghostFactor": 1},
-            "originalClassic": {"capsules": 4, "ghostFactor": 5},
-            "smallClassic": {"capsules": 2, "ghostFactor": 4},
-            "testClassic": {"capsules": 0, "ghostFactor": 1},
-            "trappedClassic": {"capsules": 0, "ghostFactor": 1},
-            "trickyClassic": {"capsules": 6, "ghostFactor": 6},
+            "capsuleClassic": {"capsules": 3, "ghostFactor": 7, "depth": 4},
+            "contestClassic": {"capsules": 6, "ghostFactor": 7, "depth": 4},
+            "mediumClassic": {"capsules": 2, "ghostFactor": 5, "depth": 4},
+            "minimaxClassic": {"capsules": 0, "ghostFactor": 2, "depth": 4},
+            "openClassic": {"capsules": 1, "ghostFactor": 1, "depth": 3},
+            "originalClassic": {"capsules": 4, "ghostFactor": 5, "depth": 3},
+            "smallClassic": {"capsules": 2, "ghostFactor": 4, "depth": 3},
+            "testClassic": {"capsules": 0, "ghostFactor": 1, "depth": 4},
+            "trappedClassic": {"capsules": 0, "ghostFactor": 1, "depth": 4},
+            "trickyClassic": {"capsules": 6, "ghostFactor": 6, "depth": 3},
         }
 
         for iter_name, iter_map in layout_map_dict.items():
@@ -556,6 +556,7 @@ class CompetitionAgent(MultiAgentSearchAgent):
                 self.distanceCalculationFunction = layout_dist_function_dict[self.game_layout]
                 self.capsules_total = layout_tunning[self.game_layout]["capsules"]
                 self.ghost_factor = layout_tunning[self.game_layout]["ghostFactor"]
+                self.depth = layout_tunning[self.game_layout]["depth"]
 
     def getAction(self, gameState):
         """
