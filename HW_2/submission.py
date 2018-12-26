@@ -132,7 +132,6 @@ class MultiAgentSearchAgent(Agent):
         self.layers_developed = None  # number of layers to developed when calculating next action
         self.total_game_agents = None  # number of played agents
         self.next_action = None  # save the next action to preform
-        self.pacman_current_direction = None  # use only by competition agent
 
     def nextTurnFunction(self, agent_index):
         return (agent_index + 1) % self.total_game_agents
@@ -404,6 +403,8 @@ class CompetitionAgent(MultiAgentSearchAgent):
     def __init__(self, evalFn='competitionAgentHeuristic', depth='4'):
         super().__init__(evalFn=evalFn, depth=depth)
         self.distanceCalculationFunction = util.manhattanDistance
+        self.capsules_total = 10
+        self.ghost_factor = 6
         self.game_layout = "Generic"
         self.preprocessing = True
 
@@ -536,10 +537,25 @@ class CompetitionAgent(MultiAgentSearchAgent):
             "trickyClassic": trickyClassicRealDist
         }
 
+        layout_tunning = {
+            "capsuleClassic": {"capsules": 3, "ghostFactor": 7},
+            "contestClassic": {"capsules": 6, "ghostFactor": 7},
+            "mediumClassic": {"capsules": 2, "ghostFactor": 5},
+            "minimaxClassic": {"capsules": 0, "ghostFactor": 2},
+            "openClassic": {"capsules": 1, "ghostFactor": 1},
+            "originalClassic": {"capsules": 4, "ghostFactor": 5},
+            "smallClassic": {"capsules": 2, "ghostFactor": 4},
+            "testClassic": {"capsules": 0, "ghostFactor": 1},
+            "trappedClassic": {"capsules": 0, "ghostFactor": 1},
+            "trickyClassic": {"capsules": 6, "ghostFactor": 6},
+        }
+
         for iter_name, iter_map in layout_map_dict.items():
             if iter_map == layout_map:
                 self.game_layout = iter_name
                 self.distanceCalculationFunction = layout_dist_function_dict[self.game_layout]
+                self.capsules_total = layout_tunning[self.game_layout]["capsules"]
+                self.ghost_factor = layout_tunning[self.game_layout]["ghostFactor"]
 
     def getAction(self, gameState):
         """
@@ -548,23 +564,41 @@ class CompetitionAgent(MultiAgentSearchAgent):
 
         if self.preprocessing:  # initialize in first action ONLY
             self.layoutRecognizer(gameState.data.layout.layoutText)
+            self.total_game_agents = gameState.getNumAgents()
+            self.layers_developed = self.depth * self.total_game_agents
             self.preprocessing = False
 
-        self.total_game_agents = gameState.getNumAgents()
-        self.layers_developed = self.depth * self.total_game_agents
-        self.pacman_current_direction = gameState.getPacmanState().configuration.direction
+        action_ordered_list = list()
+        legal_moves = gameState.getLegalPacmanActions()
 
-        strategy_value = self._rb_alpha_beta_(gameState, self.index, self.layers_developed, self.pacman_current_direction,
-                                              alpha=float('-inf'), beta=float('inf'))
+        pacman_dir = gameState.getPacmanState().configuration.direction
+        if pacman_dir in legal_moves:
+            action_ordered_list.append(pacman_dir)
+            legal_moves.remove(pacman_dir)
+            action_ordered_list += legal_moves
+        else:
+            action_ordered_list = legal_moves
 
-        if strategy_value <= gameState.getScore() - 500:
+        next_agent_index = self.nextTurnFunction(self.index)
+        current_max = float("-inf")
+        alpha = float('-inf')
+        for action in action_ordered_list:
+            successor_state = gameState.generateSuccessor(self.index, action)
+            next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, self.layers_developed - 1,
+                                                    alpha=alpha, beta=float('inf'))
+            if current_max < next_agent_value:
+                alpha = next_agent_value
+                current_max = next_agent_value
+                self.next_action = action
+
+        if alpha <= gameState.getScore() - 500:  # when pacman decided to commit suicide
             plan_b = [action for action in gameState.getLegalPacmanActions() if action != self.next_action]
             if len(plan_b) > 0:  # there is plan B
                 return choice(plan_b)
 
         return self.next_action
 
-    def _rb_alpha_beta_(self, game_state, agent_index, layers_number, pacman_dir, alpha, beta):
+    def _rb_alpha_beta_(self, game_state, agent_index, layers_number, alpha, beta):
         """
         :param game_state: the current game state
         :param agent_index: the agent that play now
@@ -574,28 +608,19 @@ class CompetitionAgent(MultiAgentSearchAgent):
         :return: the action to preform
         """
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
-            return self.evaluationFunction(game_state, self.distanceCalculationFunction)
+            return self.evaluationFunction(game_state, self.distanceCalculationFunction, self.capsules_total, self.ghost_factor)
 
         next_agent_index = self.nextTurnFunction(agent_index)
 
         if agent_index == self.index:  # pacman agent
             current_max = float("-inf")
-            chosen_action = None
             for action in game_state.getLegalPacmanActions():
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1,
-                                                       action, alpha=alpha, beta=beta)
-                next_agent_value += (action == pacman_dir)
-
-                if current_max < next_agent_value:
-                    current_max = next_agent_value
-                    chosen_action = action
+                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1, alpha=alpha, beta=beta)
+                current_max = max(current_max, next_agent_value)
                 alpha = max(current_max, alpha)
                 if current_max >= beta:
                     return float("inf")
-
-            if layers_number == self.layers_developed:  # to return the action to the caller
-                self.next_action = chosen_action
 
             return current_max  # return the max value to the recursive calls
 
@@ -603,8 +628,7 @@ class CompetitionAgent(MultiAgentSearchAgent):
             current_min = float("inf")
             for action in game_state.getLegalActions(agent_index):
                 successor_state = game_state.generateSuccessor(agent_index, action)
-                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1, pacman_dir,
-                                                        alpha=alpha, beta=beta)
+                next_agent_value = self._rb_alpha_beta_(successor_state, next_agent_index, layers_number - 1, alpha=alpha, beta=beta)
 
                 current_min = min(current_min, next_agent_value)
                 beta = min(current_min, beta)
@@ -613,7 +637,7 @@ class CompetitionAgent(MultiAgentSearchAgent):
             return current_min
 
 
-def competitionAgentHeuristic(gameState, distCalculationFunction):
+def competitionAgentHeuristic(gameState, distCalculationFunction, capsules_total, ghost_factor):
     """
     The competitionAgentHeuristic takes in a GameState (pacman.py) and pacman current direction should return a number to evalute the given game state,
     where higher numbers are better.
@@ -626,29 +650,26 @@ def competitionAgentHeuristic(gameState, distCalculationFunction):
     ghosts_evaluation = 0
     for ghost in gameState.getGhostStates():
         pacman_ghost_dist = distCalculationFunction(pacman_pos, ghost.configuration.pos)
-        if 0 < pacman_ghost_dist < 10:
-            if ghost.scaredTimer >= pacman_ghost_dist:  # Ghost Scared
-                ghosts_evaluation -= 50 * pacman_ghost_dist
-            else:   # ghost not scared OR far from pacman to be eaten
-                ghosts_evaluation += 50 * pacman_ghost_dist
+        if ghost.scaredTimer >= pacman_ghost_dist:  # Ghost Scared
+            ghosts_evaluation -= 50 * pacman_ghost_dist
+
+        elif pacman_ghost_dist > ghost_factor:
+            ghosts_evaluation += 50
 
     # Second Parameter Food:
-    food_list = gameState.getFood().asList()
+    food_list = gameState.getFood().asList() + gameState.getCapsules()
     food_collection_trace = 0
-    food_evalution = 0
+
     for food_pos in food_list:
         food_collection_trace += distCalculationFunction(food_pos, pacman_pos)
 
-    if food_collection_trace > 0 and gameState.getNumFood() > 0:
-        food_evalution -= food_collection_trace + (5 * gameState.getNumFood())
+    food_evalution = 0
+    if len(food_list) > 0:
+        food_evalution = -(food_collection_trace / len(food_list))
 
     # Third Parameter Capsules:
     capsules = gameState.getCapsules()
-    capsules_evaluation = 100
-    if len(capsules):
-        capsules_evaluation = 0
-        nearest_capsules = min(capsules, key=lambda y: distCalculationFunction(y, pacman_pos))
-        capsules_evaluation -= (distCalculationFunction(nearest_capsules, pacman_pos) + gameState.getNumFood() * len(capsules))
+    capsules_evaluation = 10000 * (capsules_total - len(capsules))
 
     return current_state_score + ghosts_evaluation + food_evalution + capsules_evaluation
 
