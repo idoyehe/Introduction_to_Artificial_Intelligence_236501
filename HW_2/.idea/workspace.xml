@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="remove list in heuristic">
+    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="finish heuristic and CompetitionAgent">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/submission.py" beforeDir="false" afterPath="$PROJECT_DIR$/submission.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agent_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/agent_evaluation.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,20 +12,32 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/HW_2$pacman.coverage" NAME="pacman Coverage Results" MODIFIED="1545821372690" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HW_2$pacman.coverage" NAME="pacman Coverage Results" MODIFIED="1545821581021" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HW_2$BFS_pre_work.coverage" NAME="BFS_pre_work Coverage Results" MODIFIED="1545779220670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/HW_2$agent_evaluation.coverage" NAME="agent_evaluation Coverage Results" MODIFIED="1544910973980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HW_2$agent_evaluation.coverage" NAME="agent_evaluation Coverage Results" MODIFIED="1545821874427" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/submission.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="543" column="27" selection-start-line="543" selection-start-column="13" selection-end-line="543" selection-end-column="27" />
+            <state relative-caret-position="68">
+              <caret line="397" column="22" selection-start-line="397" selection-start-column="6" selection-end-line="397" selection-end-column="22" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
                 <element signature="e#29845#56996#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/agent_evaluation.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -91,7 +103,6 @@
         <option value="$PROJECT_DIR$/ghostAgents.py" />
         <option value="$PROJECT_DIR$/game.py" />
         <option value="$PROJECT_DIR$/pacman.py" />
-        <option value="$PROJECT_DIR$/agent_evaluation.py" />
         <option value="$PROJECT_DIR$/layouts/trickyClassic.lay" />
         <option value="$PROJECT_DIR$/layouts/trappedClassic.lay" />
         <option value="$PROJECT_DIR$/docs/BFS_layouts_results.txt" />
@@ -101,6 +112,7 @@
         <option value="$PROJECT_DIR$/layouts/capsuleClassic.lay" />
         <option value="$PROJECT_DIR$/layouts/originalClassic.lay" />
         <option value="$PROJECT_DIR$/submission.py" />
+        <option value="$PROJECT_DIR$/agent_evaluation.py" />
       </list>
     </option>
   </component>
@@ -165,7 +177,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.agent_evaluation">
+    <configuration name="agent_evaluation" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="pacman" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/agent_evaluation.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="pacman" type="PythonConfigurationType" factoryName="Python">
       <module name="pacman" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -188,6 +222,15 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.pacman" />
+      <item itemvalue="Python.agent_evaluation" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.agent_evaluation" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -220,7 +263,7 @@
       <workItem from="1545767236562" duration="607000" />
       <workItem from="1545768418988" duration="9896000" />
       <workItem from="1545781420042" duration="96000" />
-      <workItem from="1545811172753" duration="9267000" />
+      <workItem from="1545811172753" duration="9836000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1544552567008</created>
@@ -439,11 +482,18 @@
       <option name="project" value="LOCAL" />
       <updated>1545781293953</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="finish heuristic and CompetitionAgent">
+      <created>1545821478910</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1545821478910</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="131854000" />
+    <option name="totallyTimeSpent" value="132423000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -453,7 +503,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32827735" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.18526544" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.5200433" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.156013" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -501,7 +551,8 @@
     <MESSAGE value="temp" />
     <MESSAGE value="fix BFS results evaluation bugs" />
     <MESSAGE value="remove list in heuristic" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove list in heuristic" />
+    <MESSAGE value="finish heuristic and CompetitionAgent" />
+    <option name="LAST_COMMIT_MESSAGE" value="finish heuristic and CompetitionAgent" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -685,16 +736,6 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.3/python_stubs/-1199943127/builtins.py" />
-    <entry file="file://$PROJECT_DIR$/agent_evaluation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="26" column="30" lean-forward="true" selection-start-line="26" selection-end-line="27" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/layout.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
@@ -827,11 +868,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/submission.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="543" column="27" selection-start-line="543" selection-start-column="13" selection-end-line="543" selection-end-column="27" />
+        <state relative-caret-position="68">
+          <caret line="397" column="22" selection-start-line="397" selection-start-column="6" selection-end-line="397" selection-end-column="22" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
             <element signature="e#29845#56996#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files/Python36/Lib/optparse.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="406" selection-start-line="406" selection-end-line="406" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agent_evaluation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
           </folding>
         </state>
       </provider>
