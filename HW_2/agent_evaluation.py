@@ -1,7 +1,6 @@
 from pacman import runGames, readCommand
 from submission import *
-from layout import getLayout
-
+from time import time
 layout_list = [
     "originalClassic",
     "testClassic",
@@ -15,15 +14,22 @@ layout_list = [
     "capsuleClassic"
 ]
 d = "4"
-currentAgent = DirectionalExpectimaxAgent(depth=d)
-agent_str = "DirectionalExpectimaxAgent"
 
-curr_layout = layout_list[3]
+
+# curr_layout = layout_list[3]
 
 ghost_agents = ["DirectionalGhost", "RandomGhost"]
 
-for curr_ghost in ghost_agents:
-    args = readCommand(["-n", "5", "-k", "2", "-l", curr_layout, "-p", agent_str, "-q", "-g", curr_ghost])  # Get game components based on input
+for curr_layout in layout_list:
+    print("Current layout: ", curr_layout)
+    currentAgent = CompetitionAgent()
+    agent_str = "CompetitionAgent"
+    n = 5
+    args = readCommand(["-n", str(n), "-k", "2", "-l", curr_layout, "-p", agent_str, "-q", "-g", ghost_agents[1]])  # Get game components based on input
     args['pacman'] = currentAgent
+    start = time()
     avg = runGames(**args)
-    print(agent_str + "," + str(d) + "," + curr_layout + "," + str(avg) + "," + str(float(currentAgent.sum_turn_time) / float(currentAgent.played)) + "," + curr_ghost)
+    end = time()
+    dur = float(end - start) / float(n)
+    print("Current layout AVG completion time: ", dur)
+    print("\n")
