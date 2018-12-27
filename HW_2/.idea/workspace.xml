@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="update word file">
+    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="change default to manhattan distance">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/submission.py" beforeDir="false" afterPath="$PROJECT_DIR$/submission.py" afterDir="false" />
     </list>
@@ -14,15 +14,15 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/HW_2$pacman.coverage" NAME="pacman Coverage Results" MODIFIED="1545934079975" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HW_2$BFS_pre_work.coverage" NAME="BFS_pre_work Coverage Results" MODIFIED="1545855848633" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/HW_2$agent_evaluation.coverage" NAME="agent_evaluation Coverage Results" MODIFIED="1545940420088" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HW_2$agent_evaluation.coverage" NAME="agent_evaluation Coverage Results" MODIFIED="1545942938460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/submission.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="651">
-              <caret line="726" column="11" selection-start-line="726" selection-start-column="11" selection-end-line="726" selection-end-column="11" />
+            <state relative-caret-position="-105">
+              <caret line="609" column="60" selection-start-line="609" selection-start-column="60" selection-end-line="609" selection-end-column="60" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -41,7 +41,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>pacmanAgent</find>
       <find>_rb_alpha_beta</find>
       <find>_rb_random_expectimax_</find>
       <find>layout</find>
@@ -71,6 +70,7 @@
       <find>width</find>
       <find>res =</find>
       <find>o</find>
+      <find>_rb_alpha_beta_</find>
     </findStrings>
     <replaceStrings>
       <replace>-1</replace>
@@ -115,6 +115,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -136,7 +137,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -255,7 +255,8 @@
       <workItem from="1545852430508" duration="4088000" />
       <workItem from="1545891340554" duration="131000" />
       <workItem from="1545931689750" duration="3821000" />
-      <workItem from="1545941070805" duration="56000" />
+      <workItem from="1545941070805" duration="330000" />
+      <workItem from="1545942548819" duration="374000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1544552567008</created>
@@ -537,23 +538,29 @@
       <option name="project" value="LOCAL" />
       <updated>1545856530264</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="change default to manhattan distance">
+      <created>1545941162649</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1545941162649</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="144535000" />
+    <option name="totallyTimeSpent" value="145183000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26599148" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26865673" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32827735" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.30552545" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.08992416" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.17334779" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.37594798" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -603,7 +610,6 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="optimize implementation" />
     <MESSAGE value="finish part 3 minimax" />
     <MESSAGE value="finish part 4 alpha beta" />
     <MESSAGE value="finish part 4 alpha beta-word file" />
@@ -628,7 +634,8 @@
     <MESSAGE value="adding depth for each layout" />
     <MESSAGE value="CompetitionAgent does layout analysis dynamic" />
     <MESSAGE value="update word file" />
-    <option name="LAST_COMMIT_MESSAGE" value="update word file" />
+    <MESSAGE value="change default to manhattan distance" />
+    <option name="LAST_COMMIT_MESSAGE" value="change default to manhattan distance" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -708,6 +715,11 @@
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
+        <expression-string>game_state.getLegalPacmanActions()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>walls.width</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
@@ -744,11 +756,6 @@
       </expression>
       <expression>
         <expression-string>float(end - time)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>float(end - time) / float(n)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -954,8 +961,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/submission.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="726" column="11" selection-start-line="726" selection-start-column="11" selection-end-line="726" selection-end-column="11" />
+        <state relative-caret-position="-105">
+          <caret line="609" column="60" selection-start-line="609" selection-start-column="60" selection-end-line="609" selection-end-column="60" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>

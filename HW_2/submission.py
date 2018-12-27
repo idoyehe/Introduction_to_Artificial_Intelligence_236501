@@ -1,7 +1,7 @@
 import util
 from game import Actions
 from game import Agent
-from random import choice
+from random import choice, shuffle
 
 
 #     ********* Reflex agent- sections a and b *********
