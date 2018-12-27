@@ -407,7 +407,7 @@ class CompetitionAgent(MultiAgentSearchAgent):
         super().__init__(evalFn=evalFn, depth=depth)
         self.distanceCalculationFunction = layoutRealDist
         self.capsules_total = -1
-        self.ghost_factor = 5  # default value
+        self.ghost_factor = 6  # default value
         self.game_layout = "Unknown -> Generic"
         self.preprocessing = True
 
@@ -528,16 +528,16 @@ class CompetitionAgent(MultiAgentSearchAgent):
         }
 
         layout_tunning = {
-            "capsuleClassic": {"ghostFactor": 7, "depth": 4},
-            "contestClassic": {"ghostFactor": 7, "depth": 4},
-            "mediumClassic": {"ghostFactor": 5, "depth": 4},
-            "minimaxClassic": {"ghostFactor": 2, "depth": 4},
-            "openClassic": {"ghostFactor": 1, "depth": 3},
-            "originalClassic": {"ghostFactor": 5, "depth": 3},
-            "smallClassic": {"ghostFactor": 4, "depth": 3},
+            "capsuleClassic": {"ghostFactor": 5, "depth": 4},
+            "contestClassic": {"ghostFactor": 8, "depth": 4},
+            "mediumClassic": {"ghostFactor": 7, "depth": 4},
+            "minimaxClassic": {"ghostFactor": 3, "depth": 4},
+            "openClassic": {"ghostFactor": 2, "depth": 3},
+            "originalClassic": {"ghostFactor": 8, "depth": 3},
+            "smallClassic": {"ghostFactor": 6, "depth": 3},
             "testClassic": {"ghostFactor": 1, "depth": 4},
             "trappedClassic": {"ghostFactor": 1, "depth": 4},
-            "trickyClassic": {"ghostFactor": 6, "depth": 3},
+            "trickyClassic": {"ghostFactor": 8, "depth": 3},
         }
 
         for iter_name, iter_map in layout_map_dict.items():

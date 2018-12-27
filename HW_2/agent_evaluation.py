@@ -2,15 +2,15 @@ from pacman import runGames, readCommand
 from submission import *
 from time import time
 layout_list = [
-    "originalClassic",
-    "testClassic",
-    "trappedClassic",
-    "trickyClassic",
-    "smallClassic",
-    "minimaxClassic",
-    "openClassic",
-    "mediumClassic",
-    "contestClassic",
+    # "originalClassic",
+    # "testClassic",
+    # "trappedClassic",
+    # "trickyClassic",
+    # "smallClassic",
+    # "minimaxClassic",
+    # "openClassic",
+    # "mediumClassic",
+    # "contestClassic",
     "capsuleClassic"
 ]
 
@@ -23,7 +23,7 @@ for curr_layout in layout_list:
     currentAgent = CompetitionAgent()
     agent_str = "CompetitionAgent"
     n = 10
-    args = readCommand(["-n", str(n), "-k", "2", "-l", curr_layout, "-p", agent_str, "-q", "-g", ghost_agents[0]])  # Get game components based on input
+    args = readCommand(["-n", str(n), "-k", "2", "-l", curr_layout, "-p", agent_str, "-q", "-g", ghost_agents[1]])  # Get game components based on input
     args['pacman'] = currentAgent
     start = time()
     avg = runGames(**args)
