@@ -405,7 +405,6 @@ class CompetitionAgent(MultiAgentSearchAgent):
 
     def __init__(self, evalFn='competitionAgentHeuristic', depth='4'):
         super().__init__(evalFn=evalFn, depth=depth)
-        self.distanceCalculationFunction = layoutRealDist
         self.capsules_total = -1
         self.ghost_factor = 6  # default value
         self.game_layout = "Unknown -> Generic"
@@ -601,7 +600,7 @@ class CompetitionAgent(MultiAgentSearchAgent):
         :return: the action to preform
         """
         if game_state.isLose() or game_state.isWin() or layers_number == 0:
-            return self.evaluationFunction(game_state, self.distanceCalculationFunction, self.capsules_total, self.ghost_factor)
+            return self.evaluationFunction(game_state, self.capsules_total, self.ghost_factor)
 
         next_agent_index = self.nextTurnFunction(agent_index)
 
@@ -630,7 +629,7 @@ class CompetitionAgent(MultiAgentSearchAgent):
             return current_min
 
 
-def competitionAgentHeuristic(gameState, distCalculationFunction, capsules_total, ghost_factor):
+def competitionAgentHeuristic(gameState, capsules_total, ghost_factor):
     """
     The competitionAgentHeuristic takes in a GameState (pacman.py) and pacman current direction should return a number to evalute the given game state,
     where higher numbers are better.
@@ -642,7 +641,7 @@ def competitionAgentHeuristic(gameState, distCalculationFunction, capsules_total
     # First Parameter Ghost:
     ghosts_evaluation = 0
     for ghost in gameState.getGhostStates():
-        pacman_ghost_dist = distCalculationFunction(pacman_pos, ghost.configuration.pos)
+        pacman_ghost_dist = layoutRealDist(pacman_pos, ghost.configuration.pos)
         if ghost.scaredTimer >= pacman_ghost_dist:  # Ghost Scared
             ghosts_evaluation -= 50 * pacman_ghost_dist
 
@@ -654,11 +653,11 @@ def competitionAgentHeuristic(gameState, distCalculationFunction, capsules_total
     food_collection_trace = 0
 
     for food_pos in food_list:
-        food_collection_trace += distCalculationFunction(food_pos, pacman_pos)
+        food_collection_trace += layoutRealDist(food_pos, pacman_pos)
 
     food_evaluation = 0
     if len(food_list) > 0:
-        food_evaluation = - (food_collection_trace / len(food_list))
+        food_evaluation = - (food_collection_trace / len(food_list) + len(gameState.getCapsules()))
 
     # Third Parameter Capsules:
     capsules = gameState.getCapsules()

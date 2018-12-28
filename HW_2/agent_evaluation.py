@@ -2,15 +2,15 @@ from pacman import runGames, readCommand
 from submission import *
 from time import time
 layout_list = [
-    # "originalClassic",
-    # "testClassic",
-    # "trappedClassic",
-    # "trickyClassic",
-    # "smallClassic",
-    # "minimaxClassic",
-    # "openClassic",
-    # "mediumClassic",
-    # "contestClassic",
+    "originalClassic",
+    "testClassic",
+    "trappedClassic",
+    "trickyClassic",
+    "smallClassic",
+    "minimaxClassic",
+    "openClassic",
+    "mediumClassic",
+    "contestClassic",
     "capsuleClassic"
 ]
 
