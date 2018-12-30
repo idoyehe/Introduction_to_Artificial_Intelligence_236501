@@ -22,6 +22,5 @@ for curr_layout in layout_list:
     start = time()
     avg = runGames(**args)
     end = time()
-    print("\n")
     print("Current layout AVG completion time: ", float(end - start) / float(games_counter))
     print("\n")
