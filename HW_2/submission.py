@@ -657,7 +657,7 @@ def competitionAgentHeuristic(gameState, capsules_total, ghost_factor):
 
     food_evaluation = 0
     if len(food_list) > 0:
-        food_evaluation = - (food_collection_trace / len(food_list) + len(gameState.getCapsules()))
+        food_evaluation = - (food_collection_trace / (len(food_list) + len(gameState.getCapsules())))
 
     # Third Parameter Capsules:
     capsules = gameState.getCapsules()

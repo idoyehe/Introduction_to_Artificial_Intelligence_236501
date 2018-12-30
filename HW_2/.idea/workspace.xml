@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="word minor changes">
-      <change afterPath="$PROJECT_DIR$/docs/AI_HW2.pdf" afterDir="false" />
+    <list default="true" id="f2614211-c32e-4b81-86ea-b3bbdc4df430" name="Default" comment="adding final report version">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,17 +11,20 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/HW_2$pacman.coverage" NAME="pacman Coverage Results" MODIFIED="1545983678864" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HW_2$pacman.coverage" NAME="pacman Coverage Results" MODIFIED="1546189181394" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HW_2$BFS_pre_work.coverage" NAME="BFS_pre_work Coverage Results" MODIFIED="1545855848633" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/HW_2$agent_evaluation.coverage" NAME="agent_evaluation Coverage Results" MODIFIED="1545983822330" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HW_2$agent_evaluation.coverage" NAME="agent_evaluation Coverage Results" MODIFIED="1545984490780" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/docs/experiments.csv">
+        <entry file="file://$PROJECT_DIR$/agent_evaluation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2042">
-              <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+            <state relative-caret-position="132">
+              <caret line="10" column="18" lean-forward="true" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -37,7 +40,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_rb_alpha_beta</find>
       <find>_rb_random_expectimax_</find>
       <find>layout</find>
       <find>ReflexAgent</find>
@@ -67,6 +69,7 @@
       <find>res =</find>
       <find>o</find>
       <find>_rb_alpha_beta_</find>
+      <find>depth`</find>
     </findStrings>
     <replaceStrings>
       <replace>-1</replace>
@@ -111,7 +114,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -133,6 +135,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -160,7 +163,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.agent_evaluation">
+  <component name="RunManager" selected="Python.pacman">
     <configuration name="agent_evaluation" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pacman" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -197,7 +200,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pacman.py" />
-      <option name="PARAMETERS" value="-p CompetitionAgent -k 2 -n 1 -l openClassic -g DirectionalGhost" />
+      <option name="PARAMETERS" value="-p CompetitionAgent -k 2 -n 1 -l openClassic -a depth=1" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -254,6 +257,9 @@
       <workItem from="1545941070805" duration="330000" />
       <workItem from="1545942548819" duration="1053000" />
       <workItem from="1545945268031" duration="4220000" />
+      <workItem from="1545984227914" duration="277000" />
+      <workItem from="1546070669413" duration="503000" />
+      <workItem from="1546188704040" duration="735000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1544552567008</created>
@@ -570,16 +576,23 @@
       <option name="project" value="LOCAL" />
       <updated>1545984136955</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="adding final report version">
+      <created>1545984268365</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1545984268365</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="150082000" />
+    <option name="totallyTimeSpent" value="151597000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2707889" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27985075" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -635,7 +648,6 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="finish part 5 and word file-update" />
     <MESSAGE value="rearrange code and optimizations" />
     <MESSAGE value="implement DirectionalExpectimaxAgent" />
     <MESSAGE value="optimizing" />
@@ -660,10 +672,23 @@
     <MESSAGE value="tuning" />
     <MESSAGE value="performance improvement" />
     <MESSAGE value="word minor changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="word minor changes" />
+    <MESSAGE value="adding final report version" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding final report version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/submission.py</url>
+          <line>554</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/submission.py</url>
+          <line>560</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -826,9 +851,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/a.txt" />
     <entry file="file://C:/Program Files/Python36/Lib/random.py" />
-    <entry file="file://$PROJECT_DIR$/docs/section_8_q_5_results.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.3/python_stubs/-1199943127/builtins.py" />
     <entry file="file://$PROJECT_DIR$/layout.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -960,37 +982,48 @@
     <entry file="file://$PROJECT_DIR$/docs/BFS_layouts_results.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/docs/experiments.csv">
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="210">
+          <caret line="7" column="34" lean-forward="true" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+        </state>
+      </provider>
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" rowLines="3" />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="-2042">
+          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/section_8_q_5_results.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pacman.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="508" column="48" selection-start-line="508" selection-start-column="48" selection-end-line="508" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/submission.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="656" selection-start-line="656" selection-end-line="656" />
+        <state relative-caret-position="364">
+          <caret line="560" selection-start-line="560" selection-end-line="560" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pacman.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="177" column="6" selection-start-line="177" selection-start-column="6" selection-end-line="177" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/agent_evaluation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="582">
-          <caret line="25" column="111" selection-start-line="25" selection-start-column="111" selection-end-line="25" selection-end-column="111" />
+        <state relative-caret-position="132">
+          <caret line="10" column="18" lean-forward="true" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/experiments.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2042">
-          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
         </state>
       </provider>
     </entry>
