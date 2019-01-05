@@ -1,5 +1,5 @@
 from hw3_utils import load_data, abstract_classifier, abstract_classifier_factory
-from euclideanDistance import euclidean_distance
+from functionUtils import euclidean_distance
 
 
 class knn_classifier(abstract_classifier):
