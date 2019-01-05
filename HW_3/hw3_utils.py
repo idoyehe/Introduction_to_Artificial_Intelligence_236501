@@ -3,8 +3,6 @@ import pickle
 import numpy as np
 
 
-
-
 def load_data(path=r'data/Data.pickle'):
     '''
     return the dataset that will be used in HW 3
@@ -14,10 +12,9 @@ def load_data(path=r'data/Data.pickle'):
     :returns: a tuple train_features, train_labels ,test_features
     features - a numpy matrix where  the ith raw is the feature vector of patient i.
     '''
-    with open(path,'rb') as f:
+    with open(path, 'rb') as f:
         train_features, train_labels, test_features = pickle.load(f)
-    return train_features, train_labels ,test_features
-
+    return train_features, train_labels, test_features
 
 
 def write_prediction(pred, path='results.data'):
@@ -39,6 +36,7 @@ class abstract_classifier_factory:
     '''
     an abstruct class for classifier factory
     '''
+
     def train(self, data, labels):
         '''
         train a classifier
@@ -61,5 +59,3 @@ class abstract_classifier:
         :return: a tagging of the given features (1 or 0)
         '''
         raise Exception('Not implemented')
-
-
