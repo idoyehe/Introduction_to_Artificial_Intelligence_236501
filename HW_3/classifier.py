@@ -14,6 +14,7 @@ class knn_classifier(abstract_classifier):
         sorted_distance_list = sorted(distances_list, key=lambda t: t[1])
         knn_indexes = [t[0] for t in sorted_distance_list[:self.k_value]]
 
+        assert len(knn_indexes) == self.k_value  # TODO:remove before submission
         true_counter = 0
         false_counter = 0
 
