@@ -49,8 +49,3 @@ def load_k_fold_data(fold_index: int):
     train_features, train_labels, test_features = load_data(path=filename_gen(fold_index))
     assert test_features is None  # TODO:remove before submission
     return train_features, train_labels
-
-
-""" single call to fold spilt"""
-train_features_ds, train_labels_ds, test_features_ds = load_data()
-split_crosscheck_groups((train_features_ds, train_labels_ds), 2)
