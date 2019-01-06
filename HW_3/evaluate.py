@@ -45,24 +45,26 @@ def evaluate(classifier_factory: abstract_classifier_factory, k: int):
     false_pos = 0
     false_neg = 0
     for curr_fold in k_fold_data:
-        knn = classifier_factory.train(curr_fold[1][0], curr_fold[1][1])
+        validation_tuple = curr_fold[0]
+        train_tuple = curr_fold[1]
+        knn = classifier_factory.train(train_tuple[0], train_tuple[1])
 
-        for valid_index, valid_feature in enumerate(curr_fold[0][0]):
+        for valid_index, valid_feature in enumerate(validation_tuple[0]):
             res_class = knn.classify(valid_feature)
             if res_class:
                 if curr_fold[0][1][valid_index]:
-                    assert res_class == curr_fold[0][1][valid_index]
+                    assert res_class == validation_tuple[1][valid_index]
                     true_pos += 1
                 else:
-                    assert res_class != curr_fold[0][1][valid_index]
+                    assert res_class != validation_tuple[1][valid_index]
                     false_pos += 1
             else:
                 assert not res_class
                 if not curr_fold[0][1][valid_index]:
-                    assert res_class == curr_fold[0][1][valid_index]
+                    assert res_class == validation_tuple[1][valid_index]
                     true_neg += 1
                 else:
-                    assert res_class != curr_fold[0][1][valid_index]
+                    assert res_class != validation_tuple[1][valid_index]
                     false_neg += 1
 
             validation_counter += 1
@@ -77,7 +79,7 @@ train_features_ds, train_labels_ds, test_features_ds = load_data()
 split_crosscheck_groups((train_features_ds, train_labels_ds), 2)
 
 for k in [1, 3, 5, 7, 13]:
-    knn = knn_factory(k)
-    res_accuracy, res_error = evaluate(knn, 2)
+    knn_k = knn_factory(k)
+    res_accuracy, res_error = evaluate(knn_k, 2)
     output = str(k) + "," + str(res_accuracy) + "," + str(res_error)
     print(output)
