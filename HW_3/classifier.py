@@ -1,4 +1,4 @@
-from hw3_utils import load_data, abstract_classifier, abstract_classifier_factory
+from hw3_utils import abstract_classifier, abstract_classifier_factory
 from functionUtils import euclidean_distance
 
 
@@ -8,8 +8,8 @@ class knn_classifier(abstract_classifier):
         self.labeled_data = labeled_data
         self.k_value = k_value
 
-    def classify(self, features):
-        distances_list = [(index, euclidean_distance(current_feature, features)) for index, current_feature in
+    def classify(self, object_features):
+        distances_list = [(index, euclidean_distance(current_feature, object_features)) for index, current_feature in
                           enumerate(self.classified_data)]
         sorted_distance_list = sorted(distances_list, key=lambda t: t[1])
         knn_indexes = [t[0] for t in sorted_distance_list[:self.k_value]]
