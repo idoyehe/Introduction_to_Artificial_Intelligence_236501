@@ -78,6 +78,6 @@ split_crosscheck_groups((train_features_ds, train_labels_ds), 2)
 
 for k in [1, 3, 5, 7, 13]:
     knn = knn_factory(k)
-    accuracy, error = evaluate(knn, 2)
-    output = str(k) + "," + str(accuracy) + "," + str(error)
+    res_accuracy, res_error = evaluate(knn, 2)
+    output = str(k) + "," + str(res_accuracy) + "," + str(res_error)
     print(output)
