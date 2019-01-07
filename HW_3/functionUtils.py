@@ -1,5 +1,5 @@
 import pickle
-from random import sample
+from random import sample, shuffle
 from math import sqrt
 from hw3_utils import load_data
 
@@ -23,19 +23,35 @@ def filename_gen(fold_index: int):
 def split_crosscheck_groups(dataset, num_folds):
     train_features, train_labels = dataset
 
+    false_labels_indexes = [false_index for false_index in range(len(train_labels)) if not train_labels[false_index]]
+    true_labels_indexes = [true_index for true_index in range(len(train_labels)) if train_labels[true_index]]
+
+    false_precent = len(false_labels_indexes) / len(train_labels)
     samples_per_fold = len(train_features) // num_folds
+    samples_per_fold_false = int(false_precent * samples_per_fold)
+    samples_per_fold_true = samples_per_fold - samples_per_fold_false
+
     indexes_per_fold = []
 
-    indexes = [i for i in range(len(train_features))]
-
     for i in range(num_folds - 1):
-        samples = sample(indexes, samples_per_fold)  # choosing random features indexes
-        indexes_per_fold.append(samples)
+        # choosing random true features indexes
+        samples_true = sample(true_labels_indexes, samples_per_fold_true)
+        # choosing random false features indexes
+        samples_false = sample(false_labels_indexes, samples_per_fold_false)
 
-        for s in samples:  # removing chosen indexes
-            indexes.remove(s)
+        current_fold_indexes = samples_true + samples_false
+        shuffle(current_fold_indexes)
+        indexes_per_fold.append(current_fold_indexes)
 
-    indexes_per_fold.append(indexes)
+        for s in samples_true:  # removing chosen true labels indexes
+            true_labels_indexes.remove(s)
+
+        for s in samples_false:  # removing chosen false labels indexes
+            false_labels_indexes.remove(s)
+
+    current_fold_indexes = false_labels_indexes + true_labels_indexes
+    shuffle(current_fold_indexes)
+    indexes_per_fold.append(current_fold_indexes)
 
     for fold_index, indexes_in_fold in enumerate(indexes_per_fold):
         fold_index += 1
