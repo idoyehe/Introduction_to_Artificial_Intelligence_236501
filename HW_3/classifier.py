@@ -1,5 +1,6 @@
 from hw3_utils import abstract_classifier, abstract_classifier_factory
 from functionUtils import euclidean_distance
+from sklearn import tree, linear_model
 
 
 class knn_classifier(abstract_classifier):
@@ -27,3 +28,31 @@ class knn_factory(abstract_classifier_factory):
 
     def train(self, data, labels):
         return knn_classifier(classified_data=data, labeled_data=labels, k_value=self.k_value)
+
+
+class id3_classifier(abstract_classifier):
+    def __init__(self, classified_data, labeled_data):
+        self.clf = tree.DecisionTreeClassifier()
+        self.clf.fit(classified_data, labeled_data)
+
+    def classify(self, object_features):
+        return self.clf.predict([object_features])[0]
+
+
+class id3_factory(abstract_classifier_factory):
+    def train(self, data, labels):
+        return id3_classifier(classified_data=data, labeled_data=labels)
+
+
+class perceptron_classifier(abstract_classifier):
+    def __init__(self, classified_data, labeled_data):
+        self.clf = linear_model.Perceptron()
+        self.clf.fit(classified_data, labeled_data)
+
+    def classify(self, object_features):
+        return self.clf.predict([object_features])[0]
+
+
+class perceptron_factory(abstract_classifier_factory):
+    def train(self, data, labels):
+        return perceptron_classifier(classified_data=data, labeled_data=labels)

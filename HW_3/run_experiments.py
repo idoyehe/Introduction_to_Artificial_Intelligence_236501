@@ -1,5 +1,5 @@
-from functionUtils import split_crosscheck_groups, evaluate
-from classifier import knn_factory
+from functionUtils import evaluate
+from classifier import knn_factory, id3_factory, perceptron_factory
 from hw3_utils import load_data
 
 """ single call to fold spilt"""
@@ -18,9 +18,20 @@ def experiment_6():
 
 
 def experiment_7A():
-    pass
+    id3 = id3_factory()
+    res_accuracy, res_error = evaluate(id3, 2)
+    output = str(1) + "," + str(res_accuracy) + "," + str(res_error)
+    print(output)
+
+def experiment_7B():
+    perceptron = perceptron_factory()
+    res_accuracy, res_error = evaluate(perceptron, 2)
+    output = str(2) + "," + str(res_accuracy) + "," + str(res_error)
+    print(output)
 
 
 if __name__ == '__main__':
-    experiment_6()
-    experiment_7A()
+    # experiment_6()
+    # experiment_7A()
+    experiment_7B()
+
