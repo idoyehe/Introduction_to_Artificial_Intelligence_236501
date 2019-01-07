@@ -9,18 +9,14 @@ class knn_classifier(abstract_classifier):
         self.k_value = k_value
 
     def classify(self, object_features):
-        distances_list = [(index, euclidean_distance(current_feature, object_features)) for index, current_feature in
+        distances_list = [(self.labeled_data[index], euclidean_distance(current_feature, object_features)) for index, current_feature in
                           enumerate(self.classified_data)]
         sorted_distance_list = sorted(distances_list, key=lambda t: t[1])
-        knn_indexes = [t[0] for t in sorted_distance_list[:self.k_value]]
+        knn_classify = [t[0] for t in sorted_distance_list[:self.k_value]]
 
-        assert len(knn_indexes) == self.k_value  # TODO:remove before submission
-        true_counter = 0
-        false_counter = 0
-
-        for i in knn_indexes:
-            true_counter += self.labeled_data[i]
-            false_counter += not self.labeled_data[i]
+        assert len(knn_classify) == self.k_value  # TODO:remove before submission
+        true_counter = sum(knn_classify)
+        false_counter = len(knn_classify) - true_counter
 
         return true_counter > false_counter
 
