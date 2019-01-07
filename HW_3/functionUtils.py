@@ -11,8 +11,8 @@ def euclidean_distance(feature_list1, feature_list2):
     distance = 0
     for i in range(len(feature_list1)):
         distance += pow(feature_list1[i] - feature_list2[i], 2)
-
-    return sqrt(distance)
+    distance = sqrt(distance)
+    return distance
 
 
 def filename_gen(fold_index: int):
