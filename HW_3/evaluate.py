@@ -38,21 +38,22 @@ def evaluate(classifier_factory: abstract_classifier_factory, k: int):
     k_fold_data = __get_k_folds_data(k)
     assert len(k_fold_data) == k  # TODO:remove before submission
 
-    validation_counter = 0
-
-    true_pos = 0
-    true_neg = 0
-    false_pos = 0
-    false_neg = 0
+    accuracy = 0
+    error = 0
     for curr_fold in k_fold_data:
         validation_tuple = curr_fold[0]
         train_tuple = curr_fold[1]
         knn = classifier_factory.train(train_tuple[0], train_tuple[1])
 
+        true_pos = 0
+        true_neg = 0
+        false_pos = 0
+        false_neg = 0
+        validation_counter = 0
         for valid_index, valid_feature in enumerate(validation_tuple[0]):
             res_class = knn.classify(valid_feature)
             if res_class:
-                if curr_fold[0][1][valid_index]:
+                if validation_tuple[1][valid_index]:
                     assert res_class == validation_tuple[1][valid_index]
                     true_pos += 1
                 else:
@@ -60,7 +61,7 @@ def evaluate(classifier_factory: abstract_classifier_factory, k: int):
                     false_pos += 1
             else:
                 assert not res_class
-                if not curr_fold[0][1][valid_index]:
+                if not validation_tuple[1][valid_index]:
                     assert res_class == validation_tuple[1][valid_index]
                     true_neg += 1
                 else:
@@ -69,8 +70,13 @@ def evaluate(classifier_factory: abstract_classifier_factory, k: int):
 
             validation_counter += 1
 
-    accuracy = (true_pos + true_neg) / float(validation_counter)
-    error = (false_pos + false_neg) / float(validation_counter)
+        fold_accuracy = (true_pos + true_neg) / float(validation_counter)
+        fold_error = (false_pos + false_neg) / float(validation_counter)
+        accuracy += fold_accuracy
+        error += fold_error
+
+    accuracy /= k
+    error /= k
     return accuracy, error
 
 

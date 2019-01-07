@@ -26,9 +26,9 @@ def split_crosscheck_groups(dataset, num_folds):
     false_labels_indexes = [false_index for false_index in range(len(train_labels)) if not train_labels[false_index]]
     true_labels_indexes = [true_index for true_index in range(len(train_labels)) if train_labels[true_index]]
 
-    false_precent = len(false_labels_indexes) / len(train_labels)
+    false_percent = len(false_labels_indexes) / len(train_labels)
     samples_per_fold = len(train_features) // num_folds
-    samples_per_fold_false = int(false_precent * samples_per_fold)
+    samples_per_fold_false = int(false_percent * samples_per_fold)
     samples_per_fold_true = samples_per_fold - samples_per_fold_false
 
     indexes_per_fold = []
