@@ -8,6 +8,22 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/HW_3/evaluate.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="41" column="13" lean-forward="true" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#60#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
   <component name="Git.Settings">
     <option name="UPDATE_TYPE" value="REBASE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -23,6 +39,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -35,16 +52,20 @@
               <item name="Introduction_to_Artificial_Intelligence_236501" type="462c0819:PsiDirectoryNode" />
               <item name="HW_1" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Introduction_to_Artificial_Intelligence_236501" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Introduction_to_Artificial_Intelligence_236501" type="462c0819:PsiDirectoryNode" />
+              <item name="HW_3" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/HW_3" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -71,6 +92,7 @@
       <workItem from="1543667919948" duration="8000" />
       <workItem from="1544552411750" duration="105000" />
       <workItem from="1546850071188" duration="45000" />
+      <workItem from="1546857659429" duration="36000" />
     </task>
     <task id="LOCAL-00001" summary="commit for rebase">
       <created>1544552475396</created>
@@ -83,12 +105,12 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="158000" />
+    <option name="totallyTimeSpent" value="194000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24964234" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2521322" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -117,5 +139,17 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="commit for rebase" />
     <option name="LAST_COMMIT_MESSAGE" value="commit for rebase" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/HW_3/evaluate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="41" column="13" lean-forward="true" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#60#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>
