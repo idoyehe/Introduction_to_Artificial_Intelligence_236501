@@ -15,7 +15,7 @@ def euclidean_distance(feature_list1, feature_list2):
 
 def filename_gen(fold_index: int):
     global FOLDS_PATH
-    return '_ecg_fold_{}.data'.format(fold_index)
+    return 'ecg_fold_{}.data'.format(fold_index)
 
 
 def load_k_fold_data(fold_index: int):
@@ -124,4 +124,4 @@ def evaluate(classifier_factory: abstract_classifier_factory, k: int = 2):
         accuracy_list.append(fold_accuracy)
         error_list.append(fold_error)
 
-    return sum(accuracy_list) / len(accuracy_list), sum(error_list) / len(error_list)   , clf
+    return sum(accuracy_list) / len(accuracy_list), sum(error_list) / len(error_list)

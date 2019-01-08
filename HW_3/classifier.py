@@ -1,6 +1,6 @@
 from hw3_utils import abstract_classifier, abstract_classifier_factory
 from functionUtils import euclidean_distance
-from sklearn import tree, linear_model, neural_network, preprocessing
+from sklearn import tree, linear_model, neural_network, preprocessing, neighbors
 
 
 class knn_classifier(abstract_classifier):
@@ -59,24 +59,31 @@ class perceptron_factory(abstract_classifier_factory):
         return perceptron_classifier(classified_data=data, labeled_data=labels)
 
 
+# TODO: refactor
 class contest_classifier(abstract_classifier):
     def __init__(self, classified_data, labeled_data):
         self.scaler = preprocessing.StandardScaler().fit(classified_data)
         norm_data = self.scaler.transform(classified_data)
-        self.clf = neural_network.MLPClassifier(
-            hidden_layer_sizes=(187, 128, 64, 32, 16, 8, 4, 2),
-            activation="relu",
-            solver='adam',
-            learning_rate_init=0.001,
-            max_iter=450,
-            shuffle=True,
-            verbose=True,
-            n_iter_no_change=20)
-        self.clf.fit(norm_data, labeled_data)
+
+        self.mlf = neural_network.MLPClassifier()
+        self.mlf.fit(norm_data, labeled_data)
+
+        self.id3 = tree.DecisionTreeClassifier()
+        self.id3.fit(norm_data, labeled_data)
+
+        self.knn = neighbors.KNeighborsClassifier(n_neighbors=3)
+        self.knn.fit(norm_data, labeled_data)
+
+        self.total_class = 3
 
     def classify(self, object_features):
         norm_object = self.scaler.transform([object_features])
-        return self.clf.predict(norm_object)[0]
+        results = {"nlf": self.mlf.predict(norm_object)[0],
+                   "id3": self.id3.predict(norm_object)[0],
+                   "knn": self.knn.predict(norm_object)[0]}
+
+        call = sum(results.values())
+        return call > self.total_class - call
 
 
 class contest_factory(abstract_classifier_factory):
