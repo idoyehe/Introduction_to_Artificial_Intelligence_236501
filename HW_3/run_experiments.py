@@ -1,12 +1,12 @@
-from functionUtils import evaluate
-from classifier import knn_factory, id3_factory, perceptron_factory
-from hw3_utils import load_data
+from functionUtils import evaluate, split_crosscheck_groups
+from classifier import knn_factory, id3_factory, perceptron_factory, contest_factory
+from hw3_utils import load_data, write_prediction
 
 """ single call to fold spilt"""
 
 
-# train_features_ds, train_labels_ds, test_features_ds = load_data()
-# split_crosscheck_groups((train_features_ds, train_labels_ds), 2)
+train_features_ds, train_labels_ds, test_features_ds = load_data()
+split_crosscheck_groups((train_features_ds, train_labels_ds), 3)
 
 def experiment_6():
     knn_values_list = [1, 3, 5, 7, 13]
@@ -29,9 +29,22 @@ def experiment_7B():
     output = str(2) + "," + str(res_accuracy) + "," + str(res_error)
     print(output)
 
+def experiment_contest():
+    mlp = contest_factory()
+    res_accuracy, res_error, clf = evaluate(mlp, 3)
+    output = str("contest") + "," + str(res_accuracy) + "," + str(res_error)
+    print(output)
+
+    class_list = []
+    for object_feature in test_features_ds:
+        class_list.append(clf.classify(object_feature))
+
+    write_prediction(class_list)
+
 
 if __name__ == '__main__':
     # experiment_6()
     # experiment_7A()
-    experiment_7B()
+    # experiment_7B()
+    experiment_contest()
 

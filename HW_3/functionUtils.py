@@ -15,7 +15,7 @@ def euclidean_distance(feature_list1, feature_list2):
 
 def filename_gen(fold_index: int):
     global FOLDS_PATH
-    return 'ecg_fold_{}.data'.format(fold_index)
+    return '_ecg_fold_{}.data'.format(fold_index)
 
 
 def load_k_fold_data(fold_index: int):
@@ -77,7 +77,6 @@ def __get_k_folds_data(num_folds: int, validation_fold_index: int):
     :param validation_fold_index: the fold that use as validation
     :return: return the folds in tuples: ((validation_features, validation_labels),(train_features, train_labels))
     """
-    k_fold_data = list()
     validation_tuple = load_k_fold_data(validation_fold_index)
 
     train_features = []
@@ -105,13 +104,13 @@ def evaluate(classifier_factory: abstract_classifier_factory, k: int = 2):
     for validation_fold_index in range(1, k + 1):
         validation_tuple, train_tuple = __get_k_folds_data(k, validation_fold_index)
 
-        knn = classifier_factory.train(train_tuple[0], train_tuple[1])
+        clf = classifier_factory.train(train_tuple[0], train_tuple[1])
 
         correct_class = 0
         incorrect_class = 0
         validation_counter = 0
         for valid_feature, valid_label in zip(validation_tuple[0], validation_tuple[1]):
-            res_class = knn.classify(valid_feature)
+            res_class = clf.classify(valid_feature)
             if res_class == valid_label:
                 correct_class += 1
             else:
@@ -125,4 +124,4 @@ def evaluate(classifier_factory: abstract_classifier_factory, k: int = 2):
         accuracy_list.append(fold_accuracy)
         error_list.append(fold_error)
 
-    return sum(accuracy_list) / len(accuracy_list), sum(error_list) / len(error_list)
+    return sum(accuracy_list) / len(accuracy_list), sum(error_list) / len(error_list)   , clf
