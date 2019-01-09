@@ -7,7 +7,7 @@ FOLDS_PATH = r'./'
 
 
 def euclidean_distance(feature_list1, feature_list2):
-    assert (len(feature_list1) == len(feature_list2))  # TODO:remove before submission
+    assert (len(feature_list1) == len(feature_list2))
     distances_list = [pow(cf1 - cf2, 2) for cf1, cf2 in zip(feature_list1, feature_list2)]
     distance = sqrt(sum(distances_list))
     return distance
