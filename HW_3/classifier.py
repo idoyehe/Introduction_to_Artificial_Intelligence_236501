@@ -59,14 +59,13 @@ class perceptron_factory(abstract_classifier_factory):
         return perceptron_classifier(classified_data=data, labeled_data=labels)
 
 
-# TODO: refactor
 class contest_classifier(abstract_classifier):
     def __init__(self, classified_data, labeled_data):
         self.scaler = preprocessing.StandardScaler().fit(classified_data)
         norm_data = self.scaler.transform(classified_data)
 
         #   hyperparameters were chosen by hyperparameters optimization
-        self.mlf = neural_network.MLPClassifier()
+        self.mlf = neural_network.MLPClassifier(activation='relu',solver='sgd',learning_rate_init=0.004,max_iter=450,n_iter_no_change=20)
         self.mlf.fit(norm_data, labeled_data)
 
         #   hyperparameters were chosen by hyperparameters optimization

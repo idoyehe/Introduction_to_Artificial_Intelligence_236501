@@ -9,14 +9,16 @@ from hw3_utils import load_data
 
 train_features_ds, train_labels_ds, test_features_ds = load_data()
 split_crosscheck_groups((train_features_ds, train_labels_ds), 4)
+file = open('./contest', 'w')
 
 
 def hyperparameters_neural_network_tuning():
     activation_list = ['relu', 'tanh', 'logistic']
     solver_list = ['sgd', 'adam']
-    lr_list = linspace(0.001, 0.01, 5)
-    max_iter_list = linspace(400, 600, 5)
-    n_iter_list = linspace(15, 35, 5)
+    lr_list = linspace(0.001, 0.01, 4)
+    max_iter_list = linspace(450, 600, 4)
+    n_iter_list = linspace(20, 35, 4)
+
     output_list = []
 
     for curr_act in activation_list:
@@ -32,19 +34,20 @@ def hyperparameters_neural_network_tuning():
                             "n_iter_no_change": int(curr_n_iter)}
                         avg_accuracy = 0
                         avg_error = 0
-                        for _ in range(5):
+                        for _ in range(3):
                             mlp = neural_network_factory(hyperparameters_dict)
                             res_accuracy, res_error = evaluate(mlp, 4)
                             avg_accuracy += res_accuracy
                             avg_error += res_error
 
-                        avg_accuracy /= 5
-                        avg_error /= 5
+                        avg_accuracy /= 3
+                        avg_error /= 3
                         output = str(hyperparameters_dict) + "," + str(avg_accuracy) + "," + str(avg_error)
                         output_list.append((output, avg_accuracy))
+                        file.writelines(output + "\n")
                         print(output)
-
-    print(max(output_list, key=lambda t: t[1]))
+    file.writelines(str(max(output_list, key=lambda t: t[1])) + "\n")
+    print(str(max(output_list, key=lambda t: t[1])))
 
 
 def hyperparameters_id3_tuning():
@@ -62,23 +65,23 @@ def hyperparameters_id3_tuning():
                     "min_samples_leaf": int(curr_min_samples_leaf)}
                 avg_accuracy = 0
                 avg_error = 0
-                for _ in range(10):
+                for _ in range(5):
                     id3 = id3_factory(hyperparameters_dict)
                     res_accuracy, res_error = evaluate(id3, 4)
                     avg_accuracy += res_accuracy
                     avg_error += res_error
 
-                avg_accuracy /= 10
-                avg_error /= 10
+                avg_accuracy /= 5
+                avg_error /= 5
                 output = str(hyperparameters_dict) + "," + str(avg_accuracy) + "," + str(avg_error)
                 output_list.append((output, avg_accuracy))
+                file.writelines(output + "\n")
                 print(output)
-
-    print(max(output_list, key=lambda t: t[1]))
-
-
+    file.writelines(str(max(output_list, key=lambda t: t[1])) + "\n")
+    print(str(max(output_list, key=lambda t: t[1])))
 
 
+file.writelines("\n")
 
 
 class neural_network_classifier(abstract_classifier):
@@ -100,12 +103,11 @@ class neural_network_factory(abstract_classifier_factory):
     def train(self, data, labels):
         return neural_network_classifier(classified_data=data, labeled_data=labels, hyperparameters_dict=self.parameters_dict)
 
+
 class id3_classifier(abstract_classifier):
     def __init__(self, classified_data, labeled_data, hyperparameters_dict):
-        self.scaler = preprocessing.StandardScaler().fit(classified_data)
-        norm_data = self.scaler.transform(classified_data)
         self.clf = tree.DecisionTreeClassifier(**hyperparameters_dict)
-        self.clf.fit(norm_data, labeled_data)
+        self.clf.fit(classified_data, labeled_data)
 
     def classify(self, object_features):
         return self.clf.predict([object_features])[0]
@@ -118,5 +120,7 @@ class id3_factory(abstract_classifier_factory):
     def train(self, data, labels):
         return id3_classifier(classified_data=data, labeled_data=labels, hyperparameters_dict=self.parameters_dict)
 
+
 hyperparameters_neural_network_tuning()
-hyperparameters_id3_tuning()
+# hyperparameters_id3_tuning()
+file.close()
