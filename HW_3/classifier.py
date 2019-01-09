@@ -65,12 +65,15 @@ class contest_classifier(abstract_classifier):
         self.scaler = preprocessing.StandardScaler().fit(classified_data)
         norm_data = self.scaler.transform(classified_data)
 
+        #   hyperparameters were chosen by hyperparameters optimization
         self.mlf = neural_network.MLPClassifier()
         self.mlf.fit(norm_data, labeled_data)
 
-        self.id3 = tree.DecisionTreeClassifier()
-        self.id3.fit(norm_data, labeled_data)
+        #   hyperparameters were chosen by hyperparameters optimization
+        self.id3 = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=8, min_samples_leaf=6)
+        self.id3.fit(classified_data, labeled_data)
 
+        #   hyperparameters were chosen by first section
         self.knn = neighbors.KNeighborsClassifier(n_neighbors=3)
         self.knn.fit(norm_data, labeled_data)
 
@@ -79,7 +82,7 @@ class contest_classifier(abstract_classifier):
     def classify(self, object_features):
         norm_object = self.scaler.transform([object_features])
         results = {"nlf": self.mlf.predict(norm_object)[0],
-                   "id3": self.id3.predict(norm_object)[0],
+                   "id3": self.id3.predict([object_features])[0],
                    "knn": self.knn.predict(norm_object)[0]}
 
         call = sum(results.values())
