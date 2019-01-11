@@ -32,7 +32,7 @@ class knn_factory(abstract_classifier_factory):
 
 class id3_classifier(abstract_classifier):
     def __init__(self, classified_data, labeled_data):
-        self.clf = tree.DecisionTreeClassifier()
+        self.clf = tree.DecisionTreeClassifier(criterion="entropy")
         self.clf.fit(classified_data, labeled_data)
 
     def classify(self, object_features):
