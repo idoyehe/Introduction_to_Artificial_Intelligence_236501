@@ -1,6 +1,6 @@
 from hw3_utils import abstract_classifier, abstract_classifier_factory
 from functionUtils import euclidean_distance
-from sklearn import tree, linear_model, neural_network, preprocessing, neighbors
+from sklearn import tree, linear_model, preprocessing, neighbors
 
 
 class knn_classifier(abstract_classifier):
@@ -59,34 +59,52 @@ class perceptron_factory(abstract_classifier_factory):
 
 
 class contest_classifier(abstract_classifier):
-    def __init__(self, classified_data, labeled_data):
-        self.scaler = preprocessing.StandardScaler().fit(classified_data)
-        norm_data = self.scaler.transform(classified_data)
+    def __init__(self, classified_data, labeled_data, hyperparameters_dict=None):
+        # data is normalized by z normalization
+        self.scale = preprocessing.StandardScaler().fit(classified_data)
+        norm_data = self.scale.transform(classified_data)
 
-        #   hyperparameters were chosen by hyperparameters optimization
-        self.mlf = neural_network.MLPClassifier(activation='relu',solver='sgd',learning_rate_init=0.004,max_iter=450,n_iter_no_change=20)
-        self.mlf.fit(norm_data, labeled_data)
+        #   postprocessing of important features;
+        #   hyperparameters were chose by hyperparameters optimisation random search;
 
-        #   hyperparameters were chosen by hyperparameters optimization
-        self.id3 = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=8, min_samples_leaf=6)
+        if hyperparameters_dict is None:
+            hyperparameters_dict = {'criterion': 'entropy',
+                                    'min_samples_split': 3,
+                                    'min_samples_leaf': 1,
+                                    'max_depth': 17,
+                                    'max_leaf_nodes': 183,
+                                    'max_features': 'auto'}
+
+        assert hyperparameters_dict is not None
+
+        self.id3 = tree.DecisionTreeClassifier(**hyperparameters_dict)
         self.id3.fit(classified_data, labeled_data)
+        self.features_weights = self.id3.feature_importances_
 
-        #   hyperparameters were chosen by first section
-        self.knn = neighbors.KNeighborsClassifier(n_neighbors=3)
-        self.knn.fit(norm_data, labeled_data)
+        self.knn_1 = neighbors.KNeighborsClassifier(n_neighbors=1)
+        self.knn_1.fit(norm_data * self.features_weights, labeled_data)
+
+        self.knn_3 = neighbors.KNeighborsClassifier(n_neighbors=3)
+        self.knn_3.fit(norm_data * self.features_weights, labeled_data)
+
+        self.knn_5 = neighbors.KNeighborsClassifier(n_neighbors=5)
+        self.knn_5.fit(norm_data * self.features_weights, labeled_data)
 
         self.total_class = 3
 
     def classify(self, object_features):
-        norm_object = self.scaler.transform([object_features])
-        results = {"nlf": self.mlf.predict(norm_object)[0],
-                   "id3": self.id3.predict([object_features])[0],
-                   "knn": self.knn.predict(norm_object)[0]}
+        norm_object = self.scale.transform([object_features]) * self.features_weights
+        results = {"KNN_1": self.knn_1.predict(norm_object)[0],
+                   "KNN_3": self.knn_3.predict(norm_object)[0],
+                   "KNN_5": self.knn_5.predict(norm_object)[0]}
 
         call = sum(results.values())
         return call > self.total_class - call
 
 
-class contest_factory(abstract_classifier_factory):
+class contest_classifier_factory(abstract_classifier_factory):
+    def __init__(self, hyperparameters_dict=None):
+        self.hyperparameters_dict = hyperparameters_dict
+
     def train(self, data, labels):
-        return contest_classifier(classified_data=data, labeled_data=labels)
+        return contest_classifier(classified_data=data, labeled_data=labels, hyperparameters_dict=self.hyperparameters_dict)
