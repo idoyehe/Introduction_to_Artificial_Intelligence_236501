@@ -43,9 +43,9 @@ def experiment_contest():
 if __name__ == '__main__':
     """ single call to fold spilt"""
     train_features_ds, train_labels_ds, test_features_ds = load_data()
-    '''remove '#' from the next row for new folding'''
     FOLDS = 2
-    split_crosscheck_groups((train_features_ds, train_labels_ds), FOLDS)
+    '''remove '#' from the next row for new folding'''
+    # split_crosscheck_groups((train_features_ds, train_labels_ds), FOLDS)
     experiment_6()
     experiment_7A()
     experiment_7B()
